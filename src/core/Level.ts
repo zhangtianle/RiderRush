@@ -296,4 +296,78 @@ export class Level {
       this.vipDelivered = true;
     }
   }
+
+  /** 关卡开始时间 */
+  startTime: number = 0;
+
+  /** 关卡耗时（秒） */
+  completionTime: number = 0;
+
+  /**
+   * 获取关卡耗时
+   * @description 获取关卡从开始到现在的耗时
+   * @returns 耗时（秒）
+   */
+  getElapsedTime(): number {
+    if (this.startTime === 0) {
+      return 0;
+    }
+    return (Date.now() - this.startTime) / 1000;
+  }
+
+  /**
+   * 开始关卡（增强版）
+   * @description 进入关卡进行中状态，记录开始时间
+   */
+  startWithTimer(): void {
+    this.state = LevelState.PLAYING;
+    this.startTime = Date.now();
+  }
+
+  /**
+   * 复活关卡
+   * @description 广告复活后重置时间和失败骑手，保留已送达的
+   */
+  revive(): void {
+    // 重置时间限制
+    if (this.timeLimit > 0) {
+      this.timeRemaining = this.timeLimit;
+    }
+
+    // 重置失败/等待的骑手
+    this.riders.forEach(rider => {
+      if (!rider.hasDelivered) {
+        rider.reset && rider.reset();
+      }
+    });
+
+    // 重置状态
+    this.state = LevelState.PLAYING;
+    this.startTime = Date.now();
+  }
+
+  /**
+   * 处理胜利（增强版）
+   * @description 关卡通关处理，记录耗时
+   */
+  handleVictoryWithTime(): void {
+    this.state = LevelState.SUCCESS;
+    this.completionTime = this.getElapsedTime();
+    // 触发胜利事件
+  }
+
+  /**
+   * 获取星级评分
+   * @description 根据通关时间计算星级
+   * @returns 星级数量（1-3）
+   */
+  getStars(): number {
+    if (this.completionTime < 30) {
+      return 3;
+    } else if (this.completionTime < 60) {
+      return 2;
+    } else {
+      return 1;
+    }
+  }
 }

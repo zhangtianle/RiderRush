@@ -1,0 +1,15 @@
+[
+  {
+    "__type__": "cc.SceneAsset",
+    "_name": "MenuScene",
+    "_objFlags": 0,
+    "_native": "",
+    "scene": {
+      "__type__": "cc.Scene",
+      "_name": "MenuScene",
+      "_objFlags": 0,
+      "_parent": null,
+      "_children": []
+    }
+  }
+]

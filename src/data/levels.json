@@ -27,7 +27,8 @@
         { "id": "exit1", "position": { "x": 5, "y": 1 } },
         { "id": "exit2", "position": { "x": 5, "y": 3 } }
       ],
-      "mapTheme": "city"
+      "mapTheme": "city",
+      "hint": "点击骑手出发，让他们送达订单！"
     },
     {
       "id": 2,
@@ -56,7 +57,8 @@
         { "id": "exit1", "position": { "x": 5, "y": 1 } },
         { "id": "exit2", "position": { "x": 3, "y": 3 } }
       ],
-      "mapTheme": "city"
+      "mapTheme": "city",
+      "hint": "注意骑手的出发方向！"
     },
     {
       "id": 3,
@@ -93,7 +95,314 @@
         { "id": "exit2", "position": { "x": 5, "y": 2 } },
         { "id": "exit3", "position": { "x": 5, "y": 3 } }
       ],
-      "mapTheme": "city"
+      "mapTheme": "city",
+      "hint": "三个骑手，可以任意顺序出发！"
+    },
+    {
+      "id": 4,
+      "name": "入门第四关",
+      "difficulty": "easy",
+      "gridSize": { "width": 7, "height": 5 },
+      "timeLimit": 0,
+      "riders": [
+        {
+          "id": "r1",
+          "type": "NORMAL",
+          "direction": "RIGHT",
+          "startPosition": { "x": 1, "y": 1 },
+          "targetExit": "exit1"
+        },
+        {
+          "id": "r2",
+          "type": "NORMAL",
+          "direction": "UP",
+          "startPosition": { "x": 4, "y": 4 },
+          "targetExit": "exit2"
+        }
+      ],
+      "obstacles": [],
+      "exits": [
+        { "id": "exit1", "position": { "x": 6, "y": 1 } },
+        { "id": "exit2", "position": { "x": 4, "y": 1 } }
+      ],
+      "mapTheme": "residential",
+      "hint": "不同方向的骑手！"
+    },
+    {
+      "id": 5,
+      "name": "入门第五关",
+      "difficulty": "easy",
+      "gridSize": { "width": 7, "height": 5 },
+      "timeLimit": 0,
+      "riders": [
+        {
+          "id": "r1",
+          "type": "NORMAL",
+          "direction": "RIGHT",
+          "startPosition": { "x": 1, "y": 2 },
+          "targetExit": "exit1"
+        },
+        {
+          "id": "r2",
+          "type": "NORMAL",
+          "direction": "DOWN",
+          "startPosition": { "x": 3, "y": 1 },
+          "targetExit": "exit2"
+        },
+        {
+          "id": "r3",
+          "type": "NORMAL",
+          "direction": "LEFT",
+          "startPosition": { "x": 6, "y": 3 },
+          "targetExit": "exit3"
+        }
+      ],
+      "obstacles": [],
+      "exits": [
+        { "id": "exit1", "position": { "x": 6, "y": 2 } },
+        { "id": "exit2", "position": { "x": 3, "y": 4 } },
+        { "id": "exit3", "position": { "x": 1, "y": 3 } }
+      ],
+      "mapTheme": "residential",
+      "hint": "四方都有骑手！"
+    },
+    {
+      "id": 6,
+      "name": "入门第六关",
+      "difficulty": "easy",
+      "gridSize": { "width": 8, "height": 6 },
+      "timeLimit": 0,
+      "riders": [
+        {
+          "id": "r1",
+          "type": "NORMAL",
+          "direction": "RIGHT",
+          "startPosition": { "x": 1, "y": 2 },
+          "targetExit": "exit1"
+        },
+        {
+          "id": "r2",
+          "type": "NORMAL",
+          "direction": "RIGHT",
+          "startPosition": { "x": 1, "y": 4 },
+          "targetExit": "exit2"
+        },
+        {
+          "id": "r3",
+          "type": "NORMAL",
+          "direction": "DOWN",
+          "startPosition": { "x": 4, "y": 1 },
+          "targetExit": "exit3"
+        },
+        {
+          "id": "r4",
+          "type": "NORMAL",
+          "direction": "UP",
+          "startPosition": { "x": 4, "y": 5 },
+          "targetExit": "exit4"
+        }
+      ],
+      "obstacles": [],
+      "exits": [
+        { "id": "exit1", "position": { "x": 7, "y": 2 } },
+        { "id": "exit2", "position": { "x": 7, "y": 4 } },
+        { "id": "exit3", "position": { "x": 4, "y": 3 } },
+        { "id": "exit4", "position": { "x": 4, "y": 1 } }
+      ],
+      "mapTheme": "commercial",
+      "hint": "四个骑手，观察他们的路径！"
+    },
+    {
+      "id": 7,
+      "name": "入门第七关",
+      "difficulty": "easy",
+      "gridSize": { "width": 8, "height": 6 },
+      "timeLimit": 0,
+      "riders": [
+        {
+          "id": "r1",
+          "type": "NORMAL",
+          "direction": "RIGHT",
+          "startPosition": { "x": 1, "y": 1 },
+          "targetExit": "exit1"
+        },
+        {
+          "id": "r2",
+          "type": "NORMAL",
+          "direction": "RIGHT",
+          "startPosition": { "x": 1, "y": 3 },
+          "targetExit": "exit2"
+        },
+        {
+          "id": "r3",
+          "type": "NORMAL",
+          "direction": "DOWN",
+          "startPosition": { "x": 3, "y": 1 },
+          "targetExit": "exit3"
+        },
+        {
+          "id": "r4",
+          "type": "NORMAL",
+          "direction": "DOWN",
+          "startPosition": { "x": 5, "y": 1 },
+          "targetExit": "exit4"
+        }
+      ],
+      "obstacles": [],
+      "exits": [
+        { "id": "exit1", "position": { "x": 7, "y": 1 } },
+        { "id": "exit2", "position": { "x": 7, "y": 3 } },
+        { "id": "exit3", "position": { "x": 3, "y": 5 } },
+        { "id": "exit4", "position": { "x": 5, "y": 5 } }
+      ],
+      "mapTheme": "commercial",
+      "hint": "注意路径交叉！"
+    },
+    {
+      "id": 8,
+      "name": "入门第八关",
+      "difficulty": "easy",
+      "gridSize": { "width": 8, "height": 6 },
+      "timeLimit": 0,
+      "riders": [
+        {
+          "id": "r1",
+          "type": "NORMAL",
+          "direction": "RIGHT",
+          "startPosition": { "x": 1, "y": 1 },
+          "targetExit": "exit1"
+        },
+        {
+          "id": "r2",
+          "type": "NORMAL",
+          "direction": "DOWN",
+          "startPosition": { "x": 2, "y": 1 },
+          "targetExit": "exit2"
+        },
+        {
+          "id": "r3",
+          "type": "NORMAL",
+          "direction": "LEFT",
+          "startPosition": { "x": 7, "y": 2 },
+          "targetExit": "exit3"
+        },
+        {
+          "id": "r4",
+          "type": "NORMAL",
+          "direction": "UP",
+          "startPosition": { "x": 6, "y": 5 },
+          "targetExit": "exit4"
+        }
+      ],
+      "obstacles": [],
+      "exits": [
+        { "id": "exit1", "position": { "x": 7, "y": 1 } },
+        { "id": "exit2", "position": { "x": 2, "y": 5 } },
+        { "id": "exit3", "position": { "x": 1, "y": 2 } },
+        { "id": "exit4", "position": { "x": 6, "y": 1 } }
+      ],
+      "mapTheme": "city",
+      "hint": "规划出发顺序很重要！"
+    },
+    {
+      "id": 9,
+      "name": "入门第九关",
+      "difficulty": "easy",
+      "gridSize": { "width": 8, "height": 6 },
+      "timeLimit": 0,
+      "riders": [
+        {
+          "id": "r1",
+          "type": "NORMAL",
+          "direction": "RIGHT",
+          "startPosition": { "x": 1, "y": 2 },
+          "targetExit": "exit1"
+        },
+        {
+          "id": "r2",
+          "type": "NORMAL",
+          "direction": "DOWN",
+          "startPosition": { "x": 3, "y": 1 },
+          "targetExit": "exit2"
+        },
+        {
+          "id": "r3",
+          "type": "NORMAL",
+          "direction": "RIGHT",
+          "startPosition": { "x": 1, "y": 4 },
+          "targetExit": "exit3"
+        },
+        {
+          "id": "r4",
+          "type": "NORMAL",
+          "direction": "DOWN",
+          "startPosition": { "x": 5, "y": 1 },
+          "targetExit": "exit4"
+        }
+      ],
+      "obstacles": [],
+      "exits": [
+        { "id": "exit1", "position": { "x": 7, "y": 2 } },
+        { "id": "exit2", "position": { "x": 3, "y": 5 } },
+        { "id": "exit3", "position": { "x": 7, "y": 4 } },
+        { "id": "exit4", "position": { "x": 5, "y": 5 } }
+      ],
+      "mapTheme": "residential",
+      "hint": "仔细观察每个骑手的路径！"
+    },
+    {
+      "id": 10,
+      "name": "入门第十关",
+      "difficulty": "easy",
+      "gridSize": { "width": 8, "height": 6 },
+      "timeLimit": 0,
+      "riders": [
+        {
+          "id": "r1",
+          "type": "NORMAL",
+          "direction": "RIGHT",
+          "startPosition": { "x": 1, "y": 1 },
+          "targetExit": "exit1"
+        },
+        {
+          "id": "r2",
+          "type": "NORMAL",
+          "direction": "DOWN",
+          "startPosition": { "x": 2, "y": 1 },
+          "targetExit": "exit2"
+        },
+        {
+          "id": "r3",
+          "type": "NORMAL",
+          "direction": "RIGHT",
+          "startPosition": { "x": 1, "y": 3 },
+          "targetExit": "exit3"
+        },
+        {
+          "id": "r4",
+          "type": "NORMAL",
+          "direction": "DOWN",
+          "startPosition": { "x": 4, "y": 1 },
+          "targetExit": "exit4"
+        },
+        {
+          "id": "r5",
+          "type": "NORMAL",
+          "direction": "RIGHT",
+          "startPosition": { "x": 1, "y": 5 },
+          "targetExit": "exit5"
+        }
+      ],
+      "obstacles": [],
+      "exits": [
+        { "id": "exit1", "position": { "x": 7, "y": 1 } },
+        { "id": "exit2", "position": { "x": 2, "y": 5 } },
+        { "id": "exit3", "position": { "x": 7, "y": 3 } },
+        { "id": "exit4", "position": { "x": 4, "y": 5 } },
+        { "id": "exit5", "position": { "x": 7, "y": 5 } }
+      ],
+      "mapTheme": "commercial",
+      "hint": "五个骑手，考验你的规划能力！"
     },
     {
       "id": 11,
@@ -138,7 +447,435 @@
         { "id": "exit2", "position": { "x": 3, "y": 5 } },
         { "id": "exit3", "position": { "x": 7, "y": 4 } }
       ],
-      "mapTheme": "residential"
+      "mapTheme": "residential",
+      "hint": "堵车区会减速，但可以通过！"
+    },
+    {
+      "id": 12,
+      "name": "基础第二关",
+      "difficulty": "medium",
+      "gridSize": { "width": 8, "height": 6 },
+      "timeLimit": 0,
+      "riders": [
+        {
+          "id": "r1",
+          "type": "NORMAL",
+          "direction": "RIGHT",
+          "startPosition": { "x": 1, "y": 2 },
+          "targetExit": "exit1"
+        },
+        {
+          "id": "r2",
+          "type": "NORMAL",
+          "direction": "RIGHT",
+          "startPosition": { "x": 1, "y": 4 },
+          "targetExit": "exit2"
+        },
+        {
+          "id": "r3",
+          "type": "NORMAL",
+          "direction": "DOWN",
+          "startPosition": { "x": 3, "y": 1 },
+          "targetExit": "exit3"
+        }
+      ],
+      "obstacles": [
+        {
+          "id": "o1",
+          "type": "WALL",
+          "position": { "x": 4, "y": 3 },
+          "size": { "width": 2, "height": 1 }
+        }
+      ],
+      "exits": [
+        { "id": "exit1", "position": { "x": 7, "y": 2 } },
+        { "id": "exit2", "position": { "x": 7, "y": 4 } },
+        { "id": "exit3", "position": { "x": 3, "y": 5 } }
+      ],
+      "mapTheme": "city",
+      "hint": "墙壁不能通过，会弹回起点！"
+    },
+    {
+      "id": 13,
+      "name": "基础第三关",
+      "difficulty": "medium",
+      "gridSize": { "width": 8, "height": 6 },
+      "timeLimit": 0,
+      "riders": [
+        {
+          "id": "r1",
+          "type": "NORMAL",
+          "direction": "RIGHT",
+          "startPosition": { "x": 1, "y": 1 },
+          "targetExit": "exit1"
+        },
+        {
+          "id": "r2",
+          "type": "NORMAL",
+          "direction": "DOWN",
+          "startPosition": { "x": 3, "y": 1 },
+          "targetExit": "exit2"
+        },
+        {
+          "id": "r3",
+          "type": "NORMAL",
+          "direction": "RIGHT",
+          "startPosition": { "x": 1, "y": 3 },
+          "targetExit": "exit3"
+        },
+        {
+          "id": "r4",
+          "type": "NORMAL",
+          "direction": "UP",
+          "startPosition": { "x": 5, "y": 5 },
+          "targetExit": "exit4"
+        }
+      ],
+      "obstacles": [
+        {
+          "id": "o1",
+          "type": "TRAFFIC",
+          "position": { "x": 3, "y": 3 },
+          "size": { "width": 1, "height": 1 },
+          "slowFactor": 0.5
+        },
+        {
+          "id": "o2",
+          "type": "WALL",
+          "position": { "x": 5, "y": 2 },
+          "size": { "width": 1, "height": 2 }
+        }
+      ],
+      "exits": [
+        { "id": "exit1", "position": { "x": 7, "y": 1 } },
+        { "id": "exit2", "position": { "x": 3, "y": 5 } },
+        { "id": "exit3", "position": { "x": 7, "y": 3 } },
+        { "id": "exit4", "position": { "x": 5, "y": 1 } }
+      ],
+      "mapTheme": "commercial",
+      "hint": "堵车和墙壁混合！"
+    },
+    {
+      "id": 14,
+      "name": "基础第四关",
+      "difficulty": "medium",
+      "gridSize": { "width": 8, "height": 6 },
+      "timeLimit": 0,
+      "riders": [
+        {
+          "id": "r1",
+          "type": "NORMAL",
+          "direction": "RIGHT",
+          "startPosition": { "x": 1, "y": 2 },
+          "targetExit": "exit1"
+        },
+        {
+          "id": "r2",
+          "type": "NORMAL",
+          "direction": "RIGHT",
+          "startPosition": { "x": 1, "y": 4 },
+          "targetExit": "exit2"
+        }
+      ],
+      "obstacles": [
+        {
+          "id": "o1",
+          "type": "TRAFFIC_LIGHT",
+          "position": { "x": 4, "y": 2 },
+          "size": { "width": 1, "height": 1 },
+          "lightCycle": 3
+        }
+      ],
+      "exits": [
+        { "id": "exit1", "position": { "x": 7, "y": 2 } },
+        { "id": "exit2", "position": { "x": 7, "y": 4 } }
+      ],
+      "mapTheme": "residential",
+      "hint": "红绿灯每3秒切换，红灯时等待！"
+    },
+    {
+      "id": 15,
+      "name": "基础第五关",
+      "difficulty": "medium",
+      "gridSize": { "width": 8, "height": 6 },
+      "timeLimit": 0,
+      "riders": [
+        {
+          "id": "r1",
+          "type": "VIP",
+          "direction": "RIGHT",
+          "startPosition": { "x": 1, "y": 1 },
+          "targetExit": "exit1"
+        },
+        {
+          "id": "r2",
+          "type": "NORMAL",
+          "direction": "DOWN",
+          "startPosition": { "x": 3, "y": 1 },
+          "targetExit": "exit2"
+        },
+        {
+          "id": "r3",
+          "type": "NORMAL",
+          "direction": "RIGHT",
+          "startPosition": { "x": 1, "y": 3 },
+          "targetExit": "exit3"
+        }
+      ],
+      "obstacles": [],
+      "exits": [
+        { "id": "exit1", "position": { "x": 7, "y": 1 } },
+        { "id": "exit2", "position": { "x": 3, "y": 5 } },
+        { "id": "exit3", "position": { "x": 7, "y": 3 } }
+      ],
+      "mapTheme": "commercial",
+      "hint": "VIP订单必须第一个送达！"
+    },
+    {
+      "id": 16,
+      "name": "基础第六关",
+      "difficulty": "medium",
+      "gridSize": { "width": 8, "height": 6 },
+      "timeLimit": 0,
+      "riders": [
+        {
+          "id": "r1",
+          "type": "VIP",
+          "direction": "RIGHT",
+          "startPosition": { "x": 1, "y": 2 },
+          "targetExit": "exit1"
+        },
+        {
+          "id": "r2",
+          "type": "NORMAL",
+          "direction": "RIGHT",
+          "startPosition": { "x": 1, "y": 1 },
+          "targetExit": "exit2"
+        },
+        {
+          "id": "r3",
+          "type": "NORMAL",
+          "direction": "RIGHT",
+          "startPosition": { "x": 1, "y": 3 },
+          "targetExit": "exit3"
+        }
+      ],
+      "obstacles": [
+        {
+          "id": "o1",
+          "type": "TRAFFIC",
+          "position": { "x": 3, "y": 2 },
+          "size": { "width": 1, "height": 1 },
+          "slowFactor": 0.5
+        }
+      ],
+      "exits": [
+        { "id": "exit1", "position": { "x": 7, "y": 2 } },
+        { "id": "exit2", "position": { "x": 7, "y": 1 } },
+        { "id": "exit3", "position": { "x": 7, "y": 3 } }
+      ],
+      "mapTheme": "city",
+      "hint": "VIP遇到堵车也要先送达！"
+    },
+    {
+      "id": 17,
+      "name": "基础第七关",
+      "difficulty": "medium",
+      "gridSize": { "width": 8, "height": 6 },
+      "timeLimit": 0,
+      "riders": [
+        {
+          "id": "r1",
+          "type": "VIP",
+          "direction": "RIGHT",
+          "startPosition": { "x": 1, "y": 1 },
+          "targetExit": "exit1"
+        },
+        {
+          "id": "r2",
+          "type": "NORMAL",
+          "direction": "DOWN",
+          "startPosition": { "x": 2, "y": 1 },
+          "targetExit": "exit2"
+        },
+        {
+          "id": "r3",
+          "type": "NORMAL",
+          "direction": "RIGHT",
+          "startPosition": { "x": 1, "y": 4 },
+          "targetExit": "exit3"
+        },
+        {
+          "id": "r4",
+          "type": "NORMAL",
+          "direction": "UP",
+          "startPosition": { "x": 5, "y": 5 },
+          "targetExit": "exit4"
+        }
+      ],
+      "obstacles": [
+        {
+          "id": "o1",
+          "type": "WALL",
+          "position": { "x": 3, "y": 2 },
+          "size": { "width": 1, "height": 2 }
+        }
+      ],
+      "exits": [
+        { "id": "exit1", "position": { "x": 7, "y": 1 } },
+        { "id": "exit2", "position": { "x": 2, "y": 5 } },
+        { "id": "exit3", "position": { "x": 7, "y": 4 } },
+        { "id": "exit4", "position": { "x": 5, "y": 1 } }
+      ],
+      "mapTheme": "residential",
+      "hint": "VIP路径被墙阻挡，需要绕行！"
+    },
+    {
+      "id": 18,
+      "name": "基础第八关",
+      "difficulty": "medium",
+      "gridSize": { "width": 8, "height": 6 },
+      "timeLimit": 90,
+      "riders": [
+        {
+          "id": "r1",
+          "type": "URGENT",
+          "direction": "RIGHT",
+          "startPosition": { "x": 1, "y": 2 },
+          "targetExit": "exit1",
+          "timeLimit": 30
+        },
+        {
+          "id": "r2",
+          "type": "NORMAL",
+          "direction": "DOWN",
+          "startPosition": { "x": 3, "y": 1 },
+          "targetExit": "exit2"
+        },
+        {
+          "id": "r3",
+          "type": "NORMAL",
+          "direction": "RIGHT",
+          "startPosition": { "x": 1, "y": 4 },
+          "targetExit": "exit3"
+        }
+      ],
+      "obstacles": [],
+      "exits": [
+        { "id": "exit1", "position": { "x": 7, "y": 2 } },
+        { "id": "exit2", "position": { "x": 3, "y": 5 } },
+        { "id": "exit3", "position": { "x": 7, "y": 4 } }
+      ],
+      "mapTheme": "commercial",
+      "hint": "加急订单有时间限制，优先处理！"
+    },
+    {
+      "id": 19,
+      "name": "基础第九关",
+      "difficulty": "medium",
+      "gridSize": { "width": 8, "height": 6 },
+      "timeLimit": 90,
+      "riders": [
+        {
+          "id": "r1",
+          "type": "VIP",
+          "direction": "RIGHT",
+          "startPosition": { "x": 1, "y": 1 },
+          "targetExit": "exit1"
+        },
+        {
+          "id": "r2",
+          "type": "URGENT",
+          "direction": "DOWN",
+          "startPosition": { "x": 3, "y": 1 },
+          "targetExit": "exit2",
+          "timeLimit": 20
+        },
+        {
+          "id": "r3",
+          "type": "NORMAL",
+          "direction": "RIGHT",
+          "startPosition": { "x": 1, "y": 4 },
+          "targetExit": "exit3"
+        }
+      ],
+      "obstacles": [
+        {
+          "id": "o1",
+          "type": "TRAFFIC_LIGHT",
+          "position": { "x": 3, "y": 1 },
+          "size": { "width": 1, "height": 1 },
+          "lightCycle": 3
+        }
+      ],
+      "exits": [
+        { "id": "exit1", "position": { "x": 7, "y": 1 } },
+        { "id": "exit2", "position": { "x": 3, "y": 5 } },
+        { "id": "exit3", "position": { "x": 7, "y": 4 } }
+      ],
+      "mapTheme": "city",
+      "hint": "VIP和加急同时出现！"
+    },
+    {
+      "id": 20,
+      "name": "基础第十关",
+      "difficulty": "medium",
+      "gridSize": { "width": 10, "height": 8 },
+      "timeLimit": 120,
+      "riders": [
+        {
+          "id": "r1",
+          "type": "VIP",
+          "direction": "RIGHT",
+          "startPosition": { "x": 1, "y": 2 },
+          "targetExit": "exit1"
+        },
+        {
+          "id": "r2",
+          "type": "URGENT",
+          "direction": "DOWN",
+          "startPosition": { "x": 3, "y": 1 },
+          "targetExit": "exit2",
+          "timeLimit": 25
+        },
+        {
+          "id": "r3",
+          "type": "NORMAL",
+          "direction": "RIGHT",
+          "startPosition": { "x": 1, "y": 4 },
+          "targetExit": "exit3"
+        },
+        {
+          "id": "r4",
+          "type": "NORMAL",
+          "direction": "LEFT",
+          "startPosition": { "x": 9, "y": 6 },
+          "targetExit": "exit4"
+        }
+      ],
+      "obstacles": [
+        {
+          "id": "o1",
+          "type": "TRAFFIC",
+          "position": { "x": 5, "y": 2 },
+          "size": { "width": 1, "height": 2 },
+          "slowFactor": 0.5
+        },
+        {
+          "id": "o2",
+          "type": "WALL",
+          "position": { "x": 3, "y": 4 },
+          "size": { "width": 1, "height": 2 }
+        }
+      ],
+      "exits": [
+        { "id": "exit1", "position": { "x": 9, "y": 2 } },
+        { "id": "exit2", "position": { "x": 3, "y": 7 } },
+        { "id": "exit3", "position": { "x": 9, "y": 4 } },
+        { "id": "exit4", "position": { "x": 1, "y": 6 } }
+      ],
+      "mapTheme": "commercial",
+      "hint": "综合挑战：VIP、加急、堵车、墙壁！"
     }
   ]
 }
