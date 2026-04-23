@@ -1,0 +1,26 @@
+{
+  "name": "i_game",
+  "version": "0.1.0-alpha",
+  "description": "外卖冲冲冲 - 微信小游戏，箭头解谜类休闲游戏",
+  "main": "src/main.ts",
+  "scripts": {
+    "dev": "echo '请在Cocos Creator中打开项目进行开发'",
+    "build:wechat": "echo '请在Cocos Creator中构建微信小游戏'",
+    "build:douyin": "echo '请在Cocos Creator中构建抖音小游戏'"
+  },
+  "keywords": [
+    "game",
+    "minigame",
+    "wechat",
+    "puzzle",
+    "delivery"
+  ],
+  "author": "",
+  "license": "MIT",
+  "repository": {
+    "type": "git",
+    "url": ""
+  },
+  "devDependencies": {},
+  "dependencies": {}
+}

@@ -1,0 +1,144 @@
+{
+  "levels": [
+    {
+      "id": 1,
+      "name": "入门第一关",
+      "difficulty": "easy",
+      "gridSize": { "width": 6, "height": 4 },
+      "timeLimit": 0,
+      "riders": [
+        {
+          "id": "r1",
+          "type": "NORMAL",
+          "direction": "RIGHT",
+          "startPosition": { "x": 1, "y": 1 },
+          "targetExit": "exit1"
+        },
+        {
+          "id": "r2",
+          "type": "NORMAL",
+          "direction": "RIGHT",
+          "startPosition": { "x": 1, "y": 3 },
+          "targetExit": "exit2"
+        }
+      ],
+      "obstacles": [],
+      "exits": [
+        { "id": "exit1", "position": { "x": 5, "y": 1 } },
+        { "id": "exit2", "position": { "x": 5, "y": 3 } }
+      ],
+      "mapTheme": "city"
+    },
+    {
+      "id": 2,
+      "name": "入门第二关",
+      "difficulty": "easy",
+      "gridSize": { "width": 6, "height": 4 },
+      "timeLimit": 0,
+      "riders": [
+        {
+          "id": "r1",
+          "type": "NORMAL",
+          "direction": "RIGHT",
+          "startPosition": { "x": 1, "y": 1 },
+          "targetExit": "exit1"
+        },
+        {
+          "id": "r2",
+          "type": "NORMAL",
+          "direction": "DOWN",
+          "startPosition": { "x": 3, "y": 1 },
+          "targetExit": "exit2"
+        }
+      ],
+      "obstacles": [],
+      "exits": [
+        { "id": "exit1", "position": { "x": 5, "y": 1 } },
+        { "id": "exit2", "position": { "x": 3, "y": 3 } }
+      ],
+      "mapTheme": "city"
+    },
+    {
+      "id": 3,
+      "name": "入门第三关",
+      "difficulty": "easy",
+      "gridSize": { "width": 6, "height": 4 },
+      "timeLimit": 0,
+      "riders": [
+        {
+          "id": "r1",
+          "type": "NORMAL",
+          "direction": "RIGHT",
+          "startPosition": { "x": 1, "y": 1 },
+          "targetExit": "exit1"
+        },
+        {
+          "id": "r2",
+          "type": "NORMAL",
+          "direction": "RIGHT",
+          "startPosition": { "x": 1, "y": 2 },
+          "targetExit": "exit2"
+        },
+        {
+          "id": "r3",
+          "type": "NORMAL",
+          "direction": "RIGHT",
+          "startPosition": { "x": 1, "y": 3 },
+          "targetExit": "exit3"
+        }
+      ],
+      "obstacles": [],
+      "exits": [
+        { "id": "exit1", "position": { "x": 5, "y": 1 } },
+        { "id": "exit2", "position": { "x": 5, "y": 2 } },
+        { "id": "exit3", "position": { "x": 5, "y": 3 } }
+      ],
+      "mapTheme": "city"
+    },
+    {
+      "id": 11,
+      "name": "基础第一关",
+      "difficulty": "medium",
+      "gridSize": { "width": 8, "height": 6 },
+      "timeLimit": 0,
+      "riders": [
+        {
+          "id": "r1",
+          "type": "NORMAL",
+          "direction": "RIGHT",
+          "startPosition": { "x": 1, "y": 2 },
+          "targetExit": "exit1"
+        },
+        {
+          "id": "r2",
+          "type": "NORMAL",
+          "direction": "DOWN",
+          "startPosition": { "x": 3, "y": 1 },
+          "targetExit": "exit2"
+        },
+        {
+          "id": "r3",
+          "type": "NORMAL",
+          "direction": "RIGHT",
+          "startPosition": { "x": 1, "y": 4 },
+          "targetExit": "exit3"
+        }
+      ],
+      "obstacles": [
+        {
+          "id": "o1",
+          "type": "TRAFFIC",
+          "position": { "x": 4, "y": 2 },
+          "size": { "width": 1, "height": 2 },
+          "slowFactor": 0.5
+        }
+      ],
+      "exits": [
+        { "id": "exit1", "position": { "x": 7, "y": 2 } },
+        { "id": "exit2", "position": { "x": 3, "y": 5 } },
+        { "id": "exit3", "position": { "x": 7, "y": 4 } }
+      ],
+      "mapTheme": "residential"
+    }
+  ]
+}

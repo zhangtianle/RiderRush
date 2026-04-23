@@ -1,0 +1,54 @@
+{
+  "game": {
+    "name": "外卖冲冲冲",
+    "version": "0.1.0",
+    "maxLevels": 100
+  },
+
+  "display": {
+    "gridCellSize": 60,
+    "riderSize": 40,
+    "obstacleSize": 50
+  },
+
+  "timing": {
+    "moveSpeed": 1,
+    "crashDelay": 500,
+    "quoteDuration": 2000,
+    "lightCycle": 3
+  },
+
+  "difficulty": {
+    "easy": {
+      "riders": { "min": 2, "max": 3 },
+      "obstacles": 0,
+      "timeLimit": 0
+    },
+    "medium": {
+      "riders": { "min": 3, "max": 4 },
+      "obstacles": { "min": 1, "max": 2 },
+      "timeLimit": 0
+    },
+    "hard": {
+      "riders": { "min": 4, "max": 6 },
+      "obstacles": { "min": 2, "max": 4 },
+      "timeLimit": 90
+    },
+    "expert": {
+      "riders": { "min": 6, "max": 8 },
+      "obstacles": { "min": 3, "max": 6 },
+      "timeLimit": 120
+    }
+  },
+
+  "ad": {
+    "reviveAdUnitId": "YOUR_AD_UNIT_ID",
+    "rewardAdUnitId": "YOUR_AD_UNIT_ID",
+    "adCooldown": 5000
+  },
+
+  "storage": {
+    "progressKey": "game_progress",
+    "settingsKey": "game_settings"
+  }
+}

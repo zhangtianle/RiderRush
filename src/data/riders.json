@@ -1,0 +1,31 @@
+{
+  "riderTypes": {
+    "NORMAL": {
+      "speed": 1,
+      "timeLimit": 0,
+      "expressions": ["normal", "happy", "sad", "waiting"],
+      "color": "#FFD700"
+    },
+    "VIP": {
+      "speed": 1,
+      "timeLimit": 0,
+      "isVIPFirst": true,
+      "expressions": ["vip_normal", "vip_happy", "vip_sad"],
+      "color": "#FFA500",
+      "icon": "crown"
+    },
+    "URGENT": {
+      "speed": 1.2,
+      "timeLimit": 30,
+      "expressions": ["urgent_normal", "urgent_happy", "urgent_sad"],
+      "color": "#FF4500",
+      "icon": "flash"
+    }
+  },
+
+  "defaultSettings": {
+    "speed": 1,
+    "timeLimit": 0,
+    "expression": "normal"
+  }
+}
