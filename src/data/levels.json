@@ -2140,6 +2140,496 @@
       ],
       "mapTheme": "city",
       "hint": "专家巅峰：3VIP+2加急+8骑手+8阻碍！极限挑战！"
+    },
+    {
+      "id": 36,
+      "name": "专家第六关",
+      "difficulty": "expert",
+      "gridSize": { "width": 14, "height": 12 },
+      "timeLimit": 180,
+      "riders": [
+        { "id": "r1", "type": "VIP", "direction": "RIGHT", "startPosition": { "x": 1, "y": 2 }, "targetExit": "exit1" },
+        { "id": "r2", "type": "VIP", "direction": "LEFT", "startPosition": { "x": 13, "y": 10 }, "targetExit": "exit2" },
+        { "id": "r3", "type": "URGENT", "direction": "DOWN", "startPosition": { "x": 4, "y": 1 }, "targetExit": "exit3", "timeLimit": 15 },
+        { "id": "r4", "type": "URGENT", "direction": "UP", "startPosition": { "x": 8, "y": 11 }, "targetExit": "exit4", "timeLimit": 18 },
+        { "id": "r5", "type": "NORMAL", "direction": "RIGHT", "startPosition": { "x": 1, "y": 5 }, "targetExit": "exit5" },
+        { "id": "r6", "type": "NORMAL", "direction": "LEFT", "startPosition": { "x": 13, "y": 7 }, "targetExit": "exit6" },
+        { "id": "r7", "type": "NORMAL", "direction": "DOWN", "startPosition": { "x": 6, "y": 1 }, "targetExit": "exit7" }
+      ],
+      "obstacles": [
+        { "id": "o1", "type": "WALL", "position": { "x": 5, "y": 3 }, "size": { "width": 2, "height": 3 } },
+        { "id": "o2", "type": "TRAFFIC", "position": { "x": 3, "y": 2 }, "size": { "width": 1, "height": 1 }, "slowFactor": 0.3 },
+        { "id": "o3", "type": "TRAFFIC_LIGHT", "position": { "x": 6, "y": 1 }, "size": { "width": 1, "height": 1 }, "lightCycle": 2 },
+        { "id": "o4", "type": "TRAFFIC_LIGHT", "position": { "x": 8, "y": 11 }, "size": { "width": 1, "height": 1 }, "lightCycle": 2 },
+        { "id": "o5", "type": "WALL", "position": { "x": 10, "y": 6 }, "size": { "width": 1, "height": 3 } }
+      ],
+      "exits": [
+        { "id": "exit1", "position": { "x": 13, "y": 2 } },
+        { "id": "exit2", "position": { "x": 1, "y": 10 } },
+        { "id": "exit3", "position": { "x": 4, "y": 11 } },
+        { "id": "exit4", "position": { "x": 8, "y": 1 } },
+        { "id": "exit5", "position": { "x": 13, "y": 5 } },
+        { "id": "exit6", "position": { "x": 1, "y": 7 } },
+        { "id": "exit7", "position": { "x": 6, "y": 11 } }
+      ],
+      "mapTheme": "commercial",
+      "hint": "7骑手：2VIP+2加急，墙壁分割地图！"
+    },
+    {
+      "id": 37,
+      "name": "专家第七关",
+      "difficulty": "expert",
+      "gridSize": { "width": 12, "height": 10 },
+      "timeLimit": 120,
+      "riders": [
+        { "id": "r1", "type": "VIP", "direction": "RIGHT", "startPosition": { "x": 1, "y": 5 }, "targetExit": "exit1" },
+        { "id": "r2", "type": "URGENT", "direction": "RIGHT", "startPosition": { "x": 1, "y": 1 }, "targetExit": "exit2", "timeLimit": 10 },
+        { "id": "r3", "type": "URGENT", "direction": "RIGHT", "startPosition": { "x": 1, "y": 3 }, "targetExit": "exit3", "timeLimit": 12 },
+        { "id": "r4", "type": "URGENT", "direction": "RIGHT", "startPosition": { "x": 1, "y": 7 }, "targetExit": "exit4", "timeLimit": 14 },
+        { "id": "r5", "type": "URGENT", "direction": "RIGHT", "startPosition": { "x": 1, "y": 9 }, "targetExit": "exit5", "timeLimit": 16 }
+      ],
+      "obstacles": [
+        { "id": "o1", "type": "TRAFFIC", "position": { "x": 3, "y": 1 }, "size": { "width": 1, "height": 2 }, "slowFactor": 0.2 },
+        { "id": "o2", "type": "TRAFFIC", "position": { "x": 3, "y": 7 }, "size": { "width": 1, "height": 2 }, "slowFactor": 0.2 },
+        { "id": "o3", "type": "TRAFFIC_LIGHT", "position": { "x": 5, "y": 5 }, "size": { "width": 1, "height": 1 }, "lightCycle": 2 }
+      ],
+      "exits": [
+        { "id": "exit1", "position": { "x": 11, "y": 5 } },
+        { "id": "exit2", "position": { "x": 11, "y": 1 } },
+        { "id": "exit3", "position": { "x": 11, "y": 3 } },
+        { "id": "exit4", "position": { "x": 11, "y": 7 } },
+        { "id": "exit5", "position": { "x": 11, "y": 9 } }
+      ],
+      "mapTheme": "city",
+      "hint": "VIP在中间，4加急超极限时间！"
+    },
+    {
+      "id": 38,
+      "name": "专家第八关",
+      "difficulty": "expert",
+      "gridSize": { "width": 16, "height": 12 },
+      "timeLimit": 200,
+      "riders": [
+        { "id": "r1", "type": "VIP", "direction": "RIGHT", "startPosition": { "x": 1, "y": 1 }, "targetExit": "exit1" },
+        { "id": "r2", "type": "VIP", "direction": "RIGHT", "startPosition": { "x": 1, "y": 6 }, "targetExit": "exit2" },
+        { "id": "r3", "type": "VIP", "direction": "LEFT", "startPosition": { "x": 15, "y": 11 }, "targetExit": "exit3" },
+        { "id": "r4", "type": "URGENT", "direction": "DOWN", "startPosition": { "x": 4, "y": 1 }, "targetExit": "exit4", "timeLimit": 12 },
+        { "id": "r5", "type": "URGENT", "direction": "DOWN", "startPosition": { "x": 8, "y": 1 }, "targetExit": "exit5", "timeLimit": 15 },
+        { "id": "r6", "type": "NORMAL", "direction": "RIGHT", "startPosition": { "x": 1, "y": 3 }, "targetExit": "exit6" },
+        { "id": "r7", "type": "NORMAL", "direction": "RIGHT", "startPosition": { "x": 1, "y": 9 }, "targetExit": "exit7" },
+        { "id": "r8", "type": "NORMAL", "direction": "UP", "startPosition": { "x": 12, "y": 11 }, "targetExit": "exit8" }
+      ],
+      "obstacles": [
+        { "id": "o1", "type": "WALL", "position": { "x": 5, "y": 2 }, "size": { "width": 2, "height": 4 } },
+        { "id": "o2", "type": "WALL", "position": { "x": 5, "y": 8 }, "size": { "width": 2, "height": 2 } },
+        { "id": "o3", "type": "TRAFFIC", "position": { "x": 3, "y": 1 }, "size": { "width": 1, "height": 1 }, "slowFactor": 0.2 },
+        { "id": "o4", "type": "TRAFFIC_LIGHT", "position": { "x": 4, "y": 1 }, "size": { "width": 1, "height": 1 }, "lightCycle": 2 },
+        { "id": "o5", "type": "TRAFFIC_LIGHT", "position": { "x": 8, "y": 1 }, "size": { "width": 1, "height": 1 }, "lightCycle": 2 },
+        { "id": "o6", "type": "TRAFFIC_LIGHT", "position": { "x": 12, "y": 11 }, "size": { "width": 1, "height": 1 }, "lightCycle": 2 }
+      ],
+      "exits": [
+        { "id": "exit1", "position": { "x": 15, "y": 1 } },
+        { "id": "exit2", "position": { "x": 15, "y": 6 } },
+        { "id": "exit3", "position": { "x": 1, "y": 11 } },
+        { "id": "exit4", "position": { "x": 4, "y": 11 } },
+        { "id": "exit5", "position": { "x": 8, "y": 11 } },
+        { "id": "exit6", "position": { "x": 15, "y": 3 } },
+        { "id": "exit7", "position": { "x": 15, "y": 9 } },
+        { "id": "exit8", "position": { "x": 12, "y": 1 } }
+      ],
+      "mapTheme": "commercial",
+      "hint": "超大地图：3VIP+2加急+8骑手！"
+    },
+    {
+      "id": 39,
+      "name": "专家第九关",
+      "difficulty": "expert",
+      "gridSize": { "width": 14, "height": 10 },
+      "timeLimit": 150,
+      "riders": [
+        { "id": "r1", "type": "VIP", "direction": "RIGHT", "startPosition": { "x": 1, "y": 5 }, "targetExit": "exit1" },
+        { "id": "r2", "type": "URGENT", "direction": "RIGHT", "startPosition": { "x": 1, "y": 1 }, "targetExit": "exit2", "timeLimit": 8 },
+        { "id": "r3", "type": "URGENT", "direction": "RIGHT", "startPosition": { "x": 1, "y": 2 }, "targetExit": "exit3", "timeLimit": 9 },
+        { "id": "r4", "type": "URGENT", "direction": "RIGHT", "startPosition": { "x": 1, "y": 8 }, "targetExit": "exit4", "timeLimit": 10 },
+        { "id": "r5", "type": "URGENT", "direction": "RIGHT", "startPosition": { "x": 1, "y": 9 }, "targetExit": "exit5", "timeLimit": 11 },
+        { "id": "r6", "type": "NORMAL", "direction": "RIGHT", "startPosition": { "x": 1, "y": 3 }, "targetExit": "exit6" },
+        { "id": "r7", "type": "NORMAL", "direction": "RIGHT", "startPosition": { "x": 1, "y": 7 }, "targetExit": "exit7" }
+      ],
+      "obstacles": [
+        { "id": "o1", "type": "TRAFFIC", "position": { "x": 4, "y": 1 }, "size": { "width": 1, "height": 2 }, "slowFactor": 0.1 },
+        { "id": "o2", "type": "TRAFFIC", "position": { "x": 4, "y": 8 }, "size": { "width": 1, "height": 2 }, "slowFactor": 0.1 },
+        { "id": "o3", "type": "TRAFFIC_LIGHT", "position": { "x": 6, "y": 5 }, "size": { "width": 1, "height": 1 }, "lightCycle": 1 }
+      ],
+      "exits": [
+        { "id": "exit1", "position": { "x": 13, "y": 5 } },
+        { "id": "exit2", "position": { "x": 13, "y": 1 } },
+        { "id": "exit3", "position": { "x": 13, "y": 2 } },
+        { "id": "exit4", "position": { "x": 13, "y": 8 } },
+        { "id": "exit5", "position": { "x": 13, "y": 9 } },
+        { "id": "exit6", "position": { "x": 13, "y": 3 } },
+        { "id": "exit7", "position": { "x": 13, "y": 7 } }
+      ],
+      "mapTheme": "residential",
+      "hint": "4加急时间极限：8-11秒！红绿灯1秒周期！"
+    },
+    {
+      "id": 40,
+      "name": "专家第十关",
+      "difficulty": "expert",
+      "gridSize": { "width": 16, "height": 14 },
+      "timeLimit": 240,
+      "riders": [
+        { "id": "r1", "type": "VIP", "direction": "RIGHT", "startPosition": { "x": 1, "y": 2 }, "targetExit": "exit1" },
+        { "id": "r2", "type": "VIP", "direction": "RIGHT", "startPosition": { "x": 1, "y": 7 }, "targetExit": "exit2" },
+        { "id": "r3", "type": "VIP", "direction": "LEFT", "startPosition": { "x": 15, "y": 12 }, "targetExit": "exit3" },
+        { "id": "r4", "type": "URGENT", "direction": "DOWN", "startPosition": { "x": 3, "y": 1 }, "targetExit": "exit4", "timeLimit": 10 },
+        { "id": "r5", "type": "URGENT", "direction": "DOWN", "startPosition": { "x": 6, "y": 1 }, "targetExit": "exit5", "timeLimit": 12 },
+        { "id": "r6", "type": "URGENT", "direction": "UP", "startPosition": { "x": 10, "y": 13 }, "targetExit": "exit6", "timeLimit": 14 },
+        { "id": "r7", "type": "NORMAL", "direction": "RIGHT", "startPosition": { "x": 1, "y": 4 }, "targetExit": "exit7" },
+        { "id": "r8", "type": "NORMAL", "direction": "RIGHT", "startPosition": { "x": 1, "y": 10 }, "targetExit": "exit8" },
+        { "id": "r9", "type": "NORMAL", "direction": "UP", "startPosition": { "x": 12, "y": 13 }, "targetExit": "exit9" },
+        { "id": "r10", "type": "NORMAL", "direction": "LEFT", "startPosition": { "x": 15, "y": 5 }, "targetExit": "exit10" }
+      ],
+      "obstacles": [
+        { "id": "o1", "type": "WALL", "position": { "x": 4, "y": 3 }, "size": { "width": 2, "height": 4 } },
+        { "id": "o2", "type": "WALL", "position": { "x": 4, "y": 9 }, "size": { "width": 2, "height": 3 } },
+        { "id": "o3", "type": "TRAFFIC", "position": { "x": 3, "y": 2 }, "size": { "width": 1, "height": 1 }, "slowFactor": 0.2 },
+        { "id": "o4", "type": "TRAFFIC", "position": { "x": 6, "y": 2 }, "size": { "width": 1, "height": 1 }, "slowFactor": 0.2 },
+        { "id": "o5", "type": "TRAFFIC_LIGHT", "position": { "x": 3, "y": 1 }, "size": { "width": 1, "height": 1 }, "lightCycle": 2 },
+        { "id": "o6", "type": "TRAFFIC_LIGHT", "position": { "x": 6, "y": 1 }, "size": { "width": 1, "height": 1 }, "lightCycle": 2 },
+        { "id": "o7", "type": "TRAFFIC_LIGHT", "position": { "x": 10, "y": 13 }, "size": { "width": 1, "height": 1 }, "lightCycle": 2 },
+        { "id": "o8", "type": "TRAFFIC_LIGHT", "position": { "x": 12, "y": 13 }, "size": { "width": 1, "height": 1 }, "lightCycle": 2 },
+        { "id": "o9", "type": "WALL", "position": { "x": 13, "y": 6 }, "size": { "width": 1, "height": 3 } }
+      ],
+      "exits": [
+        { "id": "exit1", "position": { "x": 15, "y": 2 } },
+        { "id": "exit2", "position": { "x": 15, "y": 7 } },
+        { "id": "exit3", "position": { "x": 1, "y": 12 } },
+        { "id": "exit4", "position": { "x": 3, "y": 13 } },
+        { "id": "exit5", "position": { "x": 6, "y": 13 } },
+        { "id": "exit6", "position": { "x": 10, "y": 1 } },
+        { "id": "exit7", "position": { "x": 15, "y": 4 } },
+        { "id": "exit8", "position": { "x": 15, "y": 10 } },
+        { "id": "exit9", "position": { "x": 12, "y": 1 } },
+        { "id": "exit10", "position": { "x": 1, "y": 5 } }
+      ],
+      "mapTheme": "city",
+      "hint": "终极挑战：10骑手+3VIP+3加急+9阻碍！"
+    },
+    {
+      "id": 41, "name": "大师第一关", "difficulty": "master",
+      "gridSize": { "width": 16, "height": 12 }, "timeLimit": 180,
+      "riders": [
+        { "id": "r1", "type": "VIP", "direction": "RIGHT", "startPosition": { "x": 1, "y": 1 }, "targetExit": "exit1" },
+        { "id": "r2", "type": "VIP", "direction": "RIGHT", "startPosition": { "x": 1, "y": 6 }, "targetExit": "exit2" },
+        { "id": "r3", "type": "VIP", "direction": "LEFT", "startPosition": { "x": 15, "y": 11 }, "targetExit": "exit3" },
+        { "id": "r4", "type": "URGENT", "direction": "DOWN", "startPosition": { "x": 4, "y": 1 }, "targetExit": "exit4", "timeLimit": 8 },
+        { "id": "r5", "type": "URGENT", "direction": "DOWN", "startPosition": { "x": 8, "y": 1 }, "targetExit": "exit5", "timeLimit": 10 },
+        { "id": "r6", "type": "URGENT", "direction": "UP", "startPosition": { "x": 12, "y": 11 }, "targetExit": "exit6", "timeLimit": 12 },
+        { "id": "r7", "type": "NORMAL", "direction": "RIGHT", "startPosition": { "x": 1, "y": 3 }, "targetExit": "exit7" },
+        { "id": "r8", "type": "NORMAL", "direction": "RIGHT", "startPosition": { "x": 1, "y": 9 }, "targetExit": "exit8" }
+      ],
+      "obstacles": [
+        { "id": "o1", "type": "WALL", "position": { "x": 5, "y": 2 }, "size": { "width": 2, "height": 4 } },
+        { "id": "o2", "type": "TRAFFIC", "position": { "x": 3, "y": 1 }, "size": { "width": 1, "height": 1 }, "slowFactor": 0.1 },
+        { "id": "o3", "type": "TRAFFIC_LIGHT", "position": { "x": 4, "y": 1 }, "size": { "width": 1, "height": 1 }, "lightCycle": 1 },
+        { "id": "o4", "type": "TRAFFIC_LIGHT", "position": { "x": 8, "y": 1 }, "size": { "width": 1, "height": 1 }, "lightCycle": 1 }
+      ],
+      "exits": [
+        { "id": "exit1", "position": { "x": 15, "y": 1 } },
+        { "id": "exit2", "position": { "x": 15, "y": 6 } },
+        { "id": "exit3", "position": { "x": 1, "y": 11 } },
+        { "id": "exit4", "position": { "x": 4, "y": 11 } },
+        { "id": "exit5", "position": { "x": 8, "y": 11 } },
+        { "id": "exit6", "position": { "x": 12, "y": 1 } },
+        { "id": "exit7", "position": { "x": 15, "y": 3 } },
+        { "id": "exit8", "position": { "x": 15, "y": 9 } }
+      ],
+      "mapTheme": "commercial", "hint": "大师难度：红绿灯1秒周期！"
+    },
+    {
+      "id": 42, "name": "大师第二关", "difficulty": "master",
+      "gridSize": { "width": 14, "height": 10 }, "timeLimit": 100,
+      "riders": [
+        { "id": "r1", "type": "VIP", "direction": "RIGHT", "startPosition": { "x": 1, "y": 5 }, "targetExit": "exit1" },
+        { "id": "r2", "type": "URGENT", "direction": "RIGHT", "startPosition": { "x": 1, "y": 1 }, "targetExit": "exit2", "timeLimit": 6 },
+        { "id": "r3", "type": "URGENT", "direction": "RIGHT", "startPosition": { "x": 1, "y": 2 }, "targetExit": "exit3", "timeLimit": 7 },
+        { "id": "r4", "type": "URGENT", "direction": "RIGHT", "startPosition": { "x": 1, "y": 8 }, "targetExit": "exit4", "timeLimit": 8 },
+        { "id": "r5", "type": "URGENT", "direction": "RIGHT", "startPosition": { "x": 1, "y": 9 }, "targetExit": "exit5", "timeLimit": 9 },
+        { "id": "r6", "type": "NORMAL", "direction": "RIGHT", "startPosition": { "x": 1, "y": 3 }, "targetExit": "exit6" },
+        { "id": "r7", "type": "NORMAL", "direction": "RIGHT", "startPosition": { "x": 1, "y": 7 }, "targetExit": "exit7" }
+      ],
+      "obstacles": [
+        { "id": "o1", "type": "TRAFFIC", "position": { "x": 4, "y": 1 }, "size": { "width": 1, "height": 2 }, "slowFactor": 0.1 },
+        { "id": "o2", "type": "TRAFFIC_LIGHT", "position": { "x": 6, "y": 5 }, "size": { "width": 1, "height": 1 }, "lightCycle": 1 }
+      ],
+      "exits": [
+        { "id": "exit1", "position": { "x": 13, "y": 5 } },
+        { "id": "exit2", "position": { "x": 13, "y": 1 } },
+        { "id": "exit3", "position": { "x": 13, "y": 2 } },
+        { "id": "exit4", "position": { "x": 13, "y": 8 } },
+        { "id": "exit5", "position": { "x": 13, "y": 9 } },
+        { "id": "exit6", "position": { "x": 13, "y": 3 } },
+        { "id": "exit7", "position": { "x": 13, "y": 7 } }
+      ],
+      "mapTheme": "city", "hint": "极限：4加急6-9秒时限！"
+    },
+    {
+      "id": 43, "name": "大师第三关", "difficulty": "master",
+      "gridSize": { "width": 16, "height": 12 }, "timeLimit": 150,
+      "riders": [
+        { "id": "r1", "type": "VIP", "direction": "RIGHT", "startPosition": { "x": 1, "y": 2 }, "targetExit": "exit1" },
+        { "id": "r2", "type": "VIP", "direction": "LEFT", "startPosition": { "x": 15, "y": 10 }, "targetExit": "exit2" },
+        { "id": "r3", "type": "URGENT", "direction": "DOWN", "startPosition": { "x": 3, "y": 1 }, "targetExit": "exit3", "timeLimit": 6 },
+        { "id": "r4", "type": "URGENT", "direction": "UP", "startPosition": { "x": 8, "y": 11 }, "targetExit": "exit4", "timeLimit": 8 },
+        { "id": "r5", "type": "URGENT", "direction": "UP", "startPosition": { "x": 12, "y": 11 }, "targetExit": "exit5", "timeLimit": 10 },
+        { "id": "r6", "type": "NORMAL", "direction": "RIGHT", "startPosition": { "x": 1, "y": 5 }, "targetExit": "exit6" },
+        { "id": "r7", "type": "NORMAL", "direction": "LEFT", "startPosition": { "x": 15, "y": 7 }, "targetExit": "exit7" }
+      ],
+      "obstacles": [
+        { "id": "o1", "type": "WALL", "position": { "x": 4, "y": 3 }, "size": { "width": 2, "height": 4 } },
+        { "id": "o2", "type": "TRAFFIC_LIGHT", "position": { "x": 3, "y": 1 }, "size": { "width": 1, "height": 1 }, "lightCycle": 1 },
+        { "id": "o3", "type": "TRAFFIC_LIGHT", "position": { "x": 8, "y": 11 }, "size": { "width": 1, "height": 1 }, "lightCycle": 1 },
+        { "id": "o4", "type": "WALL", "position": { "x": 13, "y": 6 }, "size": { "width": 1, "height": 2 } }
+      ],
+      "exits": [
+        { "id": "exit1", "position": { "x": 15, "y": 2 } },
+        { "id": "exit2", "position": { "x": 1, "y": 10 } },
+        { "id": "exit3", "position": { "x": 3, "y": 11 } },
+        { "id": "exit4", "position": { "x": 8, "y": 1 } },
+        { "id": "exit5", "position": { "x": 12, "y": 1 } },
+        { "id": "exit6", "position": { "x": 15, "y": 5 } },
+        { "id": "exit7", "position": { "x": 1, "y": 7 } }
+      ],
+      "mapTheme": "residential", "hint": "大师：2VIP+3加急极短时限！"
+    },
+    {
+      "id": 44, "name": "大师第四关", "difficulty": "master",
+      "gridSize": { "width": 18, "height": 14 }, "timeLimit": 200,
+      "riders": [
+        { "id": "r1", "type": "VIP", "direction": "RIGHT", "startPosition": { "x": 1, "y": 1 }, "targetExit": "exit1" },
+        { "id": "r2", "type": "VIP", "direction": "RIGHT", "startPosition": { "x": 1, "y": 7 }, "targetExit": "exit2" },
+        { "id": "r3", "type": "VIP", "direction": "LEFT", "startPosition": { "x": 17, "y": 13 }, "targetExit": "exit3" },
+        { "id": "r4", "type": "URGENT", "direction": "DOWN", "startPosition": { "x": 4, "y": 1 }, "targetExit": "exit4", "timeLimit": 5 },
+        { "id": "r5", "type": "URGENT", "direction": "DOWN", "startPosition": { "x": 8, "y": 1 }, "targetExit": "exit5", "timeLimit": 7 },
+        { "id": "r6", "type": "URGENT", "direction": "UP", "startPosition": { "x": 14, "y": 13 }, "targetExit": "exit6", "timeLimit": 9 },
+        { "id": "r7", "type": "NORMAL", "direction": "RIGHT", "startPosition": { "x": 1, "y": 3 }, "targetExit": "exit7" },
+        { "id": "r8", "type": "NORMAL", "direction": "RIGHT", "startPosition": { "x": 1, "y": 11 }, "targetExit": "exit8" }
+      ],
+      "obstacles": [
+        { "id": "o1", "type": "WALL", "position": { "x": 5, "y": 2 }, "size": { "width": 2, "height": 5 } },
+        { "id": "o2", "type": "TRAFFIC", "position": { "x": 3, "y": 1 }, "size": { "width": 1, "height": 1 }, "slowFactor": 0.1 },
+        { "id": "o3", "type": "TRAFFIC_LIGHT", "position": { "x": 4, "y": 1 }, "size": { "width": 1, "height": 1 }, "lightCycle": 1 },
+        { "id": "o4", "type": "TRAFFIC_LIGHT", "position": { "x": 8, "y": 1 }, "size": { "width": 1, "height": 1 }, "lightCycle": 1 }
+      ],
+      "exits": [
+        { "id": "exit1", "position": { "x": 17, "y": 1 } },
+        { "id": "exit2", "position": { "x": 17, "y": 7 } },
+        { "id": "exit3", "position": { "x": 1, "y": 13 } },
+        { "id": "exit4", "position": { "x": 4, "y": 13 } },
+        { "id": "exit5", "position": { "x": 8, "y": 13 } },
+        { "id": "exit6", "position": { "x": 14, "y": 1 } },
+        { "id": "exit7", "position": { "x": 17, "y": 3 } },
+        { "id": "exit8", "position": { "x": 17, "y": 11 } }
+      ],
+      "mapTheme": "commercial", "hint": "大师极限：3VIP+3加急5-9秒！"
+    },
+    {
+      "id": 45, "name": "大师第五关", "difficulty": "master",
+      "gridSize": { "width": 16, "height": 14 }, "timeLimit": 180,
+      "riders": [
+        { "id": "r1", "type": "VIP", "direction": "RIGHT", "startPosition": { "x": 1, "y": 1 }, "targetExit": "exit1" },
+        { "id": "r2", "type": "VIP", "direction": "RIGHT", "startPosition": { "x": 1, "y": 5 }, "targetExit": "exit2" },
+        { "id": "r3", "type": "VIP", "direction": "RIGHT", "startPosition": { "x": 1, "y": 9 }, "targetExit": "exit3" },
+        { "id": "r4", "type": "VIP", "direction": "LEFT", "startPosition": { "x": 15, "y": 13 }, "targetExit": "exit4" },
+        { "id": "r5", "type": "URGENT", "direction": "DOWN", "startPosition": { "x": 5, "y": 1 }, "targetExit": "exit5", "timeLimit": 5 },
+        { "id": "r6", "type": "URGENT", "direction": "UP", "startPosition": { "x": 10, "y": 13 }, "targetExit": "exit6", "timeLimit": 6 },
+        { "id": "r7", "type": "NORMAL", "direction": "RIGHT", "startPosition": { "x": 1, "y": 3 }, "targetExit": "exit7" },
+        { "id": "r8", "type": "NORMAL", "direction": "RIGHT", "startPosition": { "x": 1, "y": 7 }, "targetExit": "exit8" },
+        { "id": "r9", "type": "NORMAL", "direction": "RIGHT", "startPosition": { "x": 1, "y": 11 }, "targetExit": "exit9" }
+      ],
+      "obstacles": [
+        { "id": "o1", "type": "WALL", "position": { "x": 6, "y": 2 }, "size": { "width": 1, "height": 2 } },
+        { "id": "o2", "type": "WALL", "position": { "x": 6, "y": 6 }, "size": { "width": 1, "height": 2 } },
+        { "id": "o3", "type": "WALL", "position": { "x": 6, "y": 10 }, "size": { "width": 1, "height": 2 } },
+        { "id": "o4", "type": "TRAFFIC_LIGHT", "position": { "x": 5, "y": 1 }, "size": { "width": 1, "height": 1 }, "lightCycle": 1 },
+        { "id": "o5", "type": "TRAFFIC_LIGHT", "position": { "x": 10, "y": 13 }, "size": { "width": 1, "height": 1 }, "lightCycle": 1 }
+      ],
+      "exits": [
+        { "id": "exit1", "position": { "x": 15, "y": 1 } },
+        { "id": "exit2", "position": { "x": 15, "y": 5 } },
+        { "id": "exit3", "position": { "x": 15, "y": 9 } },
+        { "id": "exit4", "position": { "x": 1, "y": 13 } },
+        { "id": "exit5", "position": { "x": 5, "y": 13 } },
+        { "id": "exit6", "position": { "x": 10, "y": 1 } },
+        { "id": "exit7", "position": { "x": 15, "y": 3 } },
+        { "id": "exit8", "position": { "x": 15, "y": 7 } },
+        { "id": "exit9", "position": { "x": 15, "y": 11 } }
+      ],
+      "mapTheme": "city", "hint": "大师巅峰：4VIP+2加急5-6秒！"
+    },
+    {
+      "id": 46, "name": "传奇第一关", "difficulty": "legend",
+      "gridSize": { "width": 18, "height": 16 }, "timeLimit": 200,
+      "riders": [
+        { "id": "r1", "type": "VIP", "direction": "RIGHT", "startPosition": { "x": 1, "y": 2 }, "targetExit": "exit1" },
+        { "id": "r2", "type": "VIP", "direction": "RIGHT", "startPosition": { "x": 1, "y": 8 }, "targetExit": "exit2" },
+        { "id": "r3", "type": "VIP", "direction": "LEFT", "startPosition": { "x": 17, "y": 14 }, "targetExit": "exit3" },
+        { "id": "r4", "type": "URGENT", "direction": "DOWN", "startPosition": { "x": 4, "y": 1 }, "targetExit": "exit4", "timeLimit": 4 },
+        { "id": "r5", "type": "URGENT", "direction": "DOWN", "startPosition": { "x": 8, "y": 1 }, "targetExit": "exit5", "timeLimit": 5 },
+        { "id": "r6", "type": "URGENT", "direction": "UP", "startPosition": { "x": 14, "y": 15 }, "targetExit": "exit6", "timeLimit": 6 },
+        { "id": "r7", "type": "NORMAL", "direction": "RIGHT", "startPosition": { "x": 1, "y": 5 }, "targetExit": "exit7" },
+        { "id": "r8", "type": "NORMAL", "direction": "RIGHT", "startPosition": { "x": 1, "y": 11 }, "targetExit": "exit8" }
+      ],
+      "obstacles": [
+        { "id": "o1", "type": "WALL", "position": { "x": 5, "y": 3 }, "size": { "width": 3, "height": 5 } },
+        { "id": "o2", "type": "TRAFFIC_LIGHT", "position": { "x": 4, "y": 1 }, "size": { "width": 1, "height": 1 }, "lightCycle": 1 },
+        { "id": "o3", "type": "TRAFFIC_LIGHT", "position": { "x": 8, "y": 1 }, "size": { "width": 1, "height": 1 }, "lightCycle": 1 },
+        { "id": "o4", "type": "WALL", "position": { "x": 15, "y": 10 }, "size": { "width": 1, "height": 3 } }
+      ],
+      "exits": [
+        { "id": "exit1", "position": { "x": 17, "y": 2 } },
+        { "id": "exit2", "position": { "x": 17, "y": 8 } },
+        { "id": "exit3", "position": { "x": 1, "y": 14 } },
+        { "id": "exit4", "position": { "x": 4, "y": 15 } },
+        { "id": "exit5", "position": { "x": 8, "y": 15 } },
+        { "id": "exit6", "position": { "x": 14, "y": 1 } },
+        { "id": "exit7", "position": { "x": 17, "y": 5 } },
+        { "id": "exit8", "position": { "x": 17, "y": 11 } }
+      ],
+      "mapTheme": "commercial", "hint": "传奇难度开启：4-6秒极限！"
+    },
+    {
+      "id": 47, "name": "传奇第二关", "difficulty": "legend",
+      "gridSize": { "width": 16, "height": 14 }, "timeLimit": 120,
+      "riders": [
+        { "id": "r1", "type": "VIP", "direction": "RIGHT", "startPosition": { "x": 1, "y": 7 }, "targetExit": "exit1" },
+        { "id": "r2", "type": "URGENT", "direction": "RIGHT", "startPosition": { "x": 1, "y": 1 }, "targetExit": "exit2", "timeLimit": 3 },
+        { "id": "r3", "type": "URGENT", "direction": "RIGHT", "startPosition": { "x": 1, "y": 2 }, "targetExit": "exit3", "timeLimit": 4 },
+        { "id": "r4", "type": "URGENT", "direction": "RIGHT", "startPosition": { "x": 1, "y": 12 }, "targetExit": "exit4", "timeLimit": 5 },
+        { "id": "r5", "type": "URGENT", "direction": "RIGHT", "startPosition": { "x": 1, "y": 13 }, "targetExit": "exit5", "timeLimit": 6 },
+        { "id": "r6", "type": "NORMAL", "direction": "RIGHT", "startPosition": { "x": 1, "y": 3 }, "targetExit": "exit6" },
+        { "id": "r7", "type": "NORMAL", "direction": "RIGHT", "startPosition": { "x": 1, "y": 11 }, "targetExit": "exit7" }
+      ],
+      "obstacles": [
+        { "id": "o1", "type": "TRAFFIC", "position": { "x": 4, "y": 1 }, "size": { "width": 1, "height": 2 }, "slowFactor": 0.05 },
+        { "id": "o2", "type": "TRAFFIC_LIGHT", "position": { "x": 6, "y": 7 }, "size": { "width": 1, "height": 1 }, "lightCycle": 1 }
+      ],
+      "exits": [
+        { "id": "exit1", "position": { "x": 15, "y": 7 } },
+        { "id": "exit2", "position": { "x": 15, "y": 1 } },
+        { "id": "exit3", "position": { "x": 15, "y": 2 } },
+        { "id": "exit4", "position": { "x": 15, "y": 12 } },
+        { "id": "exit5", "position": { "x": 15, "y": 13 } },
+        { "id": "exit6", "position": { "x": 15, "y": 3 } },
+        { "id": "exit7", "position": { "x": 15, "y": 11 } }
+      ],
+      "mapTheme": "city", "hint": "传奇：4加急3-6秒超极限！"
+    },
+    {
+      "id": 48, "name": "传奇第三关", "difficulty": "legend",
+      "gridSize": { "width": 20, "height": 16 }, "timeLimit": 220,
+      "riders": [
+        { "id": "r1", "type": "VIP", "direction": "RIGHT", "startPosition": { "x": 1, "y": 1 }, "targetExit": "exit1" },
+        { "id": "r2", "type": "VIP", "direction": "RIGHT", "startPosition": { "x": 1, "y": 5 }, "targetExit": "exit2" },
+        { "id": "r3", "type": "VIP", "direction": "RIGHT", "startPosition": { "x": 1, "y": 9 }, "targetExit": "exit3" },
+        { "id": "r4", "type": "VIP", "direction": "LEFT", "startPosition": { "x": 19, "y": 15 }, "targetExit": "exit4" },
+        { "id": "r5", "type": "URGENT", "direction": "DOWN", "startPosition": { "x": 5, "y": 1 }, "targetExit": "exit5", "timeLimit": 3 },
+        { "id": "r6", "type": "URGENT", "direction": "UP", "startPosition": { "x": 16, "y": 15 }, "targetExit": "exit6", "timeLimit": 4 },
+        { "id": "r7", "type": "NORMAL", "direction": "RIGHT", "startPosition": { "x": 1, "y": 3 }, "targetExit": "exit7" },
+        { "id": "r8", "type": "NORMAL", "direction": "RIGHT", "startPosition": { "x": 1, "y": 7 }, "targetExit": "exit8" },
+        { "id": "r9", "type": "NORMAL", "direction": "RIGHT", "startPosition": { "x": 1, "y": 11 }, "targetExit": "exit9" }
+      ],
+      "obstacles": [
+        { "id": "o1", "type": "WALL", "position": { "x": 7, "y": 2 }, "size": { "width": 2, "height": 3 } },
+        { "id": "o2", "type": "WALL", "position": { "x": 7, "y": 8 }, "size": { "width": 2, "height": 3 } },
+        { "id": "o3", "type": "TRAFFIC_LIGHT", "position": { "x": 5, "y": 1 }, "size": { "width": 1, "height": 1 }, "lightCycle": 1 },
+        { "id": "o4", "type": "TRAFFIC_LIGHT", "position": { "x": 16, "y": 15 }, "size": { "width": 1, "height": 1 }, "lightCycle": 1 }
+      ],
+      "exits": [
+        { "id": "exit1", "position": { "x": 19, "y": 1 } },
+        { "id": "exit2", "position": { "x": 19, "y": 5 } },
+        { "id": "exit3", "position": { "x": 19, "y": 9 } },
+        { "id": "exit4", "position": { "x": 1, "y": 15 } },
+        { "id": "exit5", "position": { "x": 5, "y": 15 } },
+        { "id": "exit6", "position": { "x": 16, "y": 1 } },
+        { "id": "exit7", "position": { "x": 19, "y": 3 } },
+        { "id": "exit8", "position": { "x": 19, "y": 7 } },
+        { "id": "exit9", "position": { "x": 19, "y": 11 } }
+      ],
+      "mapTheme": "residential", "hint": "传奇：4VIP+2加急3-4秒！"
+    },
+    {
+      "id": 49, "name": "传奇第四关", "difficulty": "legend",
+      "gridSize": { "width": 18, "height": 16 }, "timeLimit": 150,
+      "riders": [
+        { "id": "r1", "type": "VIP", "direction": "RIGHT", "startPosition": { "x": 1, "y": 8 }, "targetExit": "exit1" },
+        { "id": "r2", "type": "URGENT", "direction": "RIGHT", "startPosition": { "x": 1, "y": 1 }, "targetExit": "exit2", "timeLimit": 2 },
+        { "id": "r3", "type": "URGENT", "direction": "RIGHT", "startPosition": { "x": 1, "y": 2 }, "targetExit": "exit3", "timeLimit": 3 },
+        { "id": "r4", "type": "URGENT", "direction": "RIGHT", "startPosition": { "x": 1, "y": 14 }, "targetExit": "exit4", "timeLimit": 4 },
+        { "id": "r5", "type": "URGENT", "direction": "RIGHT", "startPosition": { "x": 1, "y": 15 }, "targetExit": "exit5", "timeLimit": 5 },
+        { "id": "r6", "type": "NORMAL", "direction": "RIGHT", "startPosition": { "x": 1, "y": 3 }, "targetExit": "exit6" },
+        { "id": "r7", "type": "NORMAL", "direction": "RIGHT", "startPosition": { "x": 1, "y": 13 }, "targetExit": "exit7" }
+      ],
+      "obstacles": [
+        { "id": "o1", "type": "TRAFFIC", "position": { "x": 4, "y": 1 }, "size": { "width": 1, "height": 2 }, "slowFactor": 0.05 },
+        { "id": "o2", "type": "TRAFFIC_LIGHT", "position": { "x": 6, "y": 8 }, "size": { "width": 1, "height": 1 }, "lightCycle": 1 }
+      ],
+      "exits": [
+        { "id": "exit1", "position": { "x": 17, "y": 8 } },
+        { "id": "exit2", "position": { "x": 17, "y": 1 } },
+        { "id": "exit3", "position": { "x": 17, "y": 2 } },
+        { "id": "exit4", "position": { "x": 17, "y": 14 } },
+        { "id": "exit5", "position": { "x": 17, "y": 15 } },
+        { "id": "exit6", "position": { "x": 17, "y": 3 } },
+        { "id": "exit7", "position": { "x": 17, "y": 13 } }
+      ],
+      "mapTheme": "commercial", "hint": "传奇极限：4加急2-5秒！"
+    },
+    {
+      "id": 50, "name": "传奇第五关",
+      "difficulty": "legend",
+      "gridSize": { "width": 20, "height": 18 },
+      "timeLimit": 250,
+      "riders": [
+        { "id": "r1", "type": "VIP", "direction": "RIGHT", "startPosition": { "x": 1, "y": 1 }, "targetExit": "exit1" },
+        { "id": "r2", "type": "VIP", "direction": "RIGHT", "startPosition": { "x": 1, "y": 5 }, "targetExit": "exit2" },
+        { "id": "r3", "type": "VIP", "direction": "RIGHT", "startPosition": { "x": 1, "y": 9 }, "targetExit": "exit3" },
+        { "id": "r4", "type": "VIP", "direction": "RIGHT", "startPosition": { "x": 1, "y": 13 }, "targetExit": "exit4" },
+        { "id": "r5", "type": "VIP", "direction": "LEFT", "startPosition": { "x": 19, "y": 17 }, "targetExit": "exit5" },
+        { "id": "r6", "type": "URGENT", "direction": "DOWN", "startPosition": { "x": 4, "y": 1 }, "targetExit": "exit6", "timeLimit": 2 },
+        { "id": "r7", "type": "URGENT", "direction": "DOWN", "startPosition": { "x": 8, "y": 1 }, "targetExit": "exit7", "timeLimit": 3 },
+        { "id": "r8", "type": "URGENT", "direction": "UP", "startPosition": { "x": 16, "y": 17 }, "targetExit": "exit8", "timeLimit": 4 },
+        { "id": "r9", "type": "NORMAL", "direction": "RIGHT", "startPosition": { "x": 1, "y": 3 }, "targetExit": "exit9" },
+        { "id": "r10", "type": "NORMAL", "direction": "RIGHT", "startPosition": { "x": 1, "y": 7 }, "targetExit": "exit10" },
+        { "id": "r11", "type": "NORMAL", "direction": "RIGHT", "startPosition": { "x": 1, "y": 11 }, "targetExit": "exit11" },
+        { "id": "r12", "type": "NORMAL", "direction": "RIGHT", "startPosition": { "x": 1, "y": 15 }, "targetExit": "exit12" }
+      ],
+      "obstacles": [
+        { "id": "o1", "type": "WALL", "position": { "x": 6, "y": 2 }, "size": { "width": 2, "height": 3 } },
+        { "id": "o2", "type": "WALL", "position": { "x": 6, "y": 6 }, "size": { "width": 2, "height": 3 } },
+        { "id": "o3", "type": "WALL", "position": { "x": 6, "y": 10 }, "size": { "width": 2, "height": 3 } },
+        { "id": "o4", "type": "WALL", "position": { "x": 6, "y": 14 }, "size": { "width": 2, "height": 2 } },
+        { "id": "o5", "type": "TRAFFIC_LIGHT", "position": { "x": 4, "y": 1 }, "size": { "width": 1, "height": 1 }, "lightCycle": 1 },
+        { "id": "o6", "type": "TRAFFIC_LIGHT", "position": { "x": 8, "y": 1 }, "size": { "width": 1, "height": 1 }, "lightCycle": 1 },
+        { "id": "o7", "type": "TRAFFIC_LIGHT", "position": { "x": 16, "y": 17 }, "size": { "width": 1, "height": 1 }, "lightCycle": 1 }
+      ],
+      "exits": [
+        { "id": "exit1", "position": { "x": 19, "y": 1 } },
+        { "id": "exit2", "position": { "x": 19, "y": 5 } },
+        { "id": "exit3", "position": { "x": 19, "y": 9 } },
+        { "id": "exit4", "position": { "x": 19, "y": 13 } },
+        { "id": "exit5", "position": { "x": 1, "y": 17 } },
+        { "id": "exit6", "position": { "x": 4, "y": 17 } },
+        { "id": "exit7", "position": { "x": 8, "y": 17 } },
+        { "id": "exit8", "position": { "x": 16, "y": 1 } },
+        { "id": "exit9", "position": { "x": 19, "y": 3 } },
+        { "id": "exit10", "position": { "x": 19, "y": 7 } },
+        { "id": "exit11", "position": { "x": 19, "y": 11 } },
+        { "id": "exit12", "position": { "x": 19, "y": 15 } }
+      ],
+      "mapTheme": "city",
+      "hint": "终极传奇：12骑手+5VIP+3加急2-4秒！通关大师！"
     }
   ]
 }
