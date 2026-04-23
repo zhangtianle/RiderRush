@@ -35,6 +35,8 @@ export { PlatformAdapter, PlatformType } from './utils/PlatformAdapter';
 
 // 导出测试模块
 export { runCoreTests } from './tests/CoreTests';
+export { runIntegrationTests } from './tests/IntegrationTests';
+export { runPerformanceTests } from './tests/PerformanceTests';
 
 // 导出数据类型
 export type { LevelDataJSON, RiderDataJSON, ObstacleDataJSON, ExitDataJSON } from './core/LevelManager';
@@ -47,6 +49,8 @@ import { ExpressionManager } from './utils/ExpressionManager';
 import { QuoteManager } from './utils/QuoteManager';
 import { SceneManager } from './utils/SceneManager';
 import { runCoreTests } from './tests/CoreTests';
+import { runIntegrationTests } from './tests/IntegrationTests';
+import { runPerformanceTests } from './tests/PerformanceTests';
 
 // 关卡数据（内联导入）
 import levelsData from './data/levels.json';
@@ -195,6 +199,8 @@ if (typeof window !== 'undefined') {
   (window as any).SceneManager = SceneManager;
   (window as any).testLevelLoad = testLevelLoad;
   (window as any).runCoreTests = runCoreTests;
+  (window as any).runIntegrationTests = runIntegrationTests;
+  (window as any).runPerformanceTests = runPerformanceTests;
 }
 
 // 开发模式：自动运行测试
@@ -203,5 +209,11 @@ if (process.env.NODE_ENV === 'development' || typeof process === 'undefined') {
   setTimeout(() => {
     console.log('\n[Dev Mode] 运行核心类测试...\n');
     runCoreTests();
+
+    console.log('\n[Dev Mode] 运行集成测试...\n');
+    runIntegrationTests();
+
+    console.log('\n[Dev Mode] 运行性能测试...\n');
+    runPerformanceTests();
   }, 100);
 }
