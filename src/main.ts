@@ -1,6 +1,6 @@
 /**
  * 入口文件
- * @version v0.2.0
+ * @version v0.5.0
  * @since 2026-04-25
  */
 
@@ -12,6 +12,7 @@ export { GameEngine, GameState } from './core/GameEngine';
 export { LevelManager } from './core/LevelManager';
 export { CollisionDetector, CollisionType, CollisionResult as CollisionResultType } from './core/CollisionDetector';
 export { EventBus, GameEventType } from './core/EventBus';
+export { GameLogicController } from './core/GameLogicController';
 
 // 导出UI组件
 export { MenuScene } from './ui/MenuScene';
@@ -29,6 +30,11 @@ export { AdMgr } from './utils/AdMgr';
 export { StorageMgr } from './utils/StorageMgr';
 export { ExpressionManager, ExpressionType } from './utils/ExpressionManager';
 export { QuoteManager, QuoteType } from './utils/QuoteManager';
+export { SceneManager, SceneType, SceneState } from './utils/SceneManager';
+export { PlatformAdapter, PlatformType } from './utils/PlatformAdapter';
+
+// 导出测试模块
+export { runCoreTests } from './tests/CoreTests';
 
 // 导出数据类型
 export type { LevelDataJSON, RiderDataJSON, ObstacleDataJSON, ExitDataJSON } from './core/LevelManager';
@@ -39,6 +45,8 @@ import { EventBus, GameEventType } from './core/EventBus';
 import { AudioMgr } from './utils/AudioMgr';
 import { ExpressionManager } from './utils/ExpressionManager';
 import { QuoteManager } from './utils/QuoteManager';
+import { SceneManager } from './utils/SceneManager';
+import { runCoreTests } from './tests/CoreTests';
 
 // 关卡数据（内联导入）
 import levelsData from './data/levels.json';
@@ -48,7 +56,7 @@ import levelsData from './data/levels.json';
  */
 export const GameConfig = {
   name: '外卖冲冲冲',
-  version: '0.2.0-alpha',
+  version: '0.5.0-alpha',
   maxLevels: 100
 };
 
@@ -144,6 +152,20 @@ function bindDebugEvents(): void {
   eventBus.on(GameEventType.AD_CANCELLED, () => {
     console.log('[Event] 广告取消');
   });
+
+  // VIP警告事件
+  eventBus.on('vip-warning', () => {
+    console.log('[Event] VIP订单必须先出发');
+  });
+
+  // 场景事件
+  eventBus.on('scene-enter', (scene: string) => {
+    console.log(`[Event] 进入场景: ${scene}`);
+  });
+
+  eventBus.on('scene-exit', (scene: string) => {
+    console.log(`[Event] 退出场景: ${scene}`);
+  });
 }
 
 /**
@@ -170,5 +192,16 @@ initGame();
 if (typeof window !== 'undefined') {
   (window as any).GameEngine = GameEngine;
   (window as any).EventBus = EventBus;
+  (window as any).SceneManager = SceneManager;
   (window as any).testLevelLoad = testLevelLoad;
+  (window as any).runCoreTests = runCoreTests;
+}
+
+// 开发模式：自动运行测试
+if (process.env.NODE_ENV === 'development' || typeof process === 'undefined') {
+  // 延迟运行测试，等待所有模块初始化
+  setTimeout(() => {
+    console.log('\n[Dev Mode] 运行核心类测试...\n');
+    runCoreTests();
+  }, 100);
 }
