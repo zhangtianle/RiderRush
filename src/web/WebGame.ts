@@ -54,33 +54,47 @@ export class WebGame {
   // ========== 构造函数 ==========
 
   constructor(canvasId: string) {
-    this.renderer = new GameRenderer(canvasId);
-    this.controller = new GameLogicController();
-    this.levelManager = LevelManager.getInstance();
-    this.levelManager.loadData(levelsData);
+    console.log('[WebGame] 构造函数开始');
 
-    // 获取UI元素
-    this.menuScreen = document.getElementById('menu-screen')!;
-    this.levelSelectScreen = document.getElementById('level-select-screen')!;
-    this.resultPanel = document.getElementById('result-panel')!;
-    this.failPanel = document.getElementById('fail-panel')!;
-    this.vipWarning = document.getElementById('vip-warning')!;
-    this.levelInfo = document.getElementById('level-info')!;
-    this.timerDisplay = document.getElementById('timer')!;
-    this.deliveredDisplay = document.getElementById('delivered')!;
-    this.hintDisplay = document.getElementById('hint')!;
-    this.quoteBubble = document.getElementById('quote-bubble')!;
-    this.instructions = document.getElementById('instructions')!;
+    // 先绑定占位函数防止报错
+    this.bindPlaceholderFunctions();
 
-    // 绑定事件
-    this.bindEvents();
-    this.bindCanvasEvents();
+    try {
+      this.renderer = new GameRenderer(canvasId);
+      this.controller = new GameLogicController();
+      this.levelManager = LevelManager.getInstance();
+      this.levelManager.loadData(levelsData);
 
-    // 显示菜单
-    this.showMenu();
+      // 获取UI元素
+      this.menuScreen = document.getElementById('menu-screen')!;
+      this.levelSelectScreen = document.getElementById('level-select-screen')!;
+      this.resultPanel = document.getElementById('result-panel')!;
+      this.failPanel = document.getElementById('fail-panel')!;
+      this.vipWarning = document.getElementById('vip-warning')!;
+      this.levelInfo = document.getElementById('level-info')!;
+      this.timerDisplay = document.getElementById('timer')!;
+      this.deliveredDisplay = document.getElementById('delivered')!;
+      this.hintDisplay = document.getElementById('hint')!;
+      this.quoteBubble = document.getElementById('quote-bubble')!;
+      this.instructions = document.getElementById('instructions')!;
 
-    // 绑定全局函数
-    this.bindGlobalFunctions();
+      console.log('[WebGame] UI元素获取完成');
+
+      // 绑定事件
+      this.bindEvents();
+      this.bindCanvasEvents();
+
+      // 显示菜单
+      this.showMenu();
+
+      // 绑定全局函数（正式）
+      this.bindGlobalFunctions();
+
+      console.log('[WebGame] 构造函数完成');
+    } catch (error: any) {
+      console.error('[WebGame] 初始化错误:', error);
+      alert('游戏初始化失败: ' + error.message);
+    }
   }
 
   // ========== 公共方法 ==========
@@ -139,18 +153,32 @@ export class WebGame {
    * 加载关卡
    */
   loadLevel(levelId: number): void {
+    console.log(`[WebGame] loadLevel(${levelId}) 开始`);
+
     const config = this.levelManager.getLevelConfig(levelId);
     if (!config) {
       console.error(`关卡 ${levelId} 不存在`);
       return;
     }
 
+    console.log(`[WebGame] config: riders=${config.riders?.length}, obstacles=${config.obstacles?.length}`);
+    if (config.riders && config.riders.length > 0) {
+      console.log(`[WebGame] rider[0]: ${JSON.stringify(config.riders[0])}`);
+    }
+
     const level = new Level(config);
+    console.log(`[WebGame] Level创建: ${level.riders.length}骑手`);
+    if (level.riders.length > 0) {
+      console.log(`[WebGame] level.riders[0].position: ${JSON.stringify(level.riders[0].position)}`);
+    }
+
     this.controller.setLevel(level);
     level.start();
 
     // 设置画布大小
     const cellSize = this.renderer.getConfig().cellSize;
+    console.log(`[WebGame] cellSize=${cellSize}, canvas=${level.gridSize.width * cellSize}x${level.gridSize.height * cellSize}`);
+
     this.renderer.setCanvasSize(
       level.gridSize.width * cellSize,
       level.gridSize.height * cellSize
@@ -169,7 +197,12 @@ export class WebGame {
     this.deliveredDisplay.textContent = `送达: 0/${level.riders.length}`;
     this.hintDisplay.textContent = '点击骑手开始移动';
 
-    console.log(`加载关卡 ${levelId}: ${level.name}`);
+    console.log(`[WebGame] 关卡加载完成, state=${this.state}`);
+
+    // 立即渲染一次
+    console.log(`[WebGame] 立即渲染...`);
+    this.render();
+    console.log(`[WebGame] 渲染完成`);
   }
 
   /**
@@ -272,15 +305,17 @@ export class WebGame {
    * 绑定事件
    */
   private bindEvents(): void {
-    EventBus.on(GameEventType.LEVEL_COMPLETE, (data: any) => {
+    const eventBus = EventBus.getInstance();
+
+    eventBus.on(GameEventType.LEVEL_COMPLETE, (data: any) => {
       this.showResult(data.stars, data.time);
     });
 
-    EventBus.on(GameEventType.LEVEL_FAILED, (data: any) => {
+    eventBus.on(GameEventType.LEVEL_FAILED, (data: any) => {
       this.showFail(data.reason || '未知原因');
     });
 
-    EventBus.on('vip-warning', () => {
+    eventBus.on('vip-warning', () => {
       this.showVIPWarning();
     });
   }
@@ -419,6 +454,19 @@ export class WebGame {
   }
 
   /**
+   * 绑定占位函数防止初始化时报错
+   */
+  private bindPlaceholderFunctions(): void {
+    (window as any).startGame = () => console.log('游戏正在初始化...');
+    (window as any).showLevelSelect = () => console.log('游戏正在初始化...');
+    (window as any).hideLevelSelect = () => console.log('游戏正在初始化...');
+    (window as any).retryLevel = () => console.log('游戏正在初始化...');
+    (window as any).nextLevel = () => console.log('游戏正在初始化...');
+    (window as any).toMenu = () => console.log('游戏正在初始化...');
+    (window as any).togglePause = () => console.log('游戏正在初始化...');
+  }
+
+  /**
    * 绑定全局函数供HTML调用
    */
   private bindGlobalFunctions(): void {
@@ -429,6 +477,7 @@ export class WebGame {
     (window as any).nextLevel = () => this.nextLevel();
     (window as any).toMenu = () => this.showMenu();
     (window as any).togglePause = () => this.togglePause();
+    console.log('[WebGame] 全局函数绑定完成');
   }
 }
 

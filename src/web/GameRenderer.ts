@@ -68,12 +68,18 @@ export class GameRenderer {
     this.canvas = document.getElementById(canvasId) as HTMLCanvasElement;
     this.ctx = this.canvas.getContext('2d')!;
 
+    // 根据canvas大小自动计算cellSize
+    const canvasWidth = this.canvas.width || 480;
+    const canvasHeight = this.canvas.height || 360;
+
     this.config = {
-      cellSize: config?.cellSize || 60,
-      riderSize: config?.riderSize || 40,
-      obstacleSize: config?.obstacleSize || 50,
-      exitSize: config?.exitSize || 40
+      cellSize: config?.cellSize || 80, // 使用80让6格填满480宽度
+      riderSize: config?.riderSize || 50,
+      obstacleSize: config?.obstacleSize || 60,
+      exitSize: config?.exitSize || 50
     };
+
+    console.log(`[GameRenderer] canvas大小: ${canvasWidth}x${canvasHeight}, cellSize: ${this.config.cellSize}`);
   }
 
   /**
@@ -333,10 +339,14 @@ export class GameRenderer {
   private renderRiders(riders: Rider[]): void {
     const { cellSize, riderSize } = this.config;
 
+    console.log(`[GameRenderer] renderRiders: ${riders.length}骑手, cellSize=${cellSize}, riderSize=${riderSize}`);
+
     riders.forEach(rider => {
       // 计算位置（浮点坐标用于平滑移动）
       const x = rider.position.x * cellSize + (cellSize - riderSize) / 2;
       const y = rider.position.y * cellSize + (cellSize - riderSize) / 2;
+
+      console.log(`[GameRenderer] 骑手 ${rider.id}: pos(${rider.position.x},${rider.position.y}) -> draw(${x},${y})`);
 
       // 根据类型选择颜色
       let baseColor: string;

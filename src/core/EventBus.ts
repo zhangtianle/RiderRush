@@ -37,6 +37,42 @@ export class EventBus {
   }
 
   /**
+   * 注册事件监听（静态方法）
+   * @description 直接通过类调用，内部使用单例
+   */
+  static on(eventName: string, callback: Function): void {
+    EventBus.getInstance().on(eventName, callback);
+  }
+
+  /**
+   * 移除事件监听（静态方法）
+   */
+  static off(eventName: string, callback: Function): void {
+    EventBus.getInstance().off(eventName, callback);
+  }
+
+  /**
+   * 触发事件（静态方法）
+   */
+  static emit(eventName: string, data?: any): void {
+    EventBus.getInstance().emit(eventName, data);
+  }
+
+  /**
+   * 单次监听（静态方法）
+   */
+  static once(eventName: string, callback: Function): void {
+    EventBus.getInstance().once(eventName, callback);
+  }
+
+  /**
+   * 清除监听（静态方法）
+   */
+  static clear(eventName?: string): void {
+    EventBus.getInstance().clear(eventName);
+  }
+
+  /**
    * 注册事件监听
    * @description 注册指定事件的监听函数
    * @param eventName 事件名称

@@ -110,6 +110,13 @@ export class Rider {
   // ========== 构造函数 ==========
 
   constructor(config: RiderConfig) {
+    console.log(`[Rider] 构造函数: id=${config.id}, startPosition=${JSON.stringify(config.startPosition)}`);
+
+    if (!config.startPosition) {
+      console.error(`[Rider] startPosition缺失! config=${JSON.stringify(config)}`);
+      config.startPosition = { x: 0, y: 0 };  // 默认值防止崩溃
+    }
+
     this.id = config.id;
     this.type = config.type;
     this.direction = config.direction;

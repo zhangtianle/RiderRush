@@ -32,6 +32,7 @@
 
     #game-canvas {
       display: block;
+      background: #16213e;
     }
 
     #ui-layer {
@@ -394,15 +395,23 @@
 </head>
 <body>
   <div id="game-container">
-    <canvas id="game-canvas"></canvas>
+    <canvas id="game-canvas" width="480" height="320" style="display:block;background:#16213e;"></canvas>
 
     <div id="ui-layer">
       <!-- 菜单界面 -->
       <div id="menu-screen">
-        <div id="menu-title">外卖冲冲冲</div>
-        <div id="menu-subtitle">v0.8.0-alpha Web试玩版</div>
-        <button class="menu-btn" onclick="startGame()">开始游戏</button>
-        <button class="menu-btn" onclick="showLevelSelect()">选择关卡</button>
+        <div id="menu-title">🛵 外卖冲冲冲</div>
+        <div id="menu-subtitle">点击骑手方块，送到绿色出口</div>
+        <div style="color:#888;font-size:12px;margin-bottom:20px;padding:10px;background:rgba(0,0,0,0.3);border-radius:8px;max-width:300px;">
+          <b>玩法说明：</b><br>
+          1️⃣ 点击黄色方块（骑手）开始移动<br>
+          2️⃣ 骑手会自动向箭头方向移动<br>
+          3️⃣ 送到绿色方块（出口）即可通关<br>
+          4️⃣ VIP骑手（橙色）必须先出发<br>
+          5️⃣ 加急骑手（红色）有时间限制
+        </div>
+        <button class="menu-btn" onclick="startGame()">▶ 开始游戏</button>
+        <button class="menu-btn" onclick="showLevelSelect()">📋 选择关卡</button>
       </div>
 
       <!-- 关卡选择界面 -->
@@ -451,6 +460,57 @@
     </div>
   </div>
 
+  <script>
+    // 先定义占位函数，防止点击报错
+    function startGame() {
+      console.log('startGame被调用');
+      if (window.gameInstance && window.gameInstance.startGame) {
+        window.gameInstance.startGame();
+      } else {
+        console.log('游戏正在加载...');
+      }
+    }
+
+    function showLevelSelect() {
+      console.log('showLevelSelect被调用');
+      if (window.gameInstance && window.gameInstance.showLevelSelect) {
+        window.gameInstance.showLevelSelect();
+      } else {
+        console.log('游戏正在加载...');
+      }
+    }
+
+    function hideLevelSelect() {
+      if (window.gameInstance) window.gameInstance.hideLevelSelect();
+    }
+
+    function retryLevel() {
+      if (window.gameInstance) window.gameInstance.retryLevel();
+    }
+
+    function nextLevel() {
+      if (window.gameInstance) window.gameInstance.nextLevel();
+    }
+
+    function toMenu() {
+      if (window.gameInstance) window.gameInstance.showMenu();
+    }
+
+    function togglePause() {
+      if (window.gameInstance) window.gameInstance.togglePause();
+    }
+    console.log('全局函数已定义');
+  </script>
   <script src="./dist/web.bundle.js"></script>
+  <script>
+    console.log('bundle加载完成');
+
+    // 检查window上的函数
+    if (window.startGame) {
+      console.log('window.startGame存在');
+    } else {
+      console.log('window.startGame不存在，使用占位函数');
+    }
+  </script>
 </body>
 </html>

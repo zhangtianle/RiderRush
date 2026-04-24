@@ -1,3 +1,6 @@
+import { Rider, RiderState, RiderType, Direction, RiderConfig } from './Rider';
+import { Obstacle, ObstacleType, TrafficLightState, ObstacleConfig } from './Obstacle';
+
 /**
  * 位置接口
  */
@@ -33,8 +36,8 @@ export interface LevelConfig {
   name: string;
   gridSize: { width: number; height: number };
   timeLimit?: number;
-  riders: any[];
-  obstacles: any[];
+  riders: RiderConfig[];  // 配置是RiderConfig数组
+  obstacles: ObstacleConfig[];  // 配置是ObstacleConfig数组
   exits: Exit[];
   mapTheme?: string;
 }
@@ -67,10 +70,10 @@ export class Level {
   timeRemaining: number;
 
   /** 骑手列表 */
-  riders: any[];
+  riders: Rider[];
 
   /** 阻碍列表 */
-  obstacles: any[];
+  obstacles: Obstacle[];
 
   /** 出口列表 */
   exits: Exit[];
@@ -104,17 +107,21 @@ export class Level {
     // 初始化状态
     this.state = LevelState.READY;
 
-    // 骑手和阻碍（暂时用any，后续替换为具体类型）
-    this.riders = config.riders;
-    this.obstacles = config.obstacles;
+    // 创建骑手实例
+    this.riders = config.riders.map(r => new Rider(r));
+
+    // 创建阻碍实例
+    this.obstacles = config.obstacles.map(o => new Obstacle(o));
 
     // 统计
     this.deliveredCount = 0;
     this.totalRiders = this.riders.length;
 
     // VIP检查
-    this.hasVIPRider = this.riders.some(r => r.type === 'VIP');
+    this.hasVIPRider = this.riders.some(r => r.type === RiderType.VIP);
     this.vipDelivered = false;
+
+    console.log(`[Level] 创建关卡 ${this.id}: ${this.totalRiders}骑手, ${this.obstacles.length}阻碍`);
   }
 
   // ========== 公共方法 ==========

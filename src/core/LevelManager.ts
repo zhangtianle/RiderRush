@@ -202,11 +202,17 @@ export class LevelManager {
    * @returns 韦手配置
    */
   private parseRiderData(data: RiderDataJSON): RiderConfig {
+    console.log(`[LevelManager] parseRiderData: id=${data.id}, startPosition=${JSON.stringify(data.startPosition)}`);
+
+    if (!data.startPosition) {
+      console.error(`[LevelManager] startPosition缺失! data=${JSON.stringify(data)}`);
+    }
+
     return {
       id: data.id,
       type: this.parseRiderType(data.type),
       direction: this.parseDirection(data.direction),
-      startPosition: data.startPosition,
+      startPosition: data.startPosition || { x: 0, y: 0 },
       targetExit: data.targetExit,
       speed: data.speed || 1,
       timeLimit: data.timeLimit || 0
