@@ -1,12 +1,14 @@
 {
   "name": "i_game",
-  "version": "0.1.0-alpha",
+  "version": "0.8.0-alpha",
   "description": "外卖冲冲冲 - 微信小游戏，箭头解谜类休闲游戏",
   "main": "src/main.ts",
   "scripts": {
-    "dev": "echo '请在Cocos Creator中打开项目进行开发'",
-    "build:wechat": "echo '请在Cocos Creator中构建微信小游戏'",
-    "build:douyin": "echo '请在Cocos Creator中构建抖音小游戏'"
+    "build:web": "esbuild src/web-entry.ts --bundle --outfile=web/dist/web.bundle.js --format=iife --platform=browser --target=es2015 --loader:.json=json",
+    "watch:web": "esbuild src/web-entry.ts --bundle --outfile=web/dist/web.bundle.js --format=iife --platform=browser --target=es2015 --loader:.json=json --watch",
+    "serve:web": "cd web && python3 -m http.server 8080",
+    "dev:web": "npm run build:web && npm run serve:web",
+    "test": "ts-node src/tests/CoreTests.ts"
   },
   "keywords": [
     "game",
@@ -19,8 +21,11 @@
   "license": "MIT",
   "repository": {
     "type": "git",
-    "url": ""
+    "url": "git@github.com:zhangtianle/i_game.git"
   },
-  "devDependencies": {},
-  "dependencies": {}
+  "devDependencies": {
+    "esbuild": "^0.21.5",
+    "ts-node": "^10.9.0",
+    "typescript": "^5.4.0"
+  }
 }

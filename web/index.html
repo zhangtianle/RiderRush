@@ -1,0 +1,456 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=no">
+  <title>外卖冲冲冲 - Web试玩版</title>
+  <style>
+    * {
+      margin: 0;
+      padding: 0;
+      box-sizing: border-box;
+    }
+
+    body {
+      background: #1a1a2e;
+      display: flex;
+      flex-direction: column;
+      justify-content: center;
+      align-items: center;
+      min-height: 100vh;
+      font-family: 'Microsoft YaHei', sans-serif;
+      overflow: hidden;
+    }
+
+    #game-container {
+      position: relative;
+      background: #16213e;
+      border-radius: 12px;
+      box-shadow: 0 10px 40px rgba(0,0,0,0.5);
+      overflow: hidden;
+    }
+
+    #game-canvas {
+      display: block;
+    }
+
+    #ui-layer {
+      position: absolute;
+      top: 0;
+      left: 0;
+      right: 0;
+      bottom: 0;
+      pointer-events: none;
+    }
+
+    #ui-layer > * {
+      pointer-events: auto;
+    }
+
+    #header {
+      position: absolute;
+      top: 10px;
+      left: 10px;
+      right: 10px;
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      color: white;
+      font-size: 16px;
+      z-index: 100;
+    }
+
+    #level-info {
+      background: rgba(0,0,0,0.5);
+      padding: 8px 16px;
+      border-radius: 8px;
+    }
+
+    #timer {
+      background: rgba(255,100,100,0.3);
+      padding: 8px 16px;
+      border-radius: 8px;
+      font-weight: bold;
+    }
+
+    #pause-btn {
+      background: rgba(255,255,255,0.2);
+      border: none;
+      color: white;
+      padding: 8px 16px;
+      border-radius: 8px;
+      cursor: pointer;
+      font-size: 14px;
+    }
+
+    #pause-btn:hover {
+      background: rgba(255,255,255,0.3);
+    }
+
+    #hud {
+      position: absolute;
+      bottom: 10px;
+      left: 10px;
+      right: 10px;
+      display: flex;
+      justify-content: space-between;
+      color: white;
+      font-size: 14px;
+      z-index: 100;
+    }
+
+    #delivered {
+      background: rgba(0,200,100,0.3);
+      padding: 8px 16px;
+      border-radius: 8px;
+    }
+
+    #hint {
+      position: absolute;
+      bottom: 60px;
+      left: 50%;
+      transform: translateX(-50%);
+      background: rgba(0,0,0,0.7);
+      color: #ffd700;
+      padding: 10px 20px;
+      border-radius: 8px;
+      font-size: 14px;
+      text-align: center;
+      z-index: 100;
+      max-width: 80%;
+    }
+
+    #quote-bubble {
+      position: absolute;
+      background: white;
+      color: #333;
+      padding: 8px 12px;
+      border-radius: 12px;
+      font-size: 12px;
+      max-width: 120px;
+      box-shadow: 0 2px 10px rgba(0,0,0,0.3);
+      z-index: 200;
+      display: none;
+    }
+
+    #quote-bubble::after {
+      content: '';
+      position: absolute;
+      bottom: -8px;
+      left: 20px;
+      border: 8px solid transparent;
+      border-top-color: white;
+    }
+
+    /* 菜单样式 */
+    #menu-screen {
+      position: absolute;
+      top: 0;
+      left: 0;
+      right: 0;
+      bottom: 0;
+      background: linear-gradient(135deg, #1a1a2e 0%, #16213e 100%);
+      display: flex;
+      flex-direction: column;
+      justify-content: center;
+      align-items: center;
+      z-index: 500;
+    }
+
+    #menu-screen.hidden {
+      display: none;
+    }
+
+    #menu-title {
+      color: #ffd700;
+      font-size: 32px;
+      font-weight: bold;
+      margin-bottom: 20px;
+      text-shadow: 0 0 20px rgba(255,215,0,0.5);
+    }
+
+    #menu-subtitle {
+      color: #888;
+      font-size: 14px;
+      margin-bottom: 40px;
+    }
+
+    .menu-btn {
+      background: linear-gradient(135deg, #ffd700 0%, #ffa500 100%);
+      border: none;
+      color: #333;
+      padding: 15px 40px;
+      border-radius: 25px;
+      font-size: 18px;
+      font-weight: bold;
+      cursor: pointer;
+      margin: 10px;
+      transition: transform 0.2s, box-shadow 0.2s;
+    }
+
+    .menu-btn:hover {
+      transform: scale(1.05);
+      box-shadow: 0 5px 20px rgba(255,215,0,0.5);
+    }
+
+    /* 关卡选择 */
+    #level-select-screen {
+      position: absolute;
+      top: 0;
+      left: 0;
+      right: 0;
+      bottom: 0;
+      background: linear-gradient(135deg, #1a1a2e 0%, #16213e 100%);
+      display: none;
+      flex-direction: column;
+      justify-content: flex-start;
+      align-items: center;
+      padding: 20px;
+      z-index: 500;
+      overflow-y: auto;
+    }
+
+    #level-select-screen.visible {
+      display: flex;
+    }
+
+    #level-select-title {
+      color: #ffd700;
+      font-size: 24px;
+      margin-bottom: 20px;
+    }
+
+    #level-grid {
+      display: grid;
+      grid-template-columns: repeat(5, 1fr);
+      gap: 10px;
+      max-width: 400px;
+    }
+
+    .level-card {
+      width: 60px;
+      height: 60px;
+      background: rgba(255,255,255,0.1);
+      border-radius: 10px;
+      display: flex;
+      justify-content: center;
+      align-items: center;
+      color: white;
+      font-size: 18px;
+      font-weight: bold;
+      cursor: pointer;
+      transition: all 0.2s;
+      position: relative;
+    }
+
+    .level-card:hover {
+      background: rgba(255,215,0,0.3);
+      transform: scale(1.1);
+    }
+
+    .level-card.locked {
+      background: rgba(100,100,100,0.3);
+      cursor: not-allowed;
+    }
+
+    .level-card.locked::after {
+      content: '🔒';
+      position: absolute;
+      font-size: 12px;
+    }
+
+    .level-card.completed::before {
+      content: '✓';
+      position: absolute;
+      top: -5px;
+      right: -5px;
+      background: #0f0;
+      color: #333;
+      width: 16px;
+      height: 16px;
+      border-radius: 50%;
+      font-size: 10px;
+      display: flex;
+      justify-content: center;
+      align-items: center;
+    }
+
+    /* 结果面板 */
+    #result-panel {
+      position: absolute;
+      top: 50%;
+      left: 50%;
+      transform: translate(-50%, -50%);
+      background: rgba(0,0,0,0.9);
+      border-radius: 20px;
+      padding: 30px;
+      color: white;
+      text-align: center;
+      z-index: 600;
+      display: none;
+      min-width: 200px;
+    }
+
+    #result-panel.visible {
+      display: block;
+    }
+
+    #result-title {
+      font-size: 24px;
+      color: #ffd700;
+      margin-bottom: 15px;
+    }
+
+    #result-stars {
+      font-size: 30px;
+      margin-bottom: 10px;
+    }
+
+    #result-time {
+      color: #888;
+      margin-bottom: 20px;
+    }
+
+    .result-btn {
+      background: linear-gradient(135deg, #ffd700 0%, #ffa500 100%);
+      border: none;
+      color: #333;
+      padding: 10px 25px;
+      border-radius: 20px;
+      font-size: 14px;
+      cursor: pointer;
+      margin: 5px;
+    }
+
+    /* 失败面板 */
+    #fail-panel {
+      position: absolute;
+      top: 50%;
+      left: 50%;
+      transform: translate(-50%, -50%);
+      background: rgba(100,50,50,0.9);
+      border-radius: 20px;
+      padding: 30px;
+      color: white;
+      text-align: center;
+      z-index: 600;
+      display: none;
+    }
+
+    #fail-panel.visible {
+      display: block;
+    }
+
+    #fail-title {
+      font-size: 24px;
+      color: #ff6b6b;
+      margin-bottom: 15px;
+    }
+
+    #fail-reason {
+      color: #888;
+      margin-bottom: 20px;
+    }
+
+    /* VIP警告 */
+    #vip-warning {
+      position: absolute;
+      top: 50%;
+      left: 50%;
+      transform: translate(-50%, -50%);
+      background: rgba(255,215,0,0.9);
+      color: #333;
+      padding: 15px 30px;
+      border-radius: 10px;
+      font-size: 16px;
+      font-weight: bold;
+      z-index: 400;
+      display: none;
+    }
+
+    #vip-warning.visible {
+      display: block;
+      animation: shake 0.5s;
+    }
+
+    @keyframes shake {
+      0%, 100% { transform: translate(-50%, -50%) rotate(0deg); }
+      25% { transform: translate(-50%, -50%) rotate(-5deg); }
+      75% { transform: translate(-50%, -50%) rotate(5deg); }
+    }
+
+    /* 指示文字 */
+    #instructions {
+      position: absolute;
+      top: 50%;
+      left: 50%;
+      transform: translate(-50%, -50%);
+      color: rgba(255,255,255,0.5);
+      font-size: 12px;
+      text-align: center;
+      z-index: 50;
+    }
+  </style>
+</head>
+<body>
+  <div id="game-container">
+    <canvas id="game-canvas"></canvas>
+
+    <div id="ui-layer">
+      <!-- 菜单界面 -->
+      <div id="menu-screen">
+        <div id="menu-title">外卖冲冲冲</div>
+        <div id="menu-subtitle">v0.8.0-alpha Web试玩版</div>
+        <button class="menu-btn" onclick="startGame()">开始游戏</button>
+        <button class="menu-btn" onclick="showLevelSelect()">选择关卡</button>
+      </div>
+
+      <!-- 关卡选择界面 -->
+      <div id="level-select-screen">
+        <div id="level-select-title">选择关卡</div>
+        <div id="level-grid"></div>
+        <button class="menu-btn" onclick="hideLevelSelect()" style="margin-top: 20px;">返回</button>
+      </div>
+
+      <!-- 游戏界面 -->
+      <div id="header">
+        <div id="level-info">关卡 1 - 入门第一关</div>
+        <div id="timer">时间: ∞</div>
+        <button id="pause-btn" onclick="togglePause()">暂停</button>
+      </div>
+
+      <div id="hud">
+        <div id="delivered">送达: 0/0</div>
+      </div>
+
+      <div id="hint">点击骑手开始移动</div>
+
+      <div id="quote-bubble"></div>
+
+      <div id="vip-warning">VIP订单必须先出发！</div>
+
+      <!-- 结果面板 -->
+      <div id="result-panel">
+        <div id="result-title">关卡完成！</div>
+        <div id="result-stars">⭐⭐⭐</div>
+        <div id="result-time">用时: 5.2秒</div>
+        <button class="result-btn" onclick="nextLevel()">下一关</button>
+        <button class="result-btn" onclick="retryLevel()">重试</button>
+        <button class="result-btn" onclick="toMenu()">返回菜单</button>
+      </div>
+
+      <!-- 失败面板 -->
+      <div id="fail-panel">
+        <div id="fail-title">关卡失败</div>
+        <div id="fail-reason">原因: 时间耗尽</div>
+        <button class="result-btn" onclick="retryLevel()">重试</button>
+        <button class="result-btn" onclick="toMenu()">返回菜单</button>
+      </div>
+
+      <div id="instructions">点击骑手方块开始移动<br>绿色方块为出口</div>
+    </div>
+  </div>
+
+  <script src="./dist/web.bundle.js"></script>
+</body>
+</html>
