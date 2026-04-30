@@ -166,6 +166,17 @@ export enum GameEventType {
   RIDER_CRASHED = 'rider_crashed',
   RIDER_WAITING = 'rider_waiting',
 
+  // 路径事件
+  RIDER_PATH_ASSIGNED = 'rider_path_assigned',
+  RIDER_PATH_CLEARED = 'rider_path_cleared',
+  ALL_RIDERS_LAUNCHED = 'all_riders_launched',
+
+  // 反馈事件
+  COMBO_ACHIEVED = 'combo_achieved',
+  NEAR_MISS = 'near_miss',
+  SCREEN_SHAKE = 'screen_shake',
+  RED_FLASH = 'red_flash',
+
   // 广告事件
   AD_SHOW = 'ad_show',
   AD_COMPLETE = 'ad_complete',
@@ -174,6 +185,11 @@ export enum GameEventType {
   // UI事件
   UI_BUTTON_CLICK = 'ui_button_click',
   UI_RESULT_SHOW = 'ui_result_show',
+
+  // 故事事件
+  SHOW_STORY = 'show_story',
+  SHOW_CHAPTER_INTRO = 'show_chapter_intro',
+  STORY_COMPLETE = 'story_complete',
 
   // 系统事件
   GAME_PAUSE = 'game_pause',

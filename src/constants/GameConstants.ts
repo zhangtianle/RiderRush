@@ -135,7 +135,16 @@ export const STORAGE_KEYS = {
   MUTED: 'audio_muted',
 
   /** 音量 */
-  VOLUME: 'audio_volume'
+  VOLUME: 'audio_volume',
+
+  /** 故事已看关卡列表 */
+  STORY_SEEN_LEVELS: 'story_seen_levels',
+
+  /** 故事已看章节列表 */
+  STORY_SEEN_CHAPTERS: 'story_seen_chapters',
+
+  /** 故事开关 */
+  STORY_ENABLED: 'story_enabled'
 };
 
 /** 广告配置 */
@@ -163,4 +172,16 @@ export const SCORE_CONSTANTS = {
 
   /** 加急额外加分 */
   URGENT_BONUS: 30
+};
+
+/** 路径与反馈常量 */
+export const PATH_CONSTANTS = {
+  /** 差一点就过了判定比例 */
+  NEAR_MISS_RATIO: 0.8,
+
+  /** 连击窗口时间（毫秒） */
+  COMBO_WINDOW_MS: 2000,
+
+  /** 教程关卡ID列表 */
+  TUTORIAL_LEVELS: [1, 2, 3, 4, 5]
 };

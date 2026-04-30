@@ -93,6 +93,12 @@ export class Level {
   /** VIP骑手是否已送达 */
   vipDelivered: boolean;
 
+  /** 自定义星级阈值（秒） */
+  starThresholds?: { 3: number; 2: number };
+
+  /** 失败原因 */
+  failReason?: string;
+
   // ========== 构造函数 ==========
 
   constructor(config: LevelConfig) {
@@ -120,6 +126,7 @@ export class Level {
     // VIP检查
     this.hasVIPRider = this.riders.some(r => r.type === RiderType.VIP);
     this.vipDelivered = false;
+    this.starThresholds = undefined;
 
     console.log(`[Level] 创建关卡 ${this.id}: ${this.totalRiders}骑手, ${this.obstacles.length}阻碍`);
   }
@@ -184,7 +191,7 @@ export class Level {
     if (this.timeLimit > 0) {
       this.timeRemaining -= dt;
       if (this.timeRemaining <= 0) {
-        this.handleFailure();
+        this.handleFailure('timeout');
         return;
       }
     }
@@ -205,7 +212,9 @@ export class Level {
     if (this.checkVictory()) {
       this.handleVictory();
     } else if (this.checkFailure()) {
-      this.handleFailure();
+      // 判断具体失败原因
+      const reason = this.timeRemaining <= 0 ? 'timeout' : 'urgent';
+      this.handleFailure(reason);
     }
   }
 
@@ -276,10 +285,11 @@ export class Level {
   /**
    * 处理失败
    * @description 关卡失败处理
+   * @param reason 失败原因（collision/timeout/vipFail）
    */
-  handleFailure(): void {
+  handleFailure(reason: string = 'collision'): void {
     this.state = LevelState.FAILED;
-    // 触发失败事件
+    this.failReason = reason;
   }
 
   /**
@@ -369,12 +379,26 @@ export class Level {
    * @returns 星级数量（1-3）
    */
   getStars(): number {
-    if (this.completionTime < 30) {
+    const t3 = this.starThresholds?.[3] ?? 30;
+    const t2 = this.starThresholds?.[2] ?? 60;
+    if (this.completionTime < t3) {
       return 3;
-    } else if (this.completionTime < 60) {
+    } else if (this.completionTime < t2) {
       return 2;
     } else {
       return 1;
     }
+  }
+
+  /**
+   * 差一点就过了检测
+   * @returns 失败且已送达≥80%骑手
+   */
+  isNearMiss(): boolean {
+    if (this.state !== LevelState.FAILED) return false;
+    if (this.deliveredCount === 0) return false;
+    // 至少送达80%（向下取整），且未全部送达
+    const threshold = Math.floor(this.totalRiders * 0.8);
+    return this.deliveredCount >= threshold && this.deliveredCount < this.totalRiders;
   }
 }

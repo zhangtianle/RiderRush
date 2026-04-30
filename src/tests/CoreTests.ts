@@ -9,6 +9,8 @@ import { Rider, RiderState, RiderType, Direction } from '../core/Rider';
 import { Obstacle, ObstacleType, TrafficLightState } from '../core/Obstacle';
 import { Level, LevelState } from '../core/Level';
 import { CollisionDetector, CollisionType } from '../core/CollisionDetector';
+import { StoryManager } from '../utils/StoryManager';
+import storyData from '../data/story.json';
 
 /**
  * 测试结果
@@ -35,6 +37,7 @@ class TestSuite {
     this.testRiderCreation();
     this.testRiderMovement();
     this.testRiderCollision();
+    this.testCollisionBetweenRiders();
     this.testRiderVIP();
     this.testRiderUrgent();
 
@@ -52,6 +55,12 @@ class TestSuite {
     this.testObstacleCollision();
     this.testExitCollision();
     this.testRiderCollision();
+
+    // StoryManager 测试
+    this.testStoryManagerInit();
+    this.testStoryManagerChapter();
+    this.testStoryManagerLevelStory();
+    this.testStoryManagerMessages();
 
     // 输出结果
     this.printResults();
@@ -118,7 +127,7 @@ class TestSuite {
     });
 
     this.assert('VIP类型', vip.type === RiderType.VIP, 'VIP类型正确');
-    this.assert('VIP表情', vip.expression === 'normal', 'VIP表情默认normal');
+    this.assert('VIP表情', vip.currentExpression === 'normal', 'VIP表情默认normal');
   }
 
   testRiderUrgent(): void {
@@ -178,7 +187,7 @@ class TestSuite {
   // ========== Level 测试 ==========
 
   testLevelCreation(): void {
-    const levelConfig = {
+    const levelConfig: any = {
       id: 1,
       name: '测试关卡',
       difficulty: 'easy',
@@ -202,7 +211,7 @@ class TestSuite {
   }
 
   testLevelVictory(): void {
-    const levelConfig = {
+    const levelConfig: any = {
       id: 2,
       name: '胜利测试',
       difficulty: 'easy',
@@ -228,7 +237,7 @@ class TestSuite {
   }
 
   testLevelFailure(): void {
-    const levelConfig = {
+    const levelConfig: any = {
       id: 3,
       name: '失败测试',
       difficulty: 'easy',
@@ -324,7 +333,7 @@ class TestSuite {
     this.assert('出口碰撞', result.type === CollisionType.EXIT, '到达出口应检测到EXIT');
   }
 
-  testRiderCollision(): void {
+  testCollisionBetweenRiders(): void {
     const detector = new CollisionDetector();
 
     const rider1 = new Rider({
@@ -348,17 +357,66 @@ class TestSuite {
     rider1.startMove();
     rider2.startMove();
 
-    rider1.update(0.5); // 位置变为 (0.5, 0)
-    rider2.update(0.5); // 位置变为 (1.5, 0)
+    rider1.update(0.5);
+    rider2.update(0.5);
 
-    // 继续移动到碰撞点
-    rider1.update(0.5); // (1, 0)
-    rider2.update(0.5); // (1, 0)
+    rider1.update(0.5);
+    rider2.update(0.5);
 
     const gridSize = { width: 6, height: 4 };
     const result = detector.checkRiderCollision(rider1, [], [rider2], [], gridSize);
 
     this.assert('骑手碰撞', result.type === CollisionType.RIDER, '骑手相撞应检测到RIDER');
+  }
+
+  // ========== StoryManager 测试 ==========
+
+  testStoryManagerInit(): void {
+    const manager = StoryManager.getInstance();
+    manager.loadData(storyData as any);
+
+    this.assert('故事管理器初始化', manager !== null, 'StoryManager应成功初始化');
+    this.assert('世界观数据', manager.getWorld() !== null, '应有世界观数据');
+  }
+
+  testStoryManagerChapter(): void {
+    const manager = StoryManager.getInstance();
+
+    const chapter1 = manager.getCurrentChapter(1);
+    this.assert('获取章节1', chapter1?.id === 1, '关卡1应在第1章');
+
+    const chapter2 = manager.getCurrentChapter(11);
+    this.assert('获取章节2', chapter2?.id === 2, '关卡11应在第2章');
+
+    const introLevels = manager.getChapterIntroLevels();
+    this.assert('章节首关列表', introLevels.includes(1) && introLevels.includes(11), '应包含章节首关ID');
+  }
+
+  testStoryManagerLevelStory(): void {
+    const manager = StoryManager.getInstance();
+
+    const story1 = manager.getLevelStory(1);
+    this.assert('关卡1剧情', story1 !== null && story1.characters.length > 0, '关卡1应有剧情');
+
+    const noStory = manager.getLevelStory(99);
+    this.assert('无剧情关卡', noStory === null, '关卡99应无剧情');
+  }
+
+  testStoryManagerMessages(): void {
+    const manager = StoryManager.getInstance();
+
+    const successMsg = manager.getSuccessMessage(1);
+    this.assert('胜利文案', successMsg.length > 0, '应有胜利文案');
+
+    const failMsg = manager.getFailMessage(1, 'collision');
+    this.assert('失败文案', failMsg.length > 0, '应有失败文案');
+
+    // 测试开关功能
+    manager.setStoryEnabled(false);
+    this.assert('故事关闭', !manager.isStoryEnabled(), '故事开关应可关闭');
+
+    manager.setStoryEnabled(true);
+    this.assert('故事开启', manager.isStoryEnabled(), '故事开关应可开启');
   }
 
   // ========== 辅助方法 ==========

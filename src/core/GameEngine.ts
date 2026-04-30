@@ -15,6 +15,7 @@ import { EventBus, GameEventType } from './EventBus';
 import { AudioMgr } from '../utils/AudioMgr';
 import { AdMgr } from '../utils/AdMgr';
 import { StorageMgr } from '../utils/StorageMgr';
+import { StoryManager } from '../utils/StoryManager';
 
 /**
  * 游戏主引擎
@@ -55,6 +56,12 @@ export class GameEngine {
   /** 存储管理器 */
   storageManager: StorageMgr;
 
+  /** 故事管理器 */
+  storyManager: StoryManager;
+
+  /** 是否可通过分享复活（每关限1次） */
+  canReviveByShare: boolean = true;
+
   /** 单例 */
   private static instance: GameEngine;
 
@@ -78,6 +85,7 @@ export class GameEngine {
     this.audioManager = AudioMgr.getInstance();
     this.adManager = AdMgr.getInstance();
     this.storageManager = StorageMgr.getInstance();
+    this.storyManager = StoryManager.getInstance();
   }
 
   // ========== 单例获取 ==========
@@ -177,15 +185,76 @@ export class GameEngine {
 
   /**
    * 开始当前关卡
-   * @description 开始已加载的关卡
+   * @description 开始已加载的关卡，检查是否有故事需要展示
    */
   startLevel(): void {
     if (this.currentLevel) {
+      // 检查是否需要展示章节介绍
+      if (this.storyManager.shouldShowChapterIntro(this.currentLevelId)) {
+        const chapter = this.storyManager.getCurrentChapter(this.currentLevelId);
+        if (chapter) {
+          EventBus.emit(GameEventType.SHOW_CHAPTER_INTRO, {
+            chapterId: chapter.id,
+            title: chapter.title,
+            intro: chapter.intro
+          });
+          return; // 等待章节介绍完成后再继续
+        }
+      }
+
+      // 检查是否需要展示关卡剧情
+      if (this.storyManager.shouldShowLevelStory(this.currentLevelId)) {
+        const levelStory = this.storyManager.getLevelStory(this.currentLevelId);
+        if (levelStory) {
+          EventBus.emit(GameEventType.SHOW_STORY, {
+            levelId: this.currentLevelId,
+            prelude: levelStory.prelude,
+            characters: levelStory.characters
+          });
+          return; // 等待剧情展示完成后再继续
+        }
+      }
+
+      // 无故事或故事已看完，直接开始关卡
       this.currentLevel.init();
       this.currentLevel.start();
       this.gameState = GameState.PLAYING;
       console.log('关卡开始');
     }
+  }
+
+  /**
+   * 继续关卡（故事展示完成后调用）
+   * @description 故事展示完成后启动关卡游戏逻辑
+   */
+  continueAfterStory(): void {
+    if (this.currentLevel) {
+      this.currentLevel.init();
+      this.currentLevel.start();
+      this.gameState = GameState.PLAYING;
+      console.log('故事展示完成，关卡开始');
+    }
+  }
+
+  /**
+   * 标记故事已查看
+   * @description 记录章节介绍或关卡剧情已查看
+   */
+  markStoryViewed(type: 'chapter' | 'level', id: number): void {
+    if (type === 'chapter') {
+      this.storyManager.markChapterSeen(id);
+    } else {
+      this.storyManager.markLevelSeen(id);
+    }
+  }
+
+  /**
+   * 判断是否需要展示故事
+   */
+  shouldShowStory(): boolean {
+    return this.storyManager.isStoryEnabled() &&
+           (this.storyManager.shouldShowChapterIntro(this.currentLevelId) ||
+            this.storyManager.shouldShowLevelStory(this.currentLevelId));
   }
 
   /**
@@ -305,9 +374,27 @@ export class GameEngine {
     console.log('广告复活');
 
     if (this.currentLevel) {
-      // 复活逻辑：重置时间，保留已送达的骑手
       this.currentLevel.revive();
       this.gameState = GameState.PLAYING;
+    }
+  }
+
+  /**
+   * 分享复活
+   * @description 通过分享给好友获得复活机会（每关限1次）
+   */
+  reviveByShare(): void {
+    if (!this.canReviveByShare) {
+      console.warn('本关已使用分享复活');
+      return;
+    }
+
+    console.log('分享复活');
+
+    if (this.currentLevel) {
+      this.currentLevel.revive();
+      this.gameState = GameState.PLAYING;
+      this.canReviveByShare = false;
     }
   }
 
@@ -362,9 +449,20 @@ export class GameEngine {
     }
 
     if (this.currentLevel.state === LevelState.SUCCESS) {
-      EventBus.emit(GameEventType.LEVEL_COMPLETE, this.currentLevelId);
+      const successMessage = this.storyManager.getSuccessMessage(this.currentLevelId);
+      EventBus.emit(GameEventType.LEVEL_COMPLETE, {
+        levelId: this.currentLevelId,
+        message: successMessage
+      });
     } else if (this.currentLevel.state === LevelState.FAILED) {
-      EventBus.emit(GameEventType.LEVEL_FAILED, this.currentLevelId);
+      // 获取失败类型（collision或timeout）
+      const failType = this.currentLevel.failReason || 'collision';
+      const failMessage = this.storyManager.getFailMessage(this.currentLevelId, failType);
+      EventBus.emit(GameEventType.LEVEL_FAILED, {
+        levelId: this.currentLevelId,
+        reason: failType,
+        message: failMessage
+      });
     }
   }
 

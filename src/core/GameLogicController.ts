@@ -5,17 +5,19 @@
  * @since 2026-04-25
  */
 
-import { Rider, RiderState, RiderType, Direction } from './Rider';
+import { Rider, RiderState, RiderType, Direction, Position } from './Rider';
 import { Obstacle, ObstacleType, TrafficLightState } from './Obstacle';
 import { Level, LevelState } from './Level';
 import { CollisionDetector, CollisionType } from './CollisionDetector';
 import { EventBus, GameEventType } from './EventBus';
+import { PathDrawer } from './PathDrawer';
+import { PathValidator } from './PathValidator';
 import { AudioMgr } from '../utils/AudioMgr';
 import { QuoteManager, QuoteType } from '../utils/QuoteManager';
 
 /**
  * 游戏逻辑控制器
- * @description 处理骑手移动、碰撞检测、状态更新
+ * @description 处理路径规划、骑手移动、碰撞检测、状态更新
  */
 export class GameLogicController {
   // ========== 属性 ==========
@@ -24,6 +26,8 @@ export class GameLogicController {
   private riders: Rider[] = [];
   private obstacles: Obstacle[] = [];
   private collisionDetector: CollisionDetector;
+  private pathDrawer: PathDrawer;
+  private pathValidator: PathValidator;
   private audioMgr: AudioMgr;
   private quoteMgr: QuoteManager;
 
@@ -42,10 +46,24 @@ export class GameLogicController {
   /** 碰撞冷却时间（毫秒） */
   private COLLISION_COOLDOWN_MS: number = 500;
 
+  /** 连击计数 */
+  private comboCount: number = 0;
+
+  /** 上次送达时间 */
+  private lastDeliveryTime: number = 0;
+
+  /** 连击窗口（毫秒） */
+  private COMBO_WINDOW_MS: number = 2000;
+
+  /** 骑手是否已出发（进入MOVING阶段后不可再画路径） */
+  private ridersLaunched: boolean = false;
+
   // ========== 构造函数 ==========
 
   constructor() {
     this.collisionDetector = new CollisionDetector();
+    this.pathDrawer = new PathDrawer();
+    this.pathValidator = new PathValidator();
     this.audioMgr = AudioMgr.getInstance();
     this.quoteMgr = QuoteManager.getInstance();
   }
@@ -63,61 +81,144 @@ export class GameLogicController {
     this.deliveredRiders.clear();
     this.movingRiders.clear();
     this.collisionCooldown.clear();
+    this.comboCount = 0;
+    this.lastDeliveryTime = 0;
+    this.ridersLaunched = false;
+
+    // 设置路径绘制器的关卡数据
+    const exits = (level.exits || []).map((e: any) => e.position || e);
+    this.pathDrawer.setLevelData(this.obstacles, exits, level.gridSize);
   }
 
   /**
-   * 选择骑手开始移动
+   * 为骑手分配路径
    * @param riderId 韦手ID
-   * @returns 是否成功开始移动
+   * @param path 路径点数组
+   * @returns 是否成功分配
    */
-  selectRider(riderId: string): boolean {
-    const rider = this.riders.find(r => r.id === riderId);
+  assignPath(riderId: string, path: Position[]): boolean {
+    if (this.ridersLaunched) {
+      console.warn('骑手已出发，不能再分配路径');
+      return false;
+    }
 
+    const rider = this.riders.find(r => r.id === riderId);
     if (!rider) {
       console.warn(`韦手 ${riderId} 不存在`);
       return false;
     }
 
-    // 检查骑手是否可移动
-    if (rider.state !== RiderState.IDLE) {
-      console.warn(`韦手 ${riderId} 当前状态不可移动: ${rider.state}`);
+    if (rider.state !== RiderState.IDLE || rider.hasDelivered) {
+      console.warn(`韦手 ${riderId} 不可分配路径`);
       return false;
     }
 
-    // 检查是否已送达
-    if (rider.hasDelivered) {
-      console.warn(`韦手 ${riderId} 已送达`);
+    // 验证路径
+    const exits = (this.level?.exits || []).map((e: any) => e.position || e);
+    const result = this.pathValidator.validatePath(
+      path,
+      rider.position,
+      this.obstacles,
+      exits,
+      this.level?.gridSize || { width: 10, height: 8 }
+    );
+
+    if (!result.valid) {
+      console.warn(`路径无效: ${result.reason}`);
       return false;
     }
 
-    // VIP检查：如果有VIP未送达，其他骑手不能先出发
+    // VIP检查：如果有未规划路径的VIP，普通骑手不能先画路径
     if (rider.type !== RiderType.VIP) {
-      const hasUndeliveredVIP = this.riders.some(
-        r => r.type === RiderType.VIP && !r.hasDelivered && r.state === RiderState.IDLE
+      const hasUnassignedVIP = this.riders.some(
+        r => r.type === RiderType.VIP && !r.hasDelivered && !r.hasPath && r.id !== riderId
       );
-      if (hasUndeliveredVIP) {
-        console.warn('VIP订单必须先出发');
+      if (hasUnassignedVIP) {
+        console.warn('VIP订单必须先规划路径');
         EventBus.emit('vip-warning');
         return false;
       }
     }
 
-    // 开始移动
-    rider.startMove();
-    this.movingRiders.add(riderId);
-
-    // 播放音效
+    // 设置路径
+    rider.setPath(path);
     this.audioMgr.play('launch');
+    this.quoteMgr.showQuote(riderId, QuoteType.LAUNCH);
 
-    // 显示台词
-    const quoteType = this.quoteMgr.getQuoteTypeByState(RiderState.MOVING, rider.type);
-    this.quoteMgr.showQuote(riderId, quoteType);
-
-    // 触发事件
-    EventBus.emit(GameEventType.RIDER_START_MOVE, rider);
-
-    console.log(`韦手 ${riderId} 开始移动`);
+    EventBus.emit(GameEventType.RIDER_PATH_ASSIGNED, { riderId, path });
+    console.log(`韦手 ${riderId} 路径已规划`);
     return true;
+  }
+
+  /**
+   * 发起所有已规划路径的骑手
+   * @returns 是否成功发起
+   */
+  launchAllRiders(): boolean {
+    if (this.ridersLaunched) {
+      console.warn('骑手已出发');
+      return false;
+    }
+
+    const ridersWithPath = this.riders.filter(r => r.hasPath && !r.hasDelivered);
+    if (ridersWithPath.length === 0) {
+      console.warn('没有已规划路径的骑手');
+      return false;
+    }
+
+    // VIP优先：先发VIP
+    const vipRiders = ridersWithPath.filter(r => r.type === RiderType.VIP);
+    const otherRiders = ridersWithPath.filter(r => r.type !== RiderType.VIP);
+
+    const launchSequence = [...vipRiders, ...otherRiders];
+
+    let delay = 0;
+    for (const rider of launchSequence) {
+      rider.startMove();
+      this.movingRiders.add(rider.id);
+      EventBus.emit(GameEventType.RIDER_START_MOVE, rider);
+      delay += 200;
+    }
+
+    this.ridersLaunched = true;
+    EventBus.emit(GameEventType.ALL_RIDERS_LAUNCHED, { count: launchSequence.length });
+    console.log(`发起 ${launchSequence.length} 个骑手`);
+    return true;
+  }
+
+  /**
+   * 清除所有骑手路径（重画）
+   */
+  clearAllPaths(): void {
+    if (this.ridersLaunched) return;
+
+    this.riders.forEach(rider => {
+      if (rider.hasPath && !rider.hasDelivered) {
+        rider.clearPath();
+        EventBus.emit(GameEventType.RIDER_PATH_CLEARED, rider.id);
+      }
+    });
+  }
+
+  /**
+   * 获取路径绘制器
+   */
+  getPathDrawer(): PathDrawer {
+    return this.pathDrawer;
+  }
+
+  /**
+   * 获取已规划路径的骑手数量
+   */
+  getPlannedCount(): number {
+    return this.riders.filter(r => r.hasPath && !r.hasDelivered).length;
+  }
+
+  /**
+   * 骑手是否已出发
+   */
+  isLaunched(): boolean {
+    return this.ridersLaunched;
   }
 
   /**
@@ -174,6 +275,9 @@ export class GameLogicController {
     this.deliveredRiders.clear();
     this.movingRiders.clear();
     this.collisionCooldown.clear();
+    this.comboCount = 0;
+    this.lastDeliveryTime = 0;
+    this.ridersLaunched = false;
     this.isPaused = false;
   }
 
@@ -332,12 +436,10 @@ export class GameLogicController {
   private handleReachExit(rider: Rider, exit: any): void {
     // VIP检查：如果不是VIP且第一个送达
     if (rider.type !== RiderType.VIP && this.deliveredRiders.size === 0) {
-      // 检查是否有未送达的VIP
       const hasUndeliveredVIP = this.riders.some(
         r => r.type === RiderType.VIP && !r.hasDelivered
       );
       if (hasUndeliveredVIP) {
-        // 非VIP不能第一个送达
         console.warn('VIP必须第一个送达！');
         rider.state = RiderState.CRASHED;
         rider.changeExpression('sad');
@@ -355,18 +457,27 @@ export class GameLogicController {
     this.deliveredRiders.add(rider.id);
     this.movingRiders.delete(rider.id);
 
-    // 播放成功音效
+    // 连击检测
+    const now = Date.now();
+    if (now - this.lastDeliveryTime < this.COMBO_WINDOW_MS && this.lastDeliveryTime > 0) {
+      this.comboCount++;
+      if (this.comboCount >= 2) {
+        EventBus.emit(GameEventType.COMBO_ACHIEVED, {
+          count: this.comboCount,
+          position: rider.position
+        });
+      }
+    } else {
+      this.comboCount = 1;
+    }
+    this.lastDeliveryTime = now;
+
     this.audioMgr.play('success');
-
-    // 显示台词
     this.quoteMgr.showQuote(rider.id, QuoteType.SUCCESS);
-
-    // 触发事件
     EventBus.emit(GameEventType.RIDER_DELIVERED, rider);
 
     console.log(`韦手 ${rider.id} 成功送达`);
 
-    // 更新关卡送达数量
     if (this.level) {
       this.level.deliveredCount++;
     }
@@ -408,6 +519,7 @@ export class GameLogicController {
       setTimeout(() => {
         rider.reset();
         this.movingRiders.delete(rider.id);
+        this.checkAndResetLaunchState();
       }, this.COLLISION_COOLDOWN_MS);
     }
   }
@@ -418,7 +530,6 @@ export class GameLogicController {
    * @param rider2 韦手2
    */
   private handleRiderCollision(rider: Rider, otherRider: Rider): void {
-    // 两个骑手都弹回
     rider.state = RiderState.CRASHED;
     rider.changeExpression('sad');
 
@@ -427,20 +538,21 @@ export class GameLogicController {
       otherRider.changeExpression('sad');
     }
 
-    // 播放撞车音效
     this.audioMgr.play('crash');
-
-    // 显示台词
     this.quoteMgr.showQuote(rider.id, QuoteType.CRASH);
+
+    // 屏幕震动和红色闪屏
+    EventBus.emit(GameEventType.SCREEN_SHAKE, { intensity: 8, duration: 300 });
+    EventBus.emit(GameEventType.RED_FLASH, {});
 
     console.log(`韦手 ${rider.id} 和 ${otherRider.id} 撞车`);
 
-    // 延迟弹回
     setTimeout(() => {
       rider.reset();
       otherRider.reset();
       this.movingRiders.delete(rider.id);
       this.movingRiders.delete(otherRider.id);
+      this.checkAndResetLaunchState();
     }, this.COLLISION_COOLDOWN_MS);
 
     EventBus.emit(GameEventType.RIDER_CRASHED, { rider1: rider, rider2: otherRider });
@@ -457,12 +569,15 @@ export class GameLogicController {
     this.audioMgr.play('crash');
     this.quoteMgr.showQuote(rider.id, QuoteType.CRASH);
 
+    EventBus.emit(GameEventType.SCREEN_SHAKE, { intensity: 6, duration: 200 });
+    EventBus.emit(GameEventType.RED_FLASH, {});
+
     console.log(`韦手 ${rider.id} 超出边界`);
 
-    // 延迟弹回
     setTimeout(() => {
       rider.reset();
       this.movingRiders.delete(rider.id);
+      this.checkAndResetLaunchState();
     }, this.COLLISION_COOLDOWN_MS);
   }
 
@@ -480,7 +595,7 @@ export class GameLogicController {
 
     // 触发关卡失败
     if (this.level) {
-      this.level.handleFailure();
+      this.level.handleFailure('urgent');
     }
 
     EventBus.emit(GameEventType.LEVEL_FAILED, this.level?.id);
@@ -501,7 +616,25 @@ export class GameLogicController {
 
     // 检查失败（时间耗尽）
     if (this.level.timeLimit > 0 && this.level.timeRemaining <= 0) {
-      this.handleFailure('时间耗尽');
+      this.handleFailure('timeout');
+    }
+
+    // 检查死锁：所有骑手都回到IDLE/WAITING且无人在移动，且未全部送达
+    // 延迟确认：ridersLaunched设置后至少1秒才检测，避免launch瞬间误判
+    if (this.ridersLaunched && this.movingRiders.size === 0) {
+      const elapsed = this.level.getElapsedTime();
+      if (elapsed < 1) return;
+
+      const allStopped = this.riders.every(r =>
+        r.state === RiderState.IDLE || r.state === RiderState.WAITING || r.state === RiderState.CRASHED
+      );
+      if (allStopped && this.deliveredRiders.size < this.riders.length) {
+        // CRASHED的骑手可能还在setTimeout弹回中，等它们reset完
+        const anyCrashed = this.riders.some(r => r.state === RiderState.CRASHED);
+        if (!anyCrashed) {
+          this.handleFailure('collision');
+        }
+      }
     }
   }
 
@@ -537,7 +670,7 @@ export class GameLogicController {
       return;
     }
 
-    this.level.handleFailure();
+    this.level.handleFailure(reason);
 
     // 播放失败音效
     this.audioMgr.play('level_fail');
@@ -551,6 +684,20 @@ export class GameLogicController {
   }
 
   // ========== 冷却时间管理 ==========
+
+  /**
+   * 检查是否需要重置出发状态
+   * @description 所有骑手都不在移动时，允许重新画路径
+   */
+  private checkAndResetLaunchState(): void {
+    if (this.movingRiders.size > 0) return;
+
+    const anyMoving = this.riders.some(r => r.state === RiderState.MOVING);
+    if (!anyMoving) {
+      this.ridersLaunched = false;
+      console.log('[GameLogicController] 所有骑手已停止，允许重新规划路径');
+    }
+  }
 
   /**
    * 设置碰撞冷却

@@ -2,8 +2,9 @@
 <html lang="zh-CN">
 <head>
   <meta charset="UTF-8">
-  <meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=no">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no, viewport-fit=cover">
   <title>外卖冲冲冲 - Web试玩版</title>
+  <link href="https://fonts.googleapis.com/css2?family=Press+Start+2P&display=swap" rel="stylesheet">
   <style>
     * {
       margin: 0;
@@ -11,28 +12,38 @@
       box-sizing: border-box;
     }
 
-    body {
+    html, body {
       background: #1a1a2e;
-      display: flex;
-      flex-direction: column;
-      justify-content: center;
-      align-items: center;
-      min-height: 100vh;
-      font-family: 'Microsoft YaHei', sans-serif;
+      width: 100%;
+      height: 100%;
+      height: 100dvh;
+      font-family: 'Press Start 2P', 'Microsoft YaHei', monospace;
       overflow: hidden;
+      image-rendering: pixelated;
+      -webkit-font-smoothing: none;
+      /* 安全区域适配（刘海屏/底部横条） */
+      padding: env(safe-area-inset-top) env(safe-area-inset-right) env(safe-area-inset-bottom) env(safe-area-inset-left);
+      -webkit-tap-highlight-color: transparent;
     }
 
     #game-container {
       position: relative;
       background: #16213e;
-      border-radius: 12px;
-      box-shadow: 0 10px 40px rgba(0,0,0,0.5);
+      width: 100%;
+      height: 100%;
       overflow: hidden;
     }
 
     #game-canvas {
       display: block;
       background: #16213e;
+      touch-action: none;
+      width: 100%;
+      height: 100%;
+      /* 防止iOS长按弹菜单 */
+      -webkit-touch-callout: none;
+      -webkit-user-select: none;
+      user-select: none;
     }
 
     #ui-layer {
@@ -50,75 +61,176 @@
 
     #header {
       position: absolute;
-      top: 10px;
-      left: 10px;
-      right: 10px;
+      top: 8px;
+      left: 8px;
+      right: 8px;
       display: flex;
       justify-content: space-between;
       align-items: center;
       color: white;
       font-size: 16px;
       z-index: 100;
+      gap: 6px;
     }
 
     #level-info {
-      background: rgba(0,0,0,0.5);
-      padding: 8px 16px;
-      border-radius: 8px;
+      background: rgba(0,0,0,0.7);
+      padding: 8px 12px;
+      border-radius: 0;
+      border: 2px solid #ffd700;
+      font-family: 'Press Start 2P', monospace;
+      font-size: clamp(8px, 2.5vw, 10px);
+      white-space: nowrap;
+      overflow: hidden;
+      text-overflow: ellipsis;
+      flex-shrink: 1;
+      min-width: 0;
     }
 
     #timer {
       background: rgba(255,100,100,0.3);
-      padding: 8px 16px;
-      border-radius: 8px;
+      padding: 8px 12px;
+      border-radius: 0;
+      border: 2px solid #ff6b6b;
+      font-family: 'Press Start 2P', monospace;
+      font-size: clamp(8px, 2.5vw, 10px);
       font-weight: bold;
+      white-space: nowrap;
+      flex-shrink: 0;
     }
 
     #pause-btn {
       background: rgba(255,255,255,0.2);
-      border: none;
+      border: 2px solid rgba(255,255,255,0.5);
       color: white;
-      padding: 8px 16px;
-      border-radius: 8px;
+      padding: 10px 16px;
+      border-radius: 0;
       cursor: pointer;
-      font-size: 14px;
+      font-family: 'Press Start 2P', monospace;
+      font-size: clamp(8px, 2.5vw, 10px);
+      min-height: 44px;
+      flex-shrink: 0;
     }
 
     #pause-btn:hover {
-      background: rgba(255,255,255,0.3);
+      background: rgba(255,255,255,0.4);
+      border-color: #ffd700;
     }
 
     #hud {
       position: absolute;
-      bottom: 10px;
-      left: 10px;
-      right: 10px;
+      bottom: max(10px, env(safe-area-inset-bottom, 10px));
+      left: 8px;
+      right: 8px;
       display: flex;
       justify-content: space-between;
+      align-items: center;
       color: white;
       font-size: 14px;
       z-index: 100;
+      gap: 6px;
     }
 
     #delivered {
       background: rgba(0,200,100,0.3);
-      padding: 8px 16px;
-      border-radius: 8px;
+      padding: 8px 12px;
+      border-radius: 0;
+      border: 2px solid #4caf50;
+      font-family: 'Press Start 2P', monospace;
+      font-size: clamp(8px, 2.5vw, 10px);
+      white-space: nowrap;
+      flex-shrink: 0;
+    }
+
+    #path-status {
+      background: rgba(0,100,255,0.3);
+      padding: 8px 12px;
+      border-radius: 0;
+      border: 2px solid #4a90d9;
+      color: #ffd700;
+      font-family: 'Press Start 2P', monospace;
+      font-size: clamp(8px, 2.5vw, 10px);
+      display: none;
+      white-space: nowrap;
+      flex-shrink: 1;
+      min-width: 0;
+    }
+
+    #action-buttons {
+      display: flex;
+      gap: 10px;
+      align-items: center;
+    }
+
+    .action-btn {
+      border: 2px solid transparent;
+      color: #333;
+      padding: 12px 24px;
+      border-radius: 0;
+      font-family: 'Press Start 2P', monospace;
+      font-size: clamp(10px, 3vw, 11px);
+      font-weight: bold;
+      cursor: pointer;
+      transition: transform 0.2s, box-shadow 0.2s;
+      display: none;
+      box-shadow: 4px 4px 0px rgba(0,0,0,0.3);
+      min-height: 44px;
+    }
+
+    .action-btn:hover {
+      transform: translate(-2px, -2px);
+      box-shadow: 6px 6px 0px rgba(0,0,0,0.3);
+    }
+
+    .action-btn:active {
+      transform: translate(2px, 2px);
+      box-shadow: 2px 2px 0px rgba(0,0,0,0.3);
+    }
+
+    #go-btn {
+      background: linear-gradient(135deg, #ffd700 0%, #ff8c00 100%);
+      border: 2px solid #cc9900;
+      box-shadow: 4px 4px 0px #cc6600;
+      font-size: clamp(11px, 3.5vw, 13px);
+      padding: 12px 28px;
+      min-height: 48px;
+    }
+
+    #go-btn:hover {
+      box-shadow: 6px 6px 0px #cc6600;
+    }
+
+    #go-btn:active {
+      box-shadow: 2px 2px 0px #cc6600;
+    }
+
+    #redraw-btn {
+      background: rgba(255,255,255,0.2);
+      border: 2px solid rgba(255,255,255,0.5);
+      color: white;
+    }
+
+    #redraw-btn:hover {
+      background: rgba(255,255,255,0.3);
     }
 
     #hint {
       position: absolute;
-      bottom: 60px;
+      bottom: 65px;
       left: 50%;
       transform: translateX(-50%);
-      background: rgba(0,0,0,0.7);
+      background: rgba(0,0,0,0.8);
       color: #ffd700;
-      padding: 10px 20px;
-      border-radius: 8px;
-      font-size: 14px;
+      padding: 10px 18px;
+      border-radius: 0;
+      border: 2px solid #ffd700;
+      font-family: 'Press Start 2P', monospace;
+      font-size: clamp(8px, 2.2vw, 9px);
       text-align: center;
       z-index: 100;
-      max-width: 80%;
+      max-width: 85%;
+      line-height: 1.6;
+      white-space: nowrap;
     }
 
     #quote-bubble {
@@ -156,6 +268,7 @@
       justify-content: center;
       align-items: center;
       z-index: 500;
+      image-rendering: pixelated;
     }
 
     #menu-screen.hidden {
@@ -164,34 +277,57 @@
 
     #menu-title {
       color: #ffd700;
-      font-size: 32px;
+      font-family: 'Press Start 2P', monospace;
+      font-size: clamp(16px, 4vw, 24px);
       font-weight: bold;
-      margin-bottom: 20px;
-      text-shadow: 0 0 20px rgba(255,215,0,0.5);
+      margin-bottom: 10px;
+      text-shadow: 3px 3px 0px #cc6600, 0 0 20px rgba(255,215,0,0.5);
+      letter-spacing: 2px;
     }
 
     #menu-subtitle {
       color: #888;
-      font-size: 14px;
-      margin-bottom: 40px;
+      font-family: 'Press Start 2P', monospace;
+      font-size: clamp(8px, 2vw, 10px);
+      margin-bottom: 20px;
+      line-height: 1.6;
     }
 
     .menu-btn {
       background: linear-gradient(135deg, #ffd700 0%, #ffa500 100%);
-      border: none;
+      border: 3px solid #cc9900;
       color: #333;
-      padding: 15px 40px;
-      border-radius: 25px;
-      font-size: 18px;
+      padding: 12px 28px;
+      border-radius: 0;
+      font-family: 'Press Start 2P', monospace;
+      font-size: clamp(10px, 3vw, 13px);
       font-weight: bold;
       cursor: pointer;
-      margin: 10px;
+      margin: 6px;
       transition: transform 0.2s, box-shadow 0.2s;
+      box-shadow: 4px 4px 0px #cc6600;
+      min-height: 48px;
     }
 
     .menu-btn:hover {
-      transform: scale(1.05);
-      box-shadow: 0 5px 20px rgba(255,215,0,0.5);
+      transform: translate(-2px, -2px);
+      box-shadow: 6px 6px 0px #cc6600;
+    }
+
+    .menu-btn:active {
+      transform: translate(2px, 2px);
+      box-shadow: 2px 2px 0px #cc6600;
+    }
+
+    .menu-btn.secondary {
+      background: linear-gradient(135deg, #888888 0%, #666666 100%);
+      border: 2px solid #555555;
+      box-shadow: 4px 4px 0px #444444;
+      font-size: clamp(8px, 2vw, 10px);
+    }
+
+    .menu-btn.secondary:hover {
+      box-shadow: 6px 6px 0px #444444;
     }
 
     /* 关卡选择 */
@@ -207,8 +343,11 @@
       justify-content: flex-start;
       align-items: center;
       padding: 20px;
+      padding-top: max(20px, env(safe-area-inset-top, 20px));
+      padding-bottom: max(20px, env(safe-area-inset-bottom, 20px));
       z-index: 500;
       overflow-y: auto;
+      -webkit-overflow-scrolling: touch;
     }
 
     #level-select-screen.visible {
@@ -217,40 +356,49 @@
 
     #level-select-title {
       color: #ffd700;
-      font-size: 24px;
+      font-family: 'Press Start 2P', monospace;
+      font-size: clamp(12px, 3.5vw, 16px);
       margin-bottom: 20px;
+      text-shadow: 2px 2px 0px #cc6600;
     }
 
     #level-grid {
       display: grid;
       grid-template-columns: repeat(5, 1fr);
-      gap: 10px;
+      gap: 8px;
       max-width: 400px;
+      width: 100%;
+      padding: 0 10px;
     }
 
     .level-card {
-      width: 60px;
-      height: 60px;
+      aspect-ratio: 1;
       background: rgba(255,255,255,0.1);
-      border-radius: 10px;
+      border-radius: 0;
+      border: 2px solid rgba(255,255,255,0.2);
       display: flex;
       justify-content: center;
       align-items: center;
       color: white;
-      font-size: 18px;
+      font-family: 'Press Start 2P', monospace;
+      font-size: clamp(11px, 3vw, 14px);
       font-weight: bold;
       cursor: pointer;
       transition: all 0.2s;
       position: relative;
+      min-height: 48px;
     }
 
     .level-card:hover {
       background: rgba(255,215,0,0.3);
-      transform: scale(1.1);
+      border-color: #ffd700;
+      transform: translate(-2px, -2px);
+      box-shadow: 4px 4px 0px rgba(255,215,0,0.3);
     }
 
     .level-card.locked {
       background: rgba(100,100,100,0.3);
+      border-color: rgba(100,100,100,0.5);
       cursor: not-allowed;
     }
 
@@ -282,14 +430,17 @@
       top: 50%;
       left: 50%;
       transform: translate(-50%, -50%);
-      background: rgba(0,0,0,0.9);
-      border-radius: 20px;
-      padding: 30px;
+      background: rgba(0,0,0,0.92);
+      border-radius: 0;
+      border: 3px solid #ffd700;
+      padding: 24px;
       color: white;
       text-align: center;
       z-index: 600;
       display: none;
-      min-width: 200px;
+      min-width: 180px;
+      max-width: 90vw;
+      box-shadow: 6px 6px 0px rgba(255,215,0,0.3);
     }
 
     #result-panel.visible {
@@ -297,30 +448,37 @@
     }
 
     #result-title {
-      font-size: 24px;
+      font-family: 'Press Start 2P', monospace;
+      font-size: clamp(12px, 3.5vw, 16px);
       color: #ffd700;
       margin-bottom: 15px;
+      text-shadow: 2px 2px 0px #cc6600;
     }
 
     #result-stars {
-      font-size: 30px;
+      font-size: clamp(22px, 6vw, 30px);
       margin-bottom: 10px;
     }
 
     #result-time {
       color: #888;
+      font-family: 'Press Start 2P', monospace;
+      font-size: clamp(7px, 2vw, 9px);
       margin-bottom: 20px;
     }
 
     .result-btn {
       background: linear-gradient(135deg, #ffd700 0%, #ffa500 100%);
-      border: none;
+      border: 2px solid #cc9900;
       color: #333;
-      padding: 10px 25px;
-      border-radius: 20px;
-      font-size: 14px;
+      padding: 10px 20px;
+      border-radius: 0;
+      font-family: 'Press Start 2P', monospace;
+      font-size: clamp(8px, 2.2vw, 9px);
       cursor: pointer;
       margin: 5px;
+      box-shadow: 3px 3px 0px #cc6600;
+      min-height: 44px;
     }
 
     /* 失败面板 */
@@ -329,13 +487,17 @@
       top: 50%;
       left: 50%;
       transform: translate(-50%, -50%);
-      background: rgba(100,50,50,0.9);
-      border-radius: 20px;
-      padding: 30px;
+      background: rgba(100,50,50,0.92);
+      border-radius: 0;
+      border: 3px solid #ff6b6b;
+      padding: 24px;
       color: white;
       text-align: center;
       z-index: 600;
       display: none;
+      min-width: 200px;
+      max-width: 90vw;
+      box-shadow: 6px 6px 0px rgba(255,107,107,0.3);
     }
 
     #fail-panel.visible {
@@ -343,14 +505,38 @@
     }
 
     #fail-title {
-      font-size: 24px;
+      font-family: 'Press Start 2P', monospace;
+      font-size: clamp(12px, 3.5vw, 16px);
       color: #ff6b6b;
       margin-bottom: 15px;
+      text-shadow: 2px 2px 0px #cc3333;
     }
 
     #fail-reason {
       color: #888;
+      font-family: 'Press Start 2P', monospace;
+      font-size: clamp(7px, 2vw, 9px);
       margin-bottom: 20px;
+    }
+
+    .share-revive-btn {
+      background: linear-gradient(135deg, #4CAF50, #2E7D32);
+      border: 2px solid #2E7D32;
+      color: white;
+      padding: 10px 20px;
+      border-radius: 0;
+      font-family: 'Press Start 2P', monospace;
+      font-size: clamp(8px, 2.2vw, 9px);
+      cursor: pointer;
+      margin: 5px;
+      font-weight: bold;
+      box-shadow: 3px 3px 0px #1B5E20;
+      min-height: 44px;
+    }
+
+    .share-revive-btn:hover {
+      transform: translate(-2px, -2px);
+      box-shadow: 5px 5px 0px #1B5E20;
     }
 
     /* VIP警告 */
@@ -361,12 +547,17 @@
       transform: translate(-50%, -50%);
       background: rgba(255,215,0,0.9);
       color: #333;
-      padding: 15px 30px;
-      border-radius: 10px;
-      font-size: 16px;
+      padding: 15px 24px;
+      border-radius: 0;
+      border: 3px solid #cc9900;
+      font-family: 'Press Start 2P', monospace;
+      font-size: clamp(8px, 2.5vw, 10px);
       font-weight: bold;
       z-index: 400;
       display: none;
+      box-shadow: 4px 4px 0px #cc6600;
+      max-width: 85vw;
+      text-align: center;
     }
 
     #vip-warning.visible {
@@ -387,31 +578,229 @@
       left: 50%;
       transform: translate(-50%, -50%);
       color: rgba(255,255,255,0.5);
-      font-size: 12px;
+      font-family: 'Press Start 2P', monospace;
+      font-size: clamp(7px, 2vw, 8px);
       text-align: center;
       z-index: 50;
+      line-height: 1.8;
+    }
+
+    <!-- 省份排行 -->
+    #province-stats {
+      background: rgba(0,100,255,0.2);
+      padding: 4px 10px;
+      border-radius: 0;
+      border: 2px solid #4a90d9;
+      font-family: 'Press Start 2P', monospace;
+      font-size: 8px;
+      color: #88ccff;
+      margin-left: 8px;
+    }
+
+    /* 故事展示层 */
+    #story-layer {
+      position: absolute;
+      top: 0;
+      left: 0;
+      right: 0;
+      bottom: 0;
+      background: rgba(0,0,0,0.85);
+      z-index: 700;
+      display: none;
+      flex-direction: column;
+      justify-content: center;
+      align-items: center;
+    }
+
+    #story-layer.visible {
+      display: flex;
+    }
+
+    #story-title {
+      color: #FFD700;
+      font-family: 'Press Start 2P', monospace;
+      font-size: clamp(14px, 4vw, 20px);
+      font-weight: bold;
+      margin-bottom: 15px;
+      text-shadow: 2px 2px 0px #cc6600;
+    }
+
+    #story-content {
+      color: #FFFFFF;
+      font-family: 'Press Start 2P', monospace;
+      font-size: clamp(8px, 2vw, 10px);
+      max-width: 85vw;
+      text-align: center;
+      line-height: 1.8;
+      padding: 20px;
+      background: rgba(0,0,0,0.5);
+      border: 2px solid #FFD700;
+      margin-bottom: 20px;
+    }
+
+    #story-character {
+      color: #FFD700;
+      font-family: 'Press Start 2P', monospace;
+      font-size: clamp(8px, 2vw, 10px);
+      padding: 5px 15px;
+      background: rgba(255,215,0,0.3);
+      border: 2px solid #FFD700;
+      margin-bottom: 10px;
+    }
+
+    #story-skip-btn {
+      background: rgba(255,255,255,0.2);
+      border: 2px solid rgba(255,255,255,0.5);
+      color: white;
+      padding: 12px 24px;
+      font-family: 'Press Start 2P', monospace;
+      font-size: clamp(8px, 2vw, 10px);
+      cursor: pointer;
+      min-height: 44px;
+    }
+
+    #story-skip-btn:hover {
+      background: rgba(255,255,255,0.4);
+      border-color: #FFD700;
+    }
+
+    /* 章节介绍层 */
+    #chapter-intro-layer {
+      position: absolute;
+      top: 0;
+      left: 0;
+      right: 0;
+      bottom: 0;
+      background: rgba(0,0,0,0.9);
+      z-index: 750;
+      display: none;
+      flex-direction: column;
+      justify-content: center;
+      align-items: center;
+      opacity: 0;
+      transition: opacity 0.5s ease-in-out;
+    }
+
+    #chapter-intro-layer.visible {
+      display: flex;
+      opacity: 1;
+    }
+
+    #chapter-title {
+      color: #FFD700;
+      font-family: 'Press Start 2P', monospace;
+      font-size: clamp(18px, 5vw, 28px);
+      font-weight: bold;
+      text-shadow: 3px 3px 0px #cc6600, 0 0 30px rgba(255,215,0,0.5);
+      margin-bottom: 30px;
+      animation: chapterTitleFadeIn 1s ease-out;
+    }
+
+    @keyframes chapterTitleFadeIn {
+      from { opacity: 0; transform: translateY(-20px); }
+      to { opacity: 1; transform: translateY(0); }
+    }
+
+    #chapter-intro-text {
+      color: #FFFFFF;
+      font-family: 'Press Start 2P', monospace;
+      font-size: clamp(8px, 2vw, 10px);
+      max-width: 85vw;
+      text-align: center;
+      line-height: 1.8;
+      opacity: 0;
+      animation: chapterTextFadeIn 1s ease-out 0.5s forwards;
+    }
+
+    @keyframes chapterTextFadeIn {
+      from { opacity: 0; }
+      to { opacity: 1; }
+    }
+
+    #chapter-continue-hint {
+      color: #888888;
+      font-family: 'Press Start 2P', monospace;
+      font-size: clamp(7px, 1.8vw, 9px);
+      margin-top: 40px;
+      opacity: 0;
+      animation: hintFadeIn 0.5s ease-out 1.5s forwards;
+    }
+
+    @keyframes hintFadeIn {
+      from { opacity: 0; }
+      to { opacity: 1; }
+    }
+
+    /* 故事设置开关 */
+    .setting-toggle {
+      display: flex;
+      align-items: center;
+      gap: 10px;
+      margin: 10px 0;
+    }
+
+    .toggle-switch {
+      width: 50px;
+      height: 24px;
+      background: rgba(100,100,100,0.5);
+      border: 2px solid rgba(255,255,255,0.3);
+      border-radius: 0;
+      position: relative;
+      cursor: pointer;
+    }
+
+    .toggle-switch.enabled {
+      background: rgba(255,215,0,0.3);
+      border-color: #FFD700;
+    }
+
+    .toggle-switch::after {
+      content: '';
+      position: absolute;
+      width: 18px;
+      height: 18px;
+      background: #888;
+      top: 1px;
+      left: 3px;
+      transition: left 0.2s;
+    }
+
+    .toggle-switch.enabled::after {
+      left: 25px;
+      background: #FFD700;
+    }
+
+    .toggle-label {
+      color: white;
+      font-family: 'Press Start 2P', monospace;
+      font-size: clamp(8px, 2vw, 10px);
     }
   </style>
 </head>
 <body>
   <div id="game-container">
-    <canvas id="game-canvas" width="480" height="320" style="display:block;background:#16213e;"></canvas>
+    <canvas id="game-canvas" style="display:block;background:#16213e;"></canvas>
 
     <div id="ui-layer">
       <!-- 菜单界面 -->
       <div id="menu-screen">
         <div id="menu-title">🛵 外卖冲冲冲</div>
-        <div id="menu-subtitle">点击骑手方块，送到绿色出口</div>
-        <div style="color:#888;font-size:12px;margin-bottom:20px;padding:10px;background:rgba(0,0,0,0.3);border-radius:8px;max-width:300px;">
-          <b>玩法说明：</b><br>
-          1️⃣ 点击黄色方块（骑手）开始移动<br>
-          2️⃣ 骑手会自动向箭头方向移动<br>
-          3️⃣ 送到绿色方块（出口）即可通关<br>
-          4️⃣ VIP骑手（橙色）必须先出发<br>
-          5️⃣ 加急骑手（红色）有时间限制
+        <div id="menu-subtitle">规划路线，让所有骑手安全送达</div>
+        <div style="color:#888;font-size:clamp(7px,1.8vw,9px);margin-bottom:20px;padding:10px;background:rgba(0,0,0,0.3);border:2px solid rgba(255,255,255,0.2);border-radius:0;max-width:90vw;width:300px;font-family:'Press Start 2P',monospace;line-height:1.8;">
+          <b style="color:#ffd700;">玩法说明</b><br>
+          1. 点选骑手，拖拽画出到出口的路线<br>
+          2. 为所有骑手规划好路线后点击出发<br>
+          3. 避免骑手互相碰撞或撞墙<br>
+          4. VIP骑手(橙色)必须先规划路线<br>
+          5. 加急骑手(红色)有时间限制
         </div>
         <button class="menu-btn" onclick="startGame()">▶ 开始游戏</button>
         <button class="menu-btn" onclick="showLevelSelect()">📋 选择关卡</button>
+        <div class="setting-toggle" style="margin-top:15px;">
+          <div class="toggle-switch enabled" id="menu-story-toggle" onclick="toggleStorySetting()"></div>
+          <span class="toggle-label">显示剧情</span>
+        </div>
+        <button class="menu-btn secondary" onclick="resetStoryProgress()">🔄 重置剧情进度</button>
       </div>
 
       <!-- 关卡选择界面 -->
@@ -430,19 +819,25 @@
 
       <div id="hud">
         <div id="delivered">送达: 0/0</div>
+        <div id="path-status">已规划: 0/0</div>
+        <div id="action-buttons">
+          <button id="redraw-btn" class="action-btn" onclick="clearPaths()">重画</button>
+          <button id="go-btn" class="action-btn" onclick="launchRiders()">🚀 出发！</button>
+        </div>
       </div>
 
-      <div id="hint">点击骑手开始移动</div>
+      <div id="hint">点选骑手，拖拽画路径到出口</div>
 
       <div id="quote-bubble"></div>
 
-      <div id="vip-warning">VIP订单必须先出发！</div>
+      <div id="vip-warning">VIP订单必须先规划路线！</div>
 
       <!-- 结果面板 -->
       <div id="result-panel">
         <div id="result-title">关卡完成！</div>
         <div id="result-stars">⭐⭐⭐</div>
         <div id="result-time">用时: 5.2秒</div>
+        <div id="province-stats" style="display:none;"></div>
         <button class="result-btn" onclick="nextLevel()">下一关</button>
         <button class="result-btn" onclick="retryLevel()">重试</button>
         <button class="result-btn" onclick="toMenu()">返回菜单</button>
@@ -452,65 +847,103 @@
       <div id="fail-panel">
         <div id="fail-title">关卡失败</div>
         <div id="fail-reason">原因: 时间耗尽</div>
+        <button class="share-revive-btn" onclick="shareRevive()">📤 分享给好友复活</button>
         <button class="result-btn" onclick="retryLevel()">重试</button>
         <button class="result-btn" onclick="toMenu()">返回菜单</button>
       </div>
 
-      <div id="instructions">点击骑手方块开始移动<br>绿色方块为出口</div>
+      <!-- 章节介绍层 -->
+      <div id="chapter-intro-layer" onclick="skipStory()">
+        <div id="chapter-title">第一章</div>
+        <div id="chapter-intro-text">故事介绍文本...</div>
+        <div id="chapter-continue-hint">点击继续</div>
+      </div>
+
+      <!-- 故事对话层 -->
+      <div id="story-layer" onclick="skipStory()">
+        <div id="story-character">角色名</div>
+        <div id="story-content">对话内容...</div>
+        <button id="story-skip-btn">跳过</button>
+      </div>
+
+      <!-- 故事设置开关（在菜单中） -->
+      <div class="setting-toggle" id="story-toggle-container" style="display:none;">
+        <div class="toggle-switch enabled" id="story-toggle" onclick="toggleStorySetting()"></div>
+        <span class="toggle-label">显示剧情</span>
+      </div>
+
+      <div id="instructions">点选骑手方块<br>拖拽画路径到绿色出口</div>
     </div>
   </div>
 
   <script>
-    // 先定义占位函数，防止点击报错
     function startGame() {
-      console.log('startGame被调用');
-      if (window.gameInstance && window.gameInstance.startGame) {
-        window.gameInstance.startGame();
-      } else {
-        console.log('游戏正在加载...');
-      }
+      if (window.startGame) window.startGame();
     }
 
     function showLevelSelect() {
-      console.log('showLevelSelect被调用');
-      if (window.gameInstance && window.gameInstance.showLevelSelect) {
-        window.gameInstance.showLevelSelect();
-      } else {
-        console.log('游戏正在加载...');
-      }
+      if (window.showLevelSelect) window.showLevelSelect();
     }
 
     function hideLevelSelect() {
-      if (window.gameInstance) window.gameInstance.hideLevelSelect();
+      if (window.hideLevelSelect) window.hideLevelSelect();
     }
 
     function retryLevel() {
-      if (window.gameInstance) window.gameInstance.retryLevel();
+      if (window.retryLevel) window.retryLevel();
     }
 
     function nextLevel() {
-      if (window.gameInstance) window.gameInstance.nextLevel();
+      if (window.nextLevel) window.nextLevel();
     }
 
     function toMenu() {
-      if (window.gameInstance) window.gameInstance.showMenu();
+      if (window.toMenu) window.toMenu();
     }
 
     function togglePause() {
-      if (window.gameInstance) window.gameInstance.togglePause();
+      if (window.togglePause) window.togglePause();
     }
-    console.log('全局函数已定义');
+
+    function launchRiders() {
+      if (window.launchRiders) window.launchRiders();
+    }
+
+    function clearPaths() {
+      if (window.clearPaths) window.clearPaths();
+    }
+
+    function shareRevive() {
+      if (window.shareRevive) {
+        window.shareRevive();
+      } else {
+        // Web mock: 弹确认框
+        if (confirm('分享给好友获得复活机会？')) {
+          if (window.gameInstance) window.gameInstance.retryLevel();
+        }
+      }
+    }
+
+    function skipStory() {
+      if (window.skipStory) window.skipStory();
+    }
+
+    function toggleStorySetting() {
+      if (window.gameInstance && window.gameInstance.toggleStorySetting) {
+        window.gameInstance.toggleStorySetting();
+      } else {
+        alert('游戏正在初始化，请稍候...');
+      }
+    }
+
+    function resetStoryProgress() {
+      if (window.gameInstance && window.gameInstance.resetStoryProgress) {
+        window.gameInstance.resetStoryProgress();
+      } else {
+        alert('游戏正在初始化，请稍候...');
+      }
+    }
   </script>
   <script src="./dist/web.bundle.js"></script>
-  <script>
-    console.log('bundle加载完成');
-
-    // 检查window上的函数
-    if (window.startGame) {
-      console.log('window.startGame存在');
-    } else {
-      console.log('window.startGame不存在，使用占位函数');
-    }
-  </script>
 </body>
 </html>
