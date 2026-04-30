@@ -151,10 +151,11 @@ export class Level {
 
   /**
    * 开始关卡
-   * @description 进入关卡进行中状态
+   * @description 进入关卡进行中状态，记录开始时间
    */
   start(): void {
     this.state = LevelState.PLAYING;
+    this.startTime = performance.now();
   }
 
   /**
@@ -329,7 +330,7 @@ export class Level {
     if (this.startTime === 0) {
       return 0;
     }
-    return (Date.now() - this.startTime) / 1000;
+    return (performance.now() - this.startTime) / 1000;
   }
 
   /**
@@ -338,7 +339,7 @@ export class Level {
    */
   startWithTimer(): void {
     this.state = LevelState.PLAYING;
-    this.startTime = Date.now();
+    this.startTime = performance.now();
   }
 
   /**
@@ -360,7 +361,7 @@ export class Level {
 
     // 重置状态
     this.state = LevelState.PLAYING;
-    this.startTime = Date.now();
+    this.startTime = performance.now();
   }
 
   /**

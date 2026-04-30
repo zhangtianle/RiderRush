@@ -247,11 +247,9 @@ export class GameRenderer {
     this.canvas.style.height = maxHeight + 'px';
     this.ctx.setTransform(this.dpr, 0, 0, this.dpr, 0, 0);
 
-    // 留出顶部header(50px)和底部hud(50px)的空间
-    const headerSpace = 55;
-    const hudSpace = 55;
-    const safeTop = headerSpace;
-    const safeBottom = hudSpace;
+    // 浮动UI只留少量安全边距（按钮高度+间距）
+    const safeTop = 12;
+    const safeBottom = 12;
     const availableHeight = maxHeight - safeTop - safeBottom;
 
     const cellByWidth = Math.floor(maxWidth / gridWidth);

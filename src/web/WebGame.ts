@@ -86,6 +86,8 @@ export class WebGame {
   private pendingEpilogue: string | DialogueLine[] | null = null;
   // epilogue 结束后的动作
   private afterEpilogueAction: 'next' | 'retry' | null = null;
+  // 关卡信息自动淡出定时器
+  private levelInfoFadeTimer: ReturnType<typeof setTimeout> | null = null;
   private chapterIntroLayer: HTMLElement;
   private chapterTitleEl: HTMLElement;
   private chapterIntroText: HTMLElement;
@@ -226,7 +228,7 @@ export class WebGame {
         // 设置UI状态（不设置PLAYING，等待故事完成）
         this.menuScreen.classList.add('hidden');
         this.levelSelectScreen.classList.remove('visible');
-        this.levelInfo.textContent = `关卡 ${levelId} - ${level.name}`;
+        this.showLevelInfoWithFade(`关卡 ${levelId} - ${level.name}`);
         this.deliveredDisplay.textContent = `送达: 0/${level.riders.length}`;
 
         this.showChapterIntro(chapter.id, chapter.title, chapter.intro);
@@ -242,7 +244,7 @@ export class WebGame {
         // 设置UI状态
         this.menuScreen.classList.add('hidden');
         this.levelSelectScreen.classList.remove('visible');
-        this.levelInfo.textContent = `关卡 ${levelId} - ${level.name}`;
+        this.showLevelInfoWithFade(`关卡 ${levelId} - ${level.name}`);
         this.deliveredDisplay.textContent = `送达: 0/${level.riders.length}`;
 
         this.showStory(levelId, levelStory.prelude, levelStory.characters);
@@ -261,7 +263,7 @@ export class WebGame {
     this.instructions.style.display = 'block';
     this.instructions.textContent = '点选骑手，拖拽画路径到出口';
 
-    this.levelInfo.textContent = `关卡 ${levelId} - ${level.name}`;
+    this.showLevelInfoWithFade(`关卡 ${levelId} - ${level.name}`);
     this.deliveredDisplay.textContent = `送达: 0/${level.riders.length}`;
     this.hintDisplay.textContent = '规划骑手路线';
 
@@ -364,7 +366,7 @@ export class WebGame {
 
   private gameLoop(): void {
     const currentTime = performance.now();
-    const dt = (currentTime - this.lastTime) / 1000;
+    const dt = Math.min((currentTime - this.lastTime) / 1000, 0.1); // 限制最大dt为100ms
     this.lastTime = currentTime;
 
     if (this.state === WebGameState.PLAYING) {
@@ -887,6 +889,22 @@ export class WebGame {
     if (level) {
       this.pathStatus.textContent = `已规划: 0/${level.riders.length}`;
     }
+  }
+
+  /**
+   * 显示关卡信息并自动淡出
+   */
+  private showLevelInfoWithFade(text: string, fadeDelay: number = 2000): void {
+    if (this.levelInfoFadeTimer) {
+      clearTimeout(this.levelInfoFadeTimer);
+      this.levelInfoFadeTimer = null;
+    }
+    this.levelInfo.textContent = text;
+    this.levelInfo.classList.remove('fade-out');
+    this.levelInfoFadeTimer = setTimeout(() => {
+      this.levelInfo.classList.add('fade-out');
+      this.levelInfoFadeTimer = null;
+    }, fadeDelay);
   }
 
   /**

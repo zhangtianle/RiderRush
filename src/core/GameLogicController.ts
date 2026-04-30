@@ -458,7 +458,7 @@ export class GameLogicController {
     this.movingRiders.delete(rider.id);
 
     // 连击检测
-    const now = Date.now();
+    const now = performance.now();
     if (now - this.lastDeliveryTime < this.COMBO_WINDOW_MS && this.lastDeliveryTime > 0) {
       this.comboCount++;
       if (this.comboCount >= 2) {

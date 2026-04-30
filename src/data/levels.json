@@ -5,7 +5,7 @@
       "name": "教程：画路径!",
       "difficulty": "easy",
       "gridSize": {
-        "width": 5,
+        "width": 4,
         "height": 3
       },
       "timeLimit": 0,
@@ -26,7 +26,7 @@
         {
           "id": "exit1",
           "position": {
-            "x": 4,
+            "x": 3,
             "y": 1
           }
         }
@@ -39,7 +39,7 @@
       "name": "两个骑手",
       "difficulty": "easy",
       "gridSize": {
-        "width": 6,
+        "width": 4,
         "height": 4
       },
       "timeLimit": 0,
@@ -70,14 +70,14 @@
         {
           "id": "exit1",
           "position": {
-            "x": 5,
+            "x": 3,
             "y": 0
           }
         },
         {
           "id": "exit2",
           "position": {
-            "x": 5,
+            "x": 3,
             "y": 3
           }
         }
@@ -90,7 +90,7 @@
       "name": "绕过墙壁",
       "difficulty": "easy",
       "gridSize": {
-        "width": 6,
+        "width": 5,
         "height": 4
       },
       "timeLimit": 0,
@@ -116,7 +116,7 @@
           },
           "size": {
             "width": 1,
-            "height": 3
+            "height": 4
           }
         }
       ],
@@ -124,7 +124,7 @@
         {
           "id": "exit1",
           "position": {
-            "x": 5,
+            "x": 4,
             "y": 1
           }
         }
@@ -137,7 +137,7 @@
       "name": "路线交叉",
       "difficulty": "easy",
       "gridSize": {
-        "width": 6,
+        "width": 5,
         "height": 5
       },
       "timeLimit": 0,
@@ -157,7 +157,7 @@
           "type": "NORMAL",
           "direction": "DOWN",
           "startPosition": {
-            "x": 3,
+            "x": 2,
             "y": 0
           },
           "targetExit": "exit2"
@@ -168,14 +168,14 @@
         {
           "id": "exit1",
           "position": {
-            "x": 5,
+            "x": 4,
             "y": 1
           }
         },
         {
           "id": "exit2",
           "position": {
-            "x": 3,
+            "x": 2,
             "y": 4
           }
         }
@@ -188,8 +188,8 @@
       "name": "VIP优先!",
       "difficulty": "easy",
       "gridSize": {
-        "width": 6,
-        "height": 4
+        "width": 5,
+        "height": 5
       },
       "timeLimit": 0,
       "riders": [
@@ -209,7 +209,7 @@
           "direction": "RIGHT",
           "startPosition": {
             "x": 0,
-            "y": 3
+            "y": 4
           },
           "targetExit": "exit2"
         }
@@ -219,15 +219,15 @@
         {
           "id": "exit1",
           "position": {
-            "x": 5,
+            "x": 4,
             "y": 0
           }
         },
         {
           "id": "exit2",
           "position": {
-            "x": 5,
-            "y": 3
+            "x": 4,
+            "y": 4
           }
         }
       ],
@@ -239,7 +239,7 @@
       "name": "堵车区",
       "difficulty": "medium",
       "gridSize": {
-        "width": 7,
+        "width": 5,
         "height": 5
       },
       "timeLimit": 0,
@@ -270,7 +270,7 @@
           "id": "o1",
           "type": "TRAFFIC",
           "position": {
-            "x": 3,
+            "x": 2,
             "y": 0
           },
           "size": {
@@ -283,7 +283,7 @@
           "id": "o2",
           "type": "WALL",
           "position": {
-            "x": 3,
+            "x": 2,
             "y": 3
           },
           "size": {
@@ -296,14 +296,14 @@
         {
           "id": "exit1",
           "position": {
-            "x": 6,
+            "x": 4,
             "y": 1
           }
         },
         {
           "id": "exit2",
           "position": {
-            "x": 6,
+            "x": 4,
             "y": 4
           }
         }
@@ -316,7 +316,7 @@
       "name": "红绿灯",
       "difficulty": "medium",
       "gridSize": {
-        "width": 7,
+        "width": 5,
         "height": 5
       },
       "timeLimit": 60,
@@ -327,7 +327,7 @@
           "direction": "RIGHT",
           "startPosition": {
             "x": 0,
-            "y": 2
+            "y": 1
           },
           "targetExit": "exit1"
         },
@@ -337,7 +337,7 @@
           "direction": "RIGHT",
           "startPosition": {
             "x": 0,
-            "y": 4
+            "y": 3
           },
           "targetExit": "exit2"
         }
@@ -347,8 +347,8 @@
           "id": "o1",
           "type": "TRAFFIC_LIGHT",
           "position": {
-            "x": 3,
-            "y": 2
+            "x": 2,
+            "y": 1
           },
           "size": {
             "width": 1,
@@ -361,15 +361,15 @@
         {
           "id": "exit1",
           "position": {
-            "x": 6,
-            "y": 2
+            "x": 4,
+            "y": 1
           }
         },
         {
           "id": "exit2",
           "position": {
-            "x": 6,
-            "y": 4
+            "x": 4,
+            "y": 3
           }
         }
       ],
@@ -381,7 +381,7 @@
       "name": "加急订单",
       "difficulty": "medium",
       "gridSize": {
-        "width": 7,
+        "width": 5,
         "height": 5
       },
       "timeLimit": 60,
@@ -392,10 +392,10 @@
           "direction": "RIGHT",
           "startPosition": {
             "x": 0,
-            "y": 1
+            "y": 0
           },
           "targetExit": "exit1",
-          "timeLimit": 15
+          "timeLimit": 20
         },
         {
           "id": "r2",
@@ -413,14 +413,14 @@
         {
           "id": "exit1",
           "position": {
-            "x": 6,
-            "y": 1
+            "x": 4,
+            "y": 0
           }
         },
         {
           "id": "exit2",
           "position": {
-            "x": 6,
+            "x": 4,
             "y": 4
           }
         }
@@ -433,8 +433,8 @@
       "name": "三骑手迷宫",
       "difficulty": "medium",
       "gridSize": {
-        "width": 8,
-        "height": 6
+        "width": 5,
+        "height": 7
       },
       "timeLimit": 90,
       "riders": [
@@ -464,7 +464,7 @@
           "direction": "RIGHT",
           "startPosition": {
             "x": 0,
-            "y": 5
+            "y": 6
           },
           "targetExit": "exit3"
         }
@@ -474,7 +474,7 @@
           "id": "o1",
           "type": "WALL",
           "position": {
-            "x": 3,
+            "x": 2,
             "y": 0
           },
           "size": {
@@ -486,8 +486,8 @@
           "id": "o2",
           "type": "WALL",
           "position": {
-            "x": 5,
-            "y": 3
+            "x": 3,
+            "y": 4
           },
           "size": {
             "width": 1,
@@ -499,22 +499,22 @@
         {
           "id": "exit1",
           "position": {
-            "x": 7,
+            "x": 4,
             "y": 0
           }
         },
         {
           "id": "exit2",
           "position": {
-            "x": 7,
+            "x": 4,
             "y": 3
           }
         },
         {
           "id": "exit3",
           "position": {
-            "x": 7,
-            "y": 5
+            "x": 4,
+            "y": 6
           }
         }
       ],
@@ -526,8 +526,8 @@
       "name": "综合挑战",
       "difficulty": "medium",
       "gridSize": {
-        "width": 8,
-        "height": 6
+        "width": 5,
+        "height": 7
       },
       "timeLimit": 90,
       "riders": [
@@ -550,7 +550,7 @@
             "y": 3
           },
           "targetExit": "exit2",
-          "timeLimit": 20
+          "timeLimit": 25
         },
         {
           "id": "r3",
@@ -558,7 +558,7 @@
           "direction": "RIGHT",
           "startPosition": {
             "x": 0,
-            "y": 5
+            "y": 6
           },
           "targetExit": "exit3"
         }
@@ -568,7 +568,7 @@
           "id": "o1",
           "type": "WALL",
           "position": {
-            "x": 2,
+            "x": 1,
             "y": 1
           },
           "size": {
@@ -580,12 +580,12 @@
           "id": "o2",
           "type": "TRAFFIC",
           "position": {
-            "x": 4,
-            "y": 3
+            "x": 3,
+            "y": 2
           },
           "size": {
-            "width": 2,
-            "height": 1
+            "width": 1,
+            "height": 2
           },
           "slowFactor": 0.5
         },
@@ -593,8 +593,8 @@
           "id": "o3",
           "type": "TRAFFIC_LIGHT",
           "position": {
-            "x": 6,
-            "y": 0
+            "x": 2,
+            "y": 5
           },
           "size": {
             "width": 1,
@@ -607,22 +607,22 @@
         {
           "id": "exit1",
           "position": {
-            "x": 7,
+            "x": 4,
             "y": 0
           }
         },
         {
           "id": "exit2",
           "position": {
-            "x": 7,
+            "x": 4,
             "y": 3
           }
         },
         {
           "id": "exit3",
           "position": {
-            "x": 7,
-            "y": 5
+            "x": 4,
+            "y": 6
           }
         }
       ],

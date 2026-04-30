@@ -61,7 +61,7 @@
 
     #header {
       position: absolute;
-      top: 8px;
+      top: max(8px, env(safe-area-inset-top, 8px));
       left: 8px;
       right: 8px;
       display: flex;
@@ -71,36 +71,48 @@
       font-size: 16px;
       z-index: 100;
       gap: 6px;
+      pointer-events: none;
+    }
+
+    #header > * {
+      pointer-events: auto;
     }
 
     #level-info {
-      background: rgba(0,0,0,0.7);
-      padding: 8px 12px;
+      background: rgba(0,0,0,0.6);
+      padding: 6px 10px;
       border-radius: 0;
       border: 2px solid #ffd700;
       box-shadow: inset 0 0 0 1px rgba(255,215,0,0.3), 0 0 0 1px #111, 0 0 0 3px #222;
       font-family: 'Press Start 2P', monospace;
-      font-size: clamp(8px, 2.5vw, 10px);
+      font-size: clamp(7px, 2vw, 9px);
       white-space: nowrap;
       overflow: hidden;
       text-overflow: ellipsis;
       flex-shrink: 1;
       min-width: 0;
+      opacity: 1;
+      transition: opacity 0.5s ease-out;
+    }
+
+    #level-info.fade-out {
+      opacity: 0;
+      pointer-events: none;
     }
 
     #timer {
-      background: rgba(255,100,100,0.3);
-      padding: 8px 12px;
+      background: rgba(0,0,0,0.6);
+      padding: 6px 10px;
       border-radius: 0;
       border: 2px solid #ff6b6b;
       box-shadow: inset 0 0 0 1px rgba(255,107,107,0.3), 0 0 0 1px #111, 0 0 0 3px #222;
       font-family: 'Press Start 2P', monospace;
-      font-size: clamp(8px, 2.5vw, 10px);
+      font-size: clamp(7px, 2vw, 9px);
       font-weight: bold;
       white-space: nowrap;
       flex-shrink: 0;
       position: relative;
-      padding-left: 24px;
+      padding-left: 22px;
     }
 
     #timer::before {
@@ -111,15 +123,15 @@
     }
 
     #pause-btn {
-      background: rgba(255,255,255,0.2);
+      background: rgba(0,0,0,0.6);
       border: 2px solid rgba(255,255,255,0.5);
       color: white;
-      padding: 10px 16px;
+      padding: 6px 12px;
       border-radius: 0;
       cursor: pointer;
       font-family: 'Press Start 2P', monospace;
-      font-size: clamp(8px, 2.5vw, 10px);
-      min-height: 44px;
+      font-size: clamp(7px, 2vw, 9px);
+      min-height: 36px;
       flex-shrink: 0;
     }
 
@@ -130,7 +142,7 @@
 
     #hud {
       position: absolute;
-      bottom: max(10px, env(safe-area-inset-bottom, 10px));
+      bottom: max(8px, env(safe-area-inset-bottom, 8px));
       left: 8px;
       right: 8px;
       display: flex;
@@ -140,20 +152,25 @@
       font-size: 14px;
       z-index: 100;
       gap: 6px;
+      pointer-events: none;
+    }
+
+    #hud > * {
+      pointer-events: auto;
     }
 
     #delivered {
-      background: rgba(0,200,100,0.3);
-      padding: 8px 12px;
+      background: rgba(0,0,0,0.6);
+      padding: 6px 10px;
       border-radius: 0;
       border: 2px solid #4caf50;
       box-shadow: inset 0 0 0 1px rgba(76,175,80,0.3), 0 0 0 1px #111, 0 0 0 3px #222;
       font-family: 'Press Start 2P', monospace;
-      font-size: clamp(8px, 2.5vw, 10px);
+      font-size: clamp(7px, 2vw, 9px);
       white-space: nowrap;
       flex-shrink: 0;
       position: relative;
-      padding-left: 26px;
+      padding-left: 24px;
     }
 
     #delivered::before {
@@ -164,20 +181,20 @@
     }
 
     #path-status {
-      background: rgba(0,100,255,0.3);
-      padding: 8px 12px;
+      background: rgba(0,0,0,0.6);
+      padding: 6px 10px;
       border-radius: 0;
       border: 2px solid #4a90d9;
       box-shadow: inset 0 0 0 1px rgba(74,144,217,0.3), 0 0 0 1px #111, 0 0 0 3px #222;
       color: #ffd700;
       font-family: 'Press Start 2P', monospace;
-      font-size: clamp(8px, 2.5vw, 10px);
+      font-size: clamp(7px, 2vw, 9px);
       display: none;
       white-space: nowrap;
       flex-shrink: 1;
       min-width: 0;
       position: relative;
-      padding-left: 24px;
+      padding-left: 22px;
     }
 
     #path-status::before {
@@ -197,16 +214,16 @@
     .action-btn {
       border: 2px solid transparent;
       color: #333;
-      padding: 12px 24px;
+      padding: 8px 16px;
       border-radius: 0;
       font-family: 'Press Start 2P', monospace;
-      font-size: clamp(10px, 3vw, 11px);
+      font-size: clamp(8px, 2.5vw, 10px);
       font-weight: bold;
       cursor: pointer;
       transition: transform 0.2s, box-shadow 0.2s;
       display: none;
-      box-shadow: 4px 4px 0px rgba(0,0,0,0.3);
-      min-height: 44px;
+      box-shadow: 3px 3px 0px rgba(0,0,0,0.3);
+      min-height: 36px;
     }
 
     .action-btn:hover {
@@ -222,10 +239,10 @@
     #go-btn {
       background: linear-gradient(135deg, #ffd700 0%, #ff8c00 100%);
       border: 2px solid #cc9900;
-      box-shadow: 4px 4px 0px #cc6600;
-      font-size: clamp(11px, 3.5vw, 13px);
-      padding: 12px 28px;
-      min-height: 48px;
+      box-shadow: 3px 3px 0px #cc6600;
+      font-size: clamp(9px, 3vw, 11px);
+      padding: 8px 20px;
+      min-height: 40px;
     }
 
     #go-btn:hover {
@@ -248,21 +265,22 @@
 
     #hint {
       position: absolute;
-      bottom: 65px;
+      bottom: 55px;
       left: 50%;
       transform: translateX(-50%);
-      background: rgba(0,0,0,0.8);
+      background: rgba(0,0,0,0.7);
       color: #ffd700;
-      padding: 10px 18px;
+      padding: 8px 14px;
       border-radius: 0;
       border: 2px solid #ffd700;
       font-family: 'Press Start 2P', monospace;
-      font-size: clamp(8px, 2.2vw, 9px);
+      font-size: clamp(7px, 2vw, 8px);
       text-align: center;
       z-index: 100;
       max-width: 85%;
       line-height: 1.6;
       white-space: nowrap;
+      pointer-events: none;
     }
 
     #quote-bubble {
