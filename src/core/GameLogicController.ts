@@ -542,7 +542,7 @@ export class GameLogicController {
     this.quoteMgr.showQuote(rider.id, QuoteType.CRASH);
 
     // 屏幕震动和红色闪屏
-    EventBus.emit(GameEventType.SCREEN_SHAKE, { intensity: 8, duration: 300 });
+    EventBus.emit(GameEventType.SCREEN_SHAKE, { intensity: 4, duration: 300 });
     EventBus.emit(GameEventType.RED_FLASH, {});
 
     console.log(`韦手 ${rider.id} 和 ${otherRider.id} 撞车`);
@@ -569,7 +569,7 @@ export class GameLogicController {
     this.audioMgr.play('crash');
     this.quoteMgr.showQuote(rider.id, QuoteType.CRASH);
 
-    EventBus.emit(GameEventType.SCREEN_SHAKE, { intensity: 6, duration: 200 });
+    EventBus.emit(GameEventType.SCREEN_SHAKE, { intensity: 3, duration: 200 });
     EventBus.emit(GameEventType.RED_FLASH, {});
 
     console.log(`韦手 ${rider.id} 超出边界`);

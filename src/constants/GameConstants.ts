@@ -185,3 +185,30 @@ export const PATH_CONSTANTS = {
   /** 教程关卡ID列表 */
   TUTORIAL_LEVELS: [1, 2, 3, 4, 5]
 };
+
+/** 点缀色彩常量 */
+export const ACCENT_COLORS = {
+  /** 青绿色 - 用于送达成功、出口高亮 */
+  TEAL: '#4ECDC4',
+
+  /** 柔粉色 - 用于VIP、特殊状态 */
+  PINK: '#FF6B9D'
+};
+
+/** 特效参数常量 */
+export const EFFECT_CONSTANTS = {
+  /** 撞车粒子数量 */
+  CRASH_PARTICLE_COUNT: 10,
+
+  /** 成功粒子数量 */
+  SUCCESS_PARTICLE_COUNT: 8,
+
+  /** 屏幕震动强度（像素） */
+  SHAKE_INTENSITY: 4,
+
+  /** 红色闪屏透明度 */
+  RED_FLASH_ALPHA: 0.2,
+
+  /** combo 弹出文字颜色 */
+  COMBO_COLOR: '#FFD700'
+};

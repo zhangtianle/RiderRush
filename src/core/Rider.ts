@@ -104,6 +104,12 @@ export class Rider {
   /** 是否已送达 */
   hasDelivered: boolean;
 
+  /** 规划路径（waypoint数组） */
+  path: Position[] = [];
+
+  /** 当前路径段索引 */
+  currentWaypointIndex: number = 0;
+
   /** 当前表情 */
   currentExpression: string;
 
@@ -140,8 +146,53 @@ export class Rider {
     this.isVIPFirst = config.type === RiderType.VIP;
     this.hasDelivered = false;
 
+    // 路径
+    this.path = [];
+    this.currentWaypointIndex = 0;
+
     // 表情
     this.currentExpression = 'normal';
+  }
+
+  /** 是否已规划路径 */
+  get hasPath(): boolean {
+    return this.path.length >= 2;
+  }
+
+  /**
+   * 设置规划路径
+   * @param waypoints 路径点数组，第一个点应为骑手当前位置
+   */
+  setPath(waypoints: Position[]): void {
+    if (waypoints.length < 2) return;
+    this.path = waypoints.map(p => ({ x: p.x, y: p.y }));
+    this.currentWaypointIndex = 0;
+    // 推算视觉朝向
+    this.updateDirectionFromPath();
+  }
+
+  /**
+   * 清除规划路径
+   */
+  clearPath(): void {
+    this.path = [];
+    this.currentWaypointIndex = 0;
+  }
+
+  /**
+   * 根据当前路径段推算朝向（仅用于视觉）
+   */
+  private updateDirectionFromPath(): void {
+    if (this.currentWaypointIndex >= this.path.length - 1) return;
+    const from = this.path[this.currentWaypointIndex];
+    const to = this.path[this.currentWaypointIndex + 1];
+    const dx = to.x - from.x;
+    const dy = to.y - from.y;
+    if (Math.abs(dx) >= Math.abs(dy)) {
+      this.direction = dx > 0 ? Direction.RIGHT : Direction.LEFT;
+    } else {
+      this.direction = dy > 0 ? Direction.DOWN : Direction.UP;
+    }
   }
 
   // ========== 公共方法 ==========
@@ -252,6 +303,8 @@ export class Rider {
     this.state = RiderState.IDLE;
     this.hasDelivered = false;
     this.timeRemaining = this.timeLimit;
+    this.path = [];
+    this.currentWaypointIndex = 0;
     this.changeExpression('normal');
   }
 
@@ -267,25 +320,40 @@ export class Rider {
 
   /**
    * 更新位置
-   * @description 根据方向和时间增量计算新位置
+   * @description 沿规划路径的waypoint逐段移动
    * @param dt 时间增量（秒）
    */
   private updatePosition(dt: number): void {
+    // 无路径时使用固定方向移动（兼容旧逻辑）
+    if (this.path.length < 2 || this.currentWaypointIndex >= this.path.length - 1) {
+      const distance = this.speed * dt;
+      switch (this.direction) {
+        case Direction.UP:    this.position.y -= distance; break;
+        case Direction.DOWN:  this.position.y += distance; break;
+        case Direction.LEFT:  this.position.x -= distance; break;
+        case Direction.RIGHT: this.position.x += distance; break;
+      }
+      return;
+    }
+
+    // 沿路径移动
+    const target = this.path[this.currentWaypointIndex + 1];
+    const dx = target.x - this.position.x;
+    const dy = target.y - this.position.y;
+    const distToTarget = Math.sqrt(dx * dx + dy * dy);
+
     const distance = this.speed * dt;
 
-    switch (this.direction) {
-      case Direction.UP:
-        this.position.y -= distance;
-        break;
-      case Direction.DOWN:
-        this.position.y += distance;
-        break;
-      case Direction.LEFT:
-        this.position.x -= distance;
-        break;
-      case Direction.RIGHT:
-        this.position.x += distance;
-        break;
+    if (distToTarget <= distance || distToTarget < 0.1) {
+      // 到达当前目标waypoint，snap并前进到下一段
+      this.position.x = target.x;
+      this.position.y = target.y;
+      this.currentWaypointIndex++;
+      this.updateDirectionFromPath();
+    } else {
+      // 向目标waypoint移动
+      this.position.x += (dx / distToTarget) * distance;
+      this.position.y += (dy / distToTarget) * distance;
     }
   }
 

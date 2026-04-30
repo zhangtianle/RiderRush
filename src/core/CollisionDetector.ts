@@ -44,32 +44,32 @@ export class CollisionDetector {
     exits: any[],
     gridSize: { width: number; height: number }
   ): CollisionResult {
-    // 计算骑手下一帧位置（预留）
-    const nextPosition = this.calculateNextPosition(rider);
+    // 使用骑手实际位置（已由 rider.update(dt) 更新）
+    const pos = rider.position;
 
     // 1. 检查边界碰撞
-    if (this.isOutOfBounds(nextPosition, gridSize)) {
+    if (this.isOutOfBounds(pos, gridSize)) {
       return {
         type: CollisionType.BOUNDARY,
         target: null,
-        position: nextPosition
+        position: pos
       };
     }
 
     // 2. 检查出口碰撞
     for (const exit of exits) {
-      if (this.isColliding(nextPosition, exit.position)) {
+      if (this.isColliding(pos, exit.position)) {
         return {
           type: CollisionType.EXIT,
           target: exit,
-          position: nextPosition
+          position: pos
         };
       }
     }
 
     // 3. 检查阻碍碰撞
     for (const obstacle of obstacles) {
-      if (this.isCollidingWithRect(nextPosition, obstacle.getCollisionRect())) {
+      if (this.isCollidingWithRect(pos, obstacle.getCollisionRect())) {
         // 红绿灯特殊处理
         if (obstacle.type === 'TRAFFIC_LIGHT' && obstacle.canPass()) {
           continue; // 绿灯可通过
@@ -77,7 +77,7 @@ export class CollisionDetector {
         return {
           type: CollisionType.OBSTACLE,
           target: obstacle,
-          position: nextPosition
+          position: pos
         };
       }
     }
@@ -85,11 +85,11 @@ export class CollisionDetector {
     // 4. 检查骑手间碰撞
     for (const other of otherRiders) {
       if (other.id !== rider.id && other.state === 'MOVING') {
-        if (this.isColliding(nextPosition, other.position)) {
+        if (this.isColliding(pos, other.position)) {
           return {
             type: CollisionType.RIDER,
             target: other,
-            position: nextPosition
+            position: pos
           };
         }
       }
@@ -99,7 +99,7 @@ export class CollisionDetector {
     return {
       type: CollisionType.NONE,
       target: null,
-      position: nextPosition
+      position: pos
     };
   }
 
@@ -156,18 +156,6 @@ export class CollisionDetector {
   // ========== 私有方法 ==========
 
   /**
-   * 计算下一帧位置
-   * @description 根据骑手方向和速度计算下一帧位置
-   * @param rider 韦手对象
-   * @returns 预计下一位置
-   */
-  private calculateNextPosition(rider: any): { x: number; y: number } {
-    // 预留：根据speed和direction计算
-    // 暂时返回当前位置
-    return { ...rider.position };
-  }
-
-  /**
    * 简化碰撞检测
    * @description 判断两个位置是否碰撞
    * @param pos1 位置1
@@ -196,9 +184,9 @@ export class CollisionDetector {
     rect: { x: number; y: number; width: number; height: number }
   ): boolean {
     return pos.x >= rect.x &&
-           pos.x <= rect.x + rect.width &&
+           pos.x < rect.x + rect.width &&
            pos.y >= rect.y &&
-           pos.y <= rect.y + rect.height;
+           pos.y < rect.y + rect.height;
   }
 
   /**

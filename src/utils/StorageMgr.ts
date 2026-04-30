@@ -3,13 +3,10 @@
  * @version v0.1.0
  * @since 2026-04-24
  */
+declare const wx: any;
+
 export class StorageMgr {
-  // ========== 属性 ==========
-
-  /** 单例 */
   private static instance: StorageMgr;
-
-  // ========== 构造函数 ==========
 
   constructor() {
     if (StorageMgr.instance) {
@@ -18,11 +15,6 @@ export class StorageMgr {
     StorageMgr.instance = this;
   }
 
-  // ========== 公共方法 ==========
-
-  /**
-   * 获取单例
-   */
   static getInstance(): StorageMgr {
     if (!StorageMgr.instance) {
       StorageMgr.instance = new StorageMgr();
@@ -30,16 +22,9 @@ export class StorageMgr {
     return StorageMgr.instance;
   }
 
-  /**
-   * 存储数据
-   * @param key 键名
-   * @param value 值
-   */
   set(key: string, value: any): void {
     try {
       const data = JSON.stringify(value);
-
-      // 微信小游戏存储
       if (typeof wx !== 'undefined') {
         wx.setStorageSync(key, data);
       } else {
@@ -50,22 +35,14 @@ export class StorageMgr {
     }
   }
 
-  /**
-   * 获取数据
-   * @param key 键名
-   * @returns 数据值
-   */
   get<T>(key: string): T | null {
     try {
       let data: string | null = null;
-
-      // 微信小游戏存储
       if (typeof wx !== 'undefined') {
         data = wx.getStorageSync(key);
       } else {
         data = localStorage.getItem(key);
       }
-
       if (data) {
         return JSON.parse(data) as T;
       }
@@ -76,10 +53,6 @@ export class StorageMgr {
     }
   }
 
-  /**
-   * 删除数据
-   * @param key 键名
-   */
   remove(key: string): void {
     try {
       if (typeof wx !== 'undefined') {
@@ -92,9 +65,6 @@ export class StorageMgr {
     }
   }
 
-  /**
-   * 清空所有数据
-   */
   clear(): void {
     try {
       if (typeof wx !== 'undefined') {

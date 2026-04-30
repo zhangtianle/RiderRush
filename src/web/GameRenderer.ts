@@ -9,6 +9,7 @@ import { Rider, RiderState, RiderType, Direction, Position } from '../core/Rider
 import { Obstacle, ObstacleType, TrafficLightState } from '../core/Obstacle';
 import { Level, LevelState } from '../core/Level';
 import { GameLogicController } from '../core/GameLogicController';
+import { ACCENT_COLORS, EFFECT_CONSTANTS } from '../constants/GameConstants';
 
 /** 渲染配置 */
 interface RenderConfig {
@@ -42,7 +43,7 @@ const COLORS = {
   gate: '#4A90D9',
 
   // 其他
-  exit: '#00FF00',
+  exit: ACCENT_COLORS.TEAL,
   exitHighlight: '#FFD700',
   gridLine: '#1e2a4a',
   gridLight: '#1c2744',
@@ -131,7 +132,7 @@ const RIDER_PALETTES: Record<string, Record<number, string>> = {
 
 /** 出口颜色调色板 */
 const EXIT_PALETTE: Record<number, string> = {
-  1: '#00AA00', 2: '#00DD00', 3: '#FFFFFF'
+  1: '#3BA89E', 2: ACCENT_COLORS.TEAL, 3: '#FFFFFF'
 };
 
 /** 方向箭头像素数据 (5x5) */
@@ -193,6 +194,9 @@ export class GameRenderer {
   /** 粒子效果 */
   private particles: { x: number; y: number; vx: number; vy: number; life: number; color: string; size: number }[] = [];
 
+  /** 送达光圈效果 */
+  private deliveryRings: { x: number; y: number; age: number; maxAge: number }[] = [];
+
   /** 屏幕震动 */
   private shakeIntensity: number = 0;
   private shakeDuration: number = 0;
@@ -202,7 +206,7 @@ export class GameRenderer {
   private redFlashAlpha: number = 0;
 
   /** 连击弹出 */
-  private comboPopups: { text: string; x: number; y: number; age: number; maxAge: number }[] = [];
+  private comboPopups: { text: string; x: number; y: number; age: number; maxAge: number; color?: string }[] = [];
 
   /** 路径预览 */
   private previewPath: { riderId: string; path: Position[]; isValid: boolean } | null = null;
@@ -315,6 +319,7 @@ export class GameRenderer {
 
     this.renderRiders(controller.getRiders());
     this.renderParticles();
+    this.renderDeliveryRings();
     this.renderComboPopups();
 
     this.ctx.restore();
@@ -345,6 +350,11 @@ export class GameRenderer {
       p.age += dt;
       return p.age < p.maxAge;
     });
+
+    this.deliveryRings = this.deliveryRings.filter(r => {
+      r.age += dt;
+      return r.age < r.maxAge;
+    });
   }
 
   triggerShake(intensity: number, duration: number): void {
@@ -354,7 +364,7 @@ export class GameRenderer {
   }
 
   triggerRedFlash(): void {
-    this.redFlashAlpha = 0.4;
+    this.redFlashAlpha = EFFECT_CONSTANTS.RED_FLASH_ALPHA;
   }
 
   addComboPopup(count: number, x: number, y: number): void {
@@ -366,7 +376,8 @@ export class GameRenderer {
       x: screenPos.x,
       y: screenPos.y,
       age: 0,
-      maxAge: 1.5
+      maxAge: 1.5,
+      color: EFFECT_CONSTANTS.COMBO_COLOR
     });
   }
 
@@ -464,32 +475,140 @@ export class GameRenderer {
     const { cellSize } = this.config;
     const gridWidth = level.gridSize.width;
     const gridHeight = level.gridSize.height;
+    const ctx = this.ctx;
 
-    // 棋盘格背景
+    // === 建筑剪影（网格外围） ===
+    this.renderBuildingSilhouettes(gridWidth, gridHeight, cellSize);
+
+    // === 沥青质感背景 ===
     for (let gy = 0; gy < gridHeight; gy++) {
       for (let gx = 0; gx < gridWidth; gx++) {
-        this.ctx.fillStyle = (gx + gy) % 2 === 0 ? COLORS.gridLight : COLORS.gridDark;
-        this.ctx.fillRect(gx * cellSize, gy * cellSize, cellSize, cellSize);
+        // 伪随机纹理类型：基于坐标的哈希
+        const textureType = ((gx * 7 + gy * 13) % 4);
+        const baseColor = textureType < 2 ? COLORS.gridLight : COLORS.gridDark;
+        ctx.fillStyle = baseColor;
+        ctx.fillRect(gx * cellSize, gy * cellSize, cellSize, cellSize);
+
+        // 像素点阵纹理（微妙的明暗变化）
+        const dotAlpha = 0.06 + textureType * 0.02;
+        ctx.fillStyle = `rgba(255,255,255,${dotAlpha})`;
+        for (let dy = 0; dy < cellSize; dy += 4) {
+          for (let dx = 0; dx < cellSize; dx += 4) {
+            if (((gx * 3 + dx + gy * 5 + dy) * 17) % 7 < 2) {
+              ctx.fillRect(gx * cellSize + dx, gy * cellSize + dy, 2, 2);
+            }
+          }
+        }
       }
     }
 
-    // 网格线（像素风格细线）
-    this.ctx.strokeStyle = COLORS.gridLine;
-    this.ctx.lineWidth = 1;
+    // === 路沿石（网格边缘） ===
+    const curbColor = '#2a3a5a';
+    const curbHighlight = '#3a4a6a';
+    const curbWidth = 3;
 
-    for (let x = 0; x <= gridWidth; x++) {
-      this.ctx.beginPath();
-      this.ctx.moveTo(x * cellSize + 0.5, 0);
-      this.ctx.lineTo(x * cellSize + 0.5, gridHeight * cellSize);
-      this.ctx.stroke();
+    // 顶部路沿
+    ctx.fillStyle = curbHighlight;
+    ctx.fillRect(0, 0, gridWidth * cellSize, curbWidth);
+    ctx.fillStyle = curbColor;
+    ctx.fillRect(0, curbWidth, gridWidth * cellSize, 1);
+
+    // 底部路沿
+    ctx.fillStyle = curbColor;
+    ctx.fillRect(0, gridHeight * cellSize - curbWidth - 1, gridWidth * cellSize, 1);
+    ctx.fillStyle = curbHighlight;
+    ctx.fillRect(0, gridHeight * cellSize - curbWidth, gridWidth * cellSize, curbWidth);
+
+    // 左侧路沿
+    ctx.fillStyle = curbHighlight;
+    ctx.fillRect(0, 0, curbWidth, gridHeight * cellSize);
+    ctx.fillStyle = curbColor;
+    ctx.fillRect(curbWidth, 0, 1, gridHeight * cellSize);
+
+    // 右侧路沿
+    ctx.fillStyle = curbColor;
+    ctx.fillRect(gridWidth * cellSize - curbWidth - 1, 0, 1, gridHeight * cellSize);
+    ctx.fillStyle = curbHighlight;
+    ctx.fillRect(gridWidth * cellSize - curbWidth, 0, curbWidth, gridHeight * cellSize);
+
+    // === 车道虚线 ===
+    ctx.fillStyle = 'rgba(255,255,255,0.25)';
+    const dashLen = 6;
+    const dashGap = 10;
+
+    // 水平中线虚线
+    if (gridHeight >= 4) {
+      const midY = Math.floor(gridHeight / 2) * cellSize + cellSize / 2;
+      for (let x = 0; x < gridWidth * cellSize; x += dashLen + dashGap) {
+        ctx.fillRect(x, midY - 1, dashLen, 2);
+      }
     }
 
-    for (let y = 0; y <= gridHeight; y++) {
-      this.ctx.beginPath();
-      this.ctx.moveTo(0, y * cellSize + 0.5);
-      this.ctx.lineTo(gridWidth * cellSize, y * cellSize + 0.5);
-      this.ctx.stroke();
+    // 垂直中线虚线
+    if (gridWidth >= 4) {
+      const midX = Math.floor(gridWidth / 2) * cellSize + cellSize / 2;
+      for (let y = 0; y < gridHeight * cellSize; y += dashLen + dashGap) {
+        ctx.fillRect(midX - 1, y, 2, dashLen);
+      }
     }
+  }
+
+  /**
+   * 绘制建筑剪影（网格外围装饰）
+   */
+  private renderBuildingSilhouettes(gridWidth: number, gridHeight: number, cellSize: number): void {
+    const ctx = this.ctx;
+    const totalW = gridWidth * cellSize;
+    const totalH = gridHeight * cellSize;
+    const buildingColor = '#0d1328';
+    const windowColor = '#1a2744';
+
+    // 顶部建筑剪影
+    const topBuildings = [
+      { x: 0.05, w: 0.12, h: 18 },
+      { x: 0.2,  w: 0.08, h: 28 },
+      { x: 0.32, w: 0.15, h: 14 },
+      { x: 0.52, w: 0.1,  h: 22 },
+      { x: 0.68, w: 0.14, h: 16 },
+      { x: 0.85, w: 0.1,  h: 24 },
+    ];
+
+    topBuildings.forEach(b => {
+      const bx = Math.floor(b.x * totalW);
+      const bw = Math.floor(b.w * totalW);
+      ctx.fillStyle = buildingColor;
+      ctx.fillRect(bx, -b.h, bw, b.h);
+      // 小窗户
+      ctx.fillStyle = windowColor;
+      for (let wy = -b.h + 4; wy < -2; wy += 6) {
+        for (let wx = bx + 3; wx < bx + bw - 3; wx += 8) {
+          ctx.fillRect(wx, wy, 3, 3);
+        }
+      }
+    });
+
+    // 底部建筑剪影
+    const bottomBuildings = [
+      { x: 0.02, w: 0.1,  h: 15 },
+      { x: 0.15, w: 0.13, h: 22 },
+      { x: 0.35, w: 0.09, h: 12 },
+      { x: 0.48, w: 0.16, h: 20 },
+      { x: 0.7,  w: 0.12, h: 16 },
+      { x: 0.86, w: 0.1,  h: 26 },
+    ];
+
+    bottomBuildings.forEach(b => {
+      const bx = Math.floor(b.x * totalW);
+      const bw = Math.floor(b.w * totalW);
+      ctx.fillStyle = buildingColor;
+      ctx.fillRect(bx, totalH, bw, b.h);
+      ctx.fillStyle = windowColor;
+      for (let wy = totalH + 4; wy < totalH + b.h - 2; wy += 6) {
+        for (let wx = bx + 3; wx < bx + bw - 3; wx += 8) {
+          ctx.fillRect(wx, wy, 3, 3);
+        }
+      }
+    });
   }
 
   private renderExits(level: Level): void {
@@ -821,6 +940,33 @@ export class GameRenderer {
     this.ctx.globalAlpha = 1;
   }
 
+  /**
+   * 渲染送达金色光圈
+   */
+  private renderDeliveryRings(): void {
+    const ctx = this.ctx;
+    this.deliveryRings.forEach(ring => {
+      const progress = ring.age / ring.maxAge;
+      const alpha = 1 - progress;
+      const radius = this.config.cellSize * 0.3 + progress * this.config.cellSize * 0.4;
+
+      ctx.save();
+      ctx.globalAlpha = alpha * 0.6;
+      ctx.strokeStyle = ACCENT_COLORS.TEAL;
+      ctx.lineWidth = 3;
+      ctx.beginPath();
+      ctx.arc(ring.x, ring.y, radius, 0, Math.PI * 2);
+      ctx.stroke();
+
+      ctx.globalAlpha = alpha * 0.2;
+      ctx.fillStyle = ACCENT_COLORS.TEAL;
+      ctx.beginPath();
+      ctx.arc(ring.x, ring.y, radius, 0, Math.PI * 2);
+      ctx.fill();
+      ctx.restore();
+    });
+  }
+
   updateParticles(dt: number): void {
     this.particles = this.particles.filter(p => {
       p.x += p.vx * dt;
@@ -831,29 +977,44 @@ export class GameRenderer {
   }
 
   addSuccessParticles(x: number, y: number): void {
-    for (let i = 0; i < 12; i++) {
+    for (let i = 0; i < EFFECT_CONSTANTS.SUCCESS_PARTICLE_COUNT; i++) {
+      this.particles.push({
+        x,
+        y,
+        vx: (Math.random() - 0.5) * 100,
+        vy: (Math.random() - 0.5) * 100,
+        life: 1,
+        color: ['#FFD700', '#FFA500', '#FFFFFF'][Math.floor(Math.random() * 3)],
+        size: 3 + Math.random() * 3
+      });
+    }
+  }
+
+  /**
+   * 添加送达金色光圈
+   */
+  addDeliveryRing(gridX: number, gridY: number): void {
+    const screenPos = this.gridToScreen(gridX, gridY);
+    const centerX = screenPos.x + this.config.cellSize / 2;
+    const centerY = screenPos.y + this.config.cellSize / 2;
+    this.deliveryRings.push({
+      x: centerX,
+      y: centerY,
+      age: 0,
+      maxAge: 0.6
+    });
+  }
+
+  addCrashParticles(x: number, y: number): void {
+    for (let i = 0; i < EFFECT_CONSTANTS.CRASH_PARTICLE_COUNT; i++) {
       this.particles.push({
         x,
         y,
         vx: (Math.random() - 0.5) * 120,
         vy: (Math.random() - 0.5) * 120,
         life: 1,
-        color: ['#00FF00', '#FFD700', '#FFFFFF'][Math.floor(Math.random() * 3)],
-        size: 4 + Math.random() * 4
-      });
-    }
-  }
-
-  addCrashParticles(x: number, y: number): void {
-    for (let i = 0; i < 18; i++) {
-      this.particles.push({
-        x,
-        y,
-        vx: (Math.random() - 0.5) * 160,
-        vy: (Math.random() - 0.5) * 160,
-        life: 1,
         color: ['#FF0000', '#FF6600', '#FFD700'][Math.floor(Math.random() * 3)],
-        size: 3 + Math.random() * 5
+        size: 2 + Math.random() * 3
       });
     }
   }
@@ -968,7 +1129,7 @@ export class GameRenderer {
       this.ctx.save();
       this.ctx.globalAlpha = alpha;
       this.ctx.font = `bold ${Math.round(20 * scale)}px monospace`;
-      this.ctx.fillStyle = '#FFD700';
+      this.ctx.fillStyle = popup.color || EFFECT_CONSTANTS.COMBO_COLOR;
       this.ctx.strokeStyle = '#000000';
       this.ctx.lineWidth = 3;
       this.ctx.textAlign = 'center';

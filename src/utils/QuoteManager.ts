@@ -17,7 +17,11 @@ export enum QuoteType {
   WAITING = 'waiting',
   VIP = 'vip',
   URGENT = 'urgent',
-  FAIL = 'fail'
+  FAIL = 'fail',
+  NEAR_MISS = 'near_miss',
+  TAUNT = 'taunt',
+  COMBO = 'combo',
+  PATH_DRAWN = 'path_drawn'
 }
 
 /** 台词显示配置 */
@@ -222,6 +226,38 @@ export class QuoteManager {
       '今天白干了...',
       '下次一定...',
       '太可惜了...'
+    ]);
+
+    this.quotes.set(QuoteType.NEAR_MISS, [
+      '就差一点！',
+      '再来一次！',
+      '最后一个了！',
+      '差一点就完美！',
+      '就差最后一个！'
+    ]);
+
+    this.quotes.set(QuoteType.TAUNT, [
+      '路都不会走？',
+      '撞墙也送外卖？',
+      '这路谁画的？',
+      '驾照哪里考的？',
+      '导航坏了吗？'
+    ]);
+
+    this.quotes.set(QuoteType.COMBO, [
+      '双杀！',
+      '三连击！',
+      '无人能挡！',
+      '超神了！',
+      '外卖之王！'
+    ]);
+
+    this.quotes.set(QuoteType.PATH_DRAWN, [
+      '路线规划好了！',
+      '这条路线完美！',
+      '出发准备就绪！',
+      '万事俱备！',
+      '路线确认！'
     ]);
   }
 

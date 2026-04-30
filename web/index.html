@@ -78,6 +78,7 @@
       padding: 8px 12px;
       border-radius: 0;
       border: 2px solid #ffd700;
+      box-shadow: inset 0 0 0 1px rgba(255,215,0,0.3), 0 0 0 1px #111, 0 0 0 3px #222;
       font-family: 'Press Start 2P', monospace;
       font-size: clamp(8px, 2.5vw, 10px);
       white-space: nowrap;
@@ -92,11 +93,21 @@
       padding: 8px 12px;
       border-radius: 0;
       border: 2px solid #ff6b6b;
+      box-shadow: inset 0 0 0 1px rgba(255,107,107,0.3), 0 0 0 1px #111, 0 0 0 3px #222;
       font-family: 'Press Start 2P', monospace;
       font-size: clamp(8px, 2.5vw, 10px);
       font-weight: bold;
       white-space: nowrap;
       flex-shrink: 0;
+      position: relative;
+      padding-left: 24px;
+    }
+
+    #timer::before {
+      content: '\231A';
+      position: absolute;
+      left: 8px;
+      font-size: 10px;
     }
 
     #pause-btn {
@@ -136,10 +147,20 @@
       padding: 8px 12px;
       border-radius: 0;
       border: 2px solid #4caf50;
+      box-shadow: inset 0 0 0 1px rgba(76,175,80,0.3), 0 0 0 1px #111, 0 0 0 3px #222;
       font-family: 'Press Start 2P', monospace;
       font-size: clamp(8px, 2.5vw, 10px);
       white-space: nowrap;
       flex-shrink: 0;
+      position: relative;
+      padding-left: 26px;
+    }
+
+    #delivered::before {
+      content: '\1F4E6';
+      position: absolute;
+      left: 7px;
+      font-size: 11px;
     }
 
     #path-status {
@@ -147,6 +168,7 @@
       padding: 8px 12px;
       border-radius: 0;
       border: 2px solid #4a90d9;
+      box-shadow: inset 0 0 0 1px rgba(74,144,217,0.3), 0 0 0 1px #111, 0 0 0 3px #222;
       color: #ffd700;
       font-family: 'Press Start 2P', monospace;
       font-size: clamp(8px, 2.5vw, 10px);
@@ -154,6 +176,16 @@
       white-space: nowrap;
       flex-shrink: 1;
       min-width: 0;
+      position: relative;
+      padding-left: 24px;
+    }
+
+    #path-status::before {
+      content: '\2192';
+      position: absolute;
+      left: 8px;
+      font-size: 12px;
+      color: #4a90d9;
     }
 
     #action-buttons {
@@ -255,6 +287,17 @@
       border-top-color: white;
     }
 
+    /* HUD 弹跳动画 */
+    @keyframes hud-bounce {
+      0% { transform: scale(1); }
+      40% { transform: scale(1.15); }
+      100% { transform: scale(1); }
+    }
+
+    .hud-bounce {
+      animation: hud-bounce 0.2s ease-out;
+    }
+
     /* 菜单样式 */
     #menu-screen {
       position: absolute;
@@ -269,6 +312,38 @@
       align-items: center;
       z-index: 500;
       image-rendering: pixelated;
+      overflow: hidden;
+    }
+
+    .menu-city-silhouette {
+      position: absolute;
+      bottom: 0;
+      left: 0;
+      right: 0;
+      height: 80px;
+      pointer-events: none;
+      background:
+        /* 建筑群 */
+        linear-gradient(to bottom, #0d1328 0px, #0d1328 100%) no-repeat 3% bottom / 8% 45px,
+        linear-gradient(to bottom, #0d1328 0px, #0d1328 100%) no-repeat 13% bottom / 6% 60px,
+        linear-gradient(to bottom, #0d1328 0px, #0d1328 100%) no-repeat 21% bottom / 10% 35px,
+        linear-gradient(to bottom, #0d1328 0px, #0d1328 100%) no-repeat 33% bottom / 7% 55px,
+        linear-gradient(to bottom, #0d1328 0px, #0d1328 100%) no-repeat 42% bottom / 12% 40px,
+        linear-gradient(to bottom, #0d1328 0px, #0d1328 100%) no-repeat 56% bottom / 8% 50px,
+        linear-gradient(to bottom, #0d1328 0px, #0d1328 100%) no-repeat 66% bottom / 6% 65px,
+        linear-gradient(to bottom, #0d1328 0px, #0d1328 100%) no-repeat 74% bottom / 9% 38px,
+        linear-gradient(to bottom, #0d1328 0px, #0d1328 100%) no-repeat 85% bottom / 7% 48px,
+        linear-gradient(to bottom, #0d1328 0px, #0d1328 100%) no-repeat 94% bottom / 5% 42px;
+    }
+
+    .menu-city-silhouette::before {
+      content: '';
+      position: absolute;
+      bottom: 0;
+      left: 0;
+      right: 0;
+      height: 20px;
+      background: #0a0e1a;
     }
 
     #menu-screen.hidden {
@@ -283,6 +358,39 @@
       margin-bottom: 10px;
       text-shadow: 3px 3px 0px #cc6600, 0 0 20px rgba(255,215,0,0.5);
       letter-spacing: 2px;
+      padding: 14px 28px;
+      border: 3px solid #ffd700;
+      box-shadow:
+        inset 0 0 0 2px #1a1a2e,
+        inset 0 0 0 4px rgba(255,215,0,0.4),
+        0 0 0 2px #111,
+        0 0 0 5px #222,
+        6px 6px 0px rgba(204,102,0,0.4);
+      background: rgba(0,0,0,0.4);
+      position: relative;
+    }
+
+    #menu-title::before,
+    #menu-title::after {
+      content: '';
+      position: absolute;
+      width: 8px;
+      height: 8px;
+      border: 2px solid #ffd700;
+    }
+
+    #menu-title::before {
+      top: -6px;
+      left: -6px;
+      border-right: none;
+      border-bottom: none;
+    }
+
+    #menu-title::after {
+      bottom: -6px;
+      right: -6px;
+      border-left: none;
+      border-top: none;
     }
 
     #menu-subtitle {
@@ -317,6 +425,21 @@
     .menu-btn:active {
       transform: translate(2px, 2px);
       box-shadow: 2px 2px 0px #cc6600;
+    }
+
+    .menu-btn.primary {
+      font-size: clamp(12px, 3.5vw, 15px);
+      padding: 14px 36px;
+      border-width: 4px;
+      box-shadow: 5px 5px 0px #cc6600, 0 0 20px rgba(255,215,0,0.3);
+    }
+
+    .menu-btn.primary:hover {
+      box-shadow: 7px 7px 0px #cc6600, 0 0 30px rgba(255,215,0,0.4);
+    }
+
+    .menu-btn.primary:active {
+      box-shadow: 3px 3px 0px #cc6600, 0 0 15px rgba(255,215,0,0.2);
     }
 
     .menu-btn.secondary {
@@ -784,6 +907,7 @@
     <div id="ui-layer">
       <!-- 菜单界面 -->
       <div id="menu-screen">
+        <div class="menu-city-silhouette"></div>
         <div id="menu-title">🛵 外卖冲冲冲</div>
         <div id="menu-subtitle">规划路线，让所有骑手安全送达</div>
         <div style="color:#888;font-size:clamp(7px,1.8vw,9px);margin-bottom:20px;padding:10px;background:rgba(0,0,0,0.3);border:2px solid rgba(255,255,255,0.2);border-radius:0;max-width:90vw;width:300px;font-family:'Press Start 2P',monospace;line-height:1.8;">
@@ -794,7 +918,7 @@
           4. VIP骑手(橙色)必须先规划路线<br>
           5. 加急骑手(红色)有时间限制
         </div>
-        <button class="menu-btn" onclick="startGame()">▶ 开始游戏</button>
+        <button class="menu-btn primary" onclick="startGame()">▶ 开始游戏</button>
         <button class="menu-btn" onclick="showLevelSelect()">📋 选择关卡</button>
         <div class="setting-toggle" style="margin-top:15px;">
           <div class="toggle-switch enabled" id="menu-story-toggle" onclick="toggleStorySetting()"></div>

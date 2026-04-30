@@ -386,6 +386,8 @@ export class WebGame {
     this.renderer.render(this.controller);
   }
 
+  private lastDeliveredCount: number = 0;
+
   private updateUI(): void {
     const level = this.controller.getLevel();
     if (!level) return;
@@ -403,6 +405,14 @@ export class WebGame {
     const delivered = this.controller.getDeliveredCount();
     const total = this.controller.getTotalRiders();
     this.deliveredDisplay.textContent = `送达: ${delivered}/${total}`;
+
+    // 送达数变化时触发弹跳动画
+    if (delivered !== this.lastDeliveredCount) {
+      this.lastDeliveredCount = delivered;
+      this.deliveredDisplay.classList.remove('hud-bounce');
+      void this.deliveredDisplay.offsetWidth; // 强制回流以重启动画
+      this.deliveredDisplay.classList.add('hud-bounce');
+    }
 
     if (delivered > 0) {
       this.instructions.style.display = 'none';
@@ -458,6 +468,11 @@ export class WebGame {
     // 连击
     eventBus.on(GameEventType.COMBO_ACHIEVED, (data: any) => {
       this.renderer.addComboPopup(data.count, data.position.x, data.position.y);
+    });
+
+    // 送达金色光圈
+    eventBus.on(GameEventType.RIDER_DELIVERED, (rider: any) => {
+      this.renderer.addDeliveryRing(rider.position.x, rider.position.y);
     });
 
     // 故事事件
@@ -585,10 +600,26 @@ export class WebGame {
     this.state = WebGameState.RESULT;
     this.resultPanel.classList.add('visible');
 
-    const starsText = '⭐'.repeat(stars) + '☆'.repeat(3 - stars);
-    document.getElementById('result-stars')!.textContent = starsText;
     document.getElementById('result-time')!.textContent = `用时: ${time.toFixed(1)}秒`;
     document.getElementById('result-title')!.textContent = message || '关卡完成！';
+
+    // 星星逐个出现
+    const starsContainer = document.getElementById('result-stars')!;
+    starsContainer.innerHTML = '';
+    for (let i = 0; i < 3; i++) {
+      const star = document.createElement('span');
+      star.textContent = i < stars ? '⭐' : '☆';
+      star.style.display = 'inline-block';
+      star.style.opacity = '0';
+      star.style.transform = 'scale(0)';
+      star.style.transition = 'opacity 0.3s, transform 0.3s cubic-bezier(0.34, 1.56, 0.64, 1)';
+      starsContainer.appendChild(star);
+
+      setTimeout(() => {
+        star.style.opacity = '1';
+        star.style.transform = 'scale(1)';
+      }, 200 + i * 250);
+    }
 
     // 省份排行
     this.leaderboard.recordCompletion();
