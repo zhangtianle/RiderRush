@@ -479,7 +479,7 @@ export class GameLogicController {
     console.log(`韦手 ${rider.id} 成功送达`);
 
     if (this.level) {
-      this.level.deliveredCount++;
+      this.level.onRiderDelivered(rider);
     }
   }
 
