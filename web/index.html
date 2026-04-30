@@ -68,7 +68,7 @@
       justify-content: space-between;
       align-items: center;
       color: white;
-      font-size: 16px;
+      font-size: clamp(14px, 3.5vw, 18px);
       z-index: 100;
       gap: 6px;
       pointer-events: none;
@@ -85,7 +85,7 @@
       border: 2px solid #ffd700;
       box-shadow: inset 0 0 0 1px rgba(255,215,0,0.3), 0 0 0 1px #111, 0 0 0 3px #222;
       font-family: 'Press Start 2P', monospace;
-      font-size: clamp(7px, 2vw, 9px);
+      font-size: clamp(12px, 3vw, 16px);
       white-space: nowrap;
       overflow: hidden;
       text-overflow: ellipsis;
@@ -107,7 +107,7 @@
       border: 2px solid #ff6b6b;
       box-shadow: inset 0 0 0 1px rgba(255,107,107,0.3), 0 0 0 1px #111, 0 0 0 3px #222;
       font-family: 'Press Start 2P', monospace;
-      font-size: clamp(7px, 2vw, 9px);
+      font-size: clamp(12px, 3vw, 16px);
       font-weight: bold;
       white-space: nowrap;
       flex-shrink: 0;
@@ -130,7 +130,7 @@
       border-radius: 0;
       cursor: pointer;
       font-family: 'Press Start 2P', monospace;
-      font-size: clamp(7px, 2vw, 9px);
+      font-size: clamp(12px, 3vw, 16px);
       min-height: 36px;
       flex-shrink: 0;
     }
@@ -149,7 +149,7 @@
       justify-content: space-between;
       align-items: center;
       color: white;
-      font-size: 14px;
+      font-size: clamp(12px, 3vw, 16px);
       z-index: 100;
       gap: 6px;
       pointer-events: none;
@@ -166,7 +166,7 @@
       border: 2px solid #4caf50;
       box-shadow: inset 0 0 0 1px rgba(76,175,80,0.3), 0 0 0 1px #111, 0 0 0 3px #222;
       font-family: 'Press Start 2P', monospace;
-      font-size: clamp(7px, 2vw, 9px);
+      font-size: clamp(12px, 3vw, 16px);
       white-space: nowrap;
       flex-shrink: 0;
       position: relative;
@@ -188,7 +188,7 @@
       box-shadow: inset 0 0 0 1px rgba(74,144,217,0.3), 0 0 0 1px #111, 0 0 0 3px #222;
       color: #ffd700;
       font-family: 'Press Start 2P', monospace;
-      font-size: clamp(7px, 2vw, 9px);
+      font-size: clamp(12px, 3vw, 16px);
       display: none;
       white-space: nowrap;
       flex-shrink: 1;
@@ -217,7 +217,7 @@
       padding: 8px 16px;
       border-radius: 0;
       font-family: 'Press Start 2P', monospace;
-      font-size: clamp(8px, 2.5vw, 10px);
+      font-size: clamp(13px, 3.5vw, 18px);
       font-weight: bold;
       cursor: pointer;
       transition: transform 0.2s, box-shadow 0.2s;
@@ -240,7 +240,7 @@
       background: linear-gradient(135deg, #ffd700 0%, #ff8c00 100%);
       border: 2px solid #cc9900;
       box-shadow: 3px 3px 0px #cc6600;
-      font-size: clamp(9px, 3vw, 11px);
+      font-size: clamp(14px, 3.5vw, 18px);
       padding: 8px 20px;
       min-height: 40px;
     }
@@ -274,7 +274,7 @@
       border-radius: 0;
       border: 2px solid #ffd700;
       font-family: 'Press Start 2P', monospace;
-      font-size: clamp(7px, 2vw, 8px);
+      font-size: clamp(12px, 3vw, 16px);
       text-align: center;
       z-index: 100;
       max-width: 85%;
@@ -289,7 +289,7 @@
       color: #333;
       padding: 8px 12px;
       border-radius: 12px;
-      font-size: 12px;
+      font-size: clamp(12px, 3vw, 16px);
       max-width: 120px;
       box-shadow: 0 2px 10px rgba(0,0,0,0.3);
       z-index: 200;
@@ -414,7 +414,7 @@
     #menu-subtitle {
       color: #888;
       font-family: 'Press Start 2P', monospace;
-      font-size: clamp(8px, 2vw, 10px);
+      font-size: clamp(12px, 3vw, 16px);
       margin-bottom: 20px;
       line-height: 1.6;
     }
@@ -426,7 +426,7 @@
       padding: 12px 28px;
       border-radius: 0;
       font-family: 'Press Start 2P', monospace;
-      font-size: clamp(10px, 3vw, 13px);
+      font-size: clamp(14px, 3.5vw, 18px);
       font-weight: bold;
       cursor: pointer;
       margin: 6px;
@@ -446,7 +446,7 @@
     }
 
     .menu-btn.primary {
-      font-size: clamp(12px, 3.5vw, 15px);
+      font-size: clamp(16px, 4vw, 20px);
       padding: 14px 36px;
       border-width: 4px;
       box-shadow: 5px 5px 0px #cc6600, 0 0 20px rgba(255,215,0,0.3);
@@ -464,7 +464,7 @@
       background: linear-gradient(135deg, #888888 0%, #666666 100%);
       border: 2px solid #555555;
       box-shadow: 4px 4px 0px #444444;
-      font-size: clamp(8px, 2vw, 10px);
+      font-size: clamp(12px, 3vw, 16px);
     }
 
     .menu-btn.secondary:hover {
@@ -522,7 +522,7 @@
       align-items: center;
       color: white;
       font-family: 'Press Start 2P', monospace;
-      font-size: clamp(11px, 3vw, 14px);
+      font-size: clamp(14px, 3.5vw, 18px);
       font-weight: bold;
       cursor: pointer;
       transition: all 0.2s;
@@ -604,7 +604,7 @@
     #result-time {
       color: #888;
       font-family: 'Press Start 2P', monospace;
-      font-size: clamp(7px, 2vw, 9px);
+      font-size: clamp(12px, 3vw, 16px);
       margin-bottom: 20px;
     }
 
@@ -615,7 +615,7 @@
       padding: 10px 20px;
       border-radius: 0;
       font-family: 'Press Start 2P', monospace;
-      font-size: clamp(8px, 2.2vw, 9px);
+      font-size: clamp(12px, 3vw, 16px);
       cursor: pointer;
       margin: 5px;
       box-shadow: 3px 3px 0px #cc6600;
@@ -656,7 +656,7 @@
     #fail-reason {
       color: #888;
       font-family: 'Press Start 2P', monospace;
-      font-size: clamp(7px, 2vw, 9px);
+      font-size: clamp(12px, 3vw, 16px);
       margin-bottom: 20px;
     }
 
@@ -667,7 +667,7 @@
       padding: 10px 20px;
       border-radius: 0;
       font-family: 'Press Start 2P', monospace;
-      font-size: clamp(8px, 2.2vw, 9px);
+      font-size: clamp(12px, 3vw, 16px);
       cursor: pointer;
       margin: 5px;
       font-weight: bold;
@@ -692,7 +692,7 @@
       border-radius: 0;
       border: 3px solid #cc9900;
       font-family: 'Press Start 2P', monospace;
-      font-size: clamp(8px, 2.5vw, 10px);
+      font-size: clamp(12px, 3vw, 16px);
       font-weight: bold;
       z-index: 400;
       display: none;
@@ -720,7 +720,7 @@
       transform: translate(-50%, -50%);
       color: rgba(255,255,255,0.5);
       font-family: 'Press Start 2P', monospace;
-      font-size: clamp(7px, 2vw, 8px);
+      font-size: clamp(12px, 3vw, 16px);
       text-align: center;
       z-index: 50;
       line-height: 1.8;
@@ -733,7 +733,7 @@
       border-radius: 0;
       border: 2px solid #4a90d9;
       font-family: 'Press Start 2P', monospace;
-      font-size: 8px;
+      font-size: clamp(10px, 2.5vw, 13px);
       color: #88ccff;
       margin-left: 8px;
     }
@@ -769,7 +769,7 @@
     #story-content {
       color: #FFFFFF;
       font-family: 'Press Start 2P', monospace;
-      font-size: clamp(8px, 2vw, 10px);
+      font-size: clamp(12px, 3vw, 16px);
       max-width: 85vw;
       text-align: center;
       line-height: 1.8;
@@ -782,7 +782,7 @@
     #story-character {
       color: #FFD700;
       font-family: 'Press Start 2P', monospace;
-      font-size: clamp(8px, 2vw, 10px);
+      font-size: clamp(12px, 3vw, 16px);
       padding: 5px 15px;
       background: rgba(255,215,0,0.3);
       border: 2px solid #FFD700;
@@ -795,7 +795,7 @@
       color: white;
       padding: 12px 24px;
       font-family: 'Press Start 2P', monospace;
-      font-size: clamp(8px, 2vw, 10px);
+      font-size: clamp(12px, 3vw, 16px);
       cursor: pointer;
       min-height: 44px;
     }
@@ -845,7 +845,7 @@
     #chapter-intro-text {
       color: #FFFFFF;
       font-family: 'Press Start 2P', monospace;
-      font-size: clamp(8px, 2vw, 10px);
+      font-size: clamp(12px, 3vw, 16px);
       max-width: 85vw;
       text-align: center;
       line-height: 1.8;
@@ -861,7 +861,7 @@
     #chapter-continue-hint {
       color: #888888;
       font-family: 'Press Start 2P', monospace;
-      font-size: clamp(7px, 1.8vw, 9px);
+      font-size: clamp(11px, 2.5vw, 14px);
       margin-top: 40px;
       opacity: 0;
       animation: hintFadeIn 0.5s ease-out 1.5s forwards;
@@ -1019,29 +1019,31 @@
   </div>
 
   <script>
+    window.__game = {};
+
     function startGame() {
-      if (window.startGame) window.startGame();
+      if (window.__game.startGame) window.__game.startGame();
     }
 
     function showLevelSelect() {
-      if (window.showLevelSelect) window.showLevelSelect();
+      if (window.__game.showLevelSelect) window.__game.showLevelSelect();
     }
 
     function hideLevelSelect() {
-      if (window.hideLevelSelect) window.hideLevelSelect();
+      if (window.__game.hideLevelSelect) window.__game.hideLevelSelect();
     }
 
     function retryLevel() {
-      if (window.retryLevel) window.retryLevel();
+      if (window.__game.retryLevel) window.__game.retryLevel();
     }
 
     function nextLevel() {
-      if (window.nextLevel) window.nextLevel();
+      if (window.__game.nextLevel) window.__game.nextLevel();
     }
 
     function handleNextLevel() {
       // 先尝试显示 epilogue，没有则直接下一关
-      if (window.showPendingEpilogue && window.showPendingEpilogue('next')) {
+      if (window.__game.showPendingEpilogue && window.__game.showPendingEpilogue('next')) {
         return;
       }
       nextLevel();
@@ -1049,31 +1051,31 @@
 
     function handleRetryLevel() {
       // 先尝试显示 epilogue，没有则直接重试
-      if (window.showPendingEpilogue && window.showPendingEpilogue('retry')) {
+      if (window.__game.showPendingEpilogue && window.__game.showPendingEpilogue('retry')) {
         return;
       }
       retryLevel();
     }
 
     function toMenu() {
-      if (window.toMenu) window.toMenu();
+      if (window.__game.toMenu) window.__game.toMenu();
     }
 
     function togglePause() {
-      if (window.togglePause) window.togglePause();
+      if (window.__game.togglePause) window.__game.togglePause();
     }
 
     function launchRiders() {
-      if (window.launchRiders) window.launchRiders();
+      if (window.__game.launchRiders) window.__game.launchRiders();
     }
 
     function clearPaths() {
-      if (window.clearPaths) window.clearPaths();
+      if (window.__game.clearPaths) window.__game.clearPaths();
     }
 
     function shareRevive() {
-      if (window.shareRevive) {
-        window.shareRevive();
+      if (window.__game.shareRevive) {
+        window.__game.shareRevive();
       } else {
         // Web mock: 弹确认框
         if (confirm('分享给好友获得复活机会？')) {
@@ -1083,7 +1085,7 @@
     }
 
     function skipStory() {
-      if (window.skipStory) window.skipStory();
+      if (window.__game.skipStory) window.__game.skipStory();
     }
 
     function toggleStorySetting() {

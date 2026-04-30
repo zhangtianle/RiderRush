@@ -974,36 +974,38 @@ export class WebGame {
   }
 
   private bindPlaceholderFunctions(): void {
-    (window as any).startGame = () => console.log('游戏正在初始化...');
-    (window as any).showLevelSelect = () => console.log('游戏正在初始化...');
-    (window as any).hideLevelSelect = () => console.log('游戏正在初始化...');
-    (window as any).retryLevel = () => console.log('游戏正在初始化...');
-    (window as any).nextLevel = () => console.log('游戏正在初始化...');
-    (window as any).toMenu = () => console.log('游戏正在初始化...');
-    (window as any).togglePause = () => console.log('游戏正在初始化...');
-    (window as any).launchRiders = () => console.log('游戏正在初始化...');
-    (window as any).clearPaths = () => console.log('游戏正在初始化...');
-    (window as any).shareRevive = () => console.log('游戏正在初始化...');
-    (window as any).skipStory = () => console.log('游戏正在初始化...');
-    (window as any).toggleStorySetting = () => console.log('游戏正在初始化...');
-    (window as any).resetStoryProgress = () => console.log('游戏正在初始化...');
+    const g = ((window as any).__game = (window as any).__game || {});
+    g.startGame = () => console.log('游戏正在初始化...');
+    g.showLevelSelect = () => console.log('游戏正在初始化...');
+    g.hideLevelSelect = () => console.log('游戏正在初始化...');
+    g.retryLevel = () => console.log('游戏正在初始化...');
+    g.nextLevel = () => console.log('游戏正在初始化...');
+    g.toMenu = () => console.log('游戏正在初始化...');
+    g.togglePause = () => console.log('游戏正在初始化...');
+    g.launchRiders = () => console.log('游戏正在初始化...');
+    g.clearPaths = () => console.log('游戏正在初始化...');
+    g.shareRevive = () => console.log('游戏正在初始化...');
+    g.skipStory = () => console.log('游戏正在初始化...');
+    g.toggleStorySetting = () => console.log('游戏正在初始化...');
+    g.resetStoryProgress = () => console.log('游戏正在初始化...');
   }
 
   private bindGlobalFunctions(): void {
-    (window as any).startGame = () => this.startGame();
-    (window as any).showLevelSelect = () => this.showLevelSelect();
-    (window as any).hideLevelSelect = () => this.hideLevelSelect();
-    (window as any).retryLevel = () => this.retryLevel();
-    (window as any).nextLevel = () => this.nextLevel();
-    (window as any).toMenu = () => this.showMenu();
-    (window as any).togglePause = () => this.togglePause();
-    (window as any).launchRiders = () => this.launchRiders();
-    (window as any).clearPaths = () => this.clearPaths();
-    (window as any).shareRevive = () => this.shareRevive();
-    (window as any).skipStory = () => this.skipStory();
-    (window as any).toggleStorySetting = () => this.toggleStorySetting();
-    (window as any).resetStoryProgress = () => this.resetStoryProgress();
-    (window as any).showPendingEpilogue = (action: string) => this.showPendingEpilogue(action as 'next' | 'retry');
+    const g = ((window as any).__game = (window as any).__game || {});
+    g.startGame = () => this.startGame();
+    g.showLevelSelect = () => this.showLevelSelect();
+    g.hideLevelSelect = () => this.hideLevelSelect();
+    g.retryLevel = () => this.retryLevel();
+    g.nextLevel = () => this.nextLevel();
+    g.toMenu = () => this.showMenu();
+    g.togglePause = () => this.togglePause();
+    g.launchRiders = () => this.launchRiders();
+    g.clearPaths = () => this.clearPaths();
+    g.shareRevive = () => this.shareRevive();
+    g.skipStory = () => this.skipStory();
+    g.toggleStorySetting = () => this.toggleStorySetting();
+    g.resetStoryProgress = () => this.resetStoryProgress();
+    g.showPendingEpilogue = (action: string) => this.showPendingEpilogue(action as 'next' | 'retry');
     (window as any).gameInstance = this;
     console.log('[WebGame] 全局函数绑定完成');
   }

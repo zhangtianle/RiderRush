@@ -856,7 +856,7 @@ export class GameRenderer {
         this.ctx.fillStyle = ratio > 0.3 ? '#FF8800' : '#FF0000';
         this.ctx.fillRect(barX, barY, barW * ratio, barH);
         this.ctx.fillStyle = urgentColor;
-        this.ctx.font = `bold ${Math.max(9, Math.round(riderSize * 0.2))}px monospace`;
+        this.ctx.font = `bold ${Math.max(9, Math.round(riderSize * 0.22))}px monospace`;
         this.ctx.textAlign = 'center';
         this.ctx.fillText(timeStr, barX + barW / 2, barY - 1);
         this.ctx.textAlign = 'start';
@@ -1126,7 +1126,7 @@ export class GameRenderer {
 
       this.ctx.save();
       this.ctx.globalAlpha = alpha;
-      this.ctx.font = `bold ${Math.round(20 * scale)}px monospace`;
+      this.ctx.font = `bold ${Math.round(this.config.riderSize * 0.35 * scale)}px monospace`;
       this.ctx.fillStyle = popup.color || EFFECT_CONSTANTS.COMBO_COLOR;
       this.ctx.strokeStyle = '#000000';
       this.ctx.lineWidth = 3;
@@ -1185,16 +1185,18 @@ export class GameRenderer {
     this.ctx.strokeRect(bubbleX, bubbleY, bubbleWidth, bubbleHeight);
 
     // 角色名区域
+    const nameFontSize = Math.round(this.config.riderSize * 0.22);
     this.ctx.fillStyle = characterColor;
     this.ctx.fillRect(bubbleX, bubbleY, bubbleWidth, 20);
     this.ctx.fillStyle = '#FFFFFF';
-    this.ctx.font = 'bold 12px "Press Start 2P", monospace';
+    this.ctx.font = `bold ${nameFontSize}px "Press Start 2P", monospace`;
     this.ctx.textAlign = 'center';
     this.ctx.fillText(characterName, x, bubbleY + 15);
 
     // 对话文本
+    const dialogueFontSize = Math.round(this.config.riderSize * 0.2);
     this.ctx.fillStyle = '#FFFFFF';
-    this.ctx.font = '10px "Press Start 2P", monospace';
+    this.ctx.font = `${dialogueFontSize}px "Press Start 2P", monospace`;
     this.ctx.textAlign = 'center';
 
     lines.forEach((line, i) => {
@@ -1230,7 +1232,8 @@ export class GameRenderer {
     const titleAlpha = Math.min(1, progress * 2);
     this.ctx.globalAlpha = titleAlpha;
     this.ctx.fillStyle = '#FFD700';
-    this.ctx.font = 'bold 24px "Press Start 2P", monospace';
+    const chapterTitleSize = Math.round(this.config.riderSize * 0.4);
+    this.ctx.font = `bold ${chapterTitleSize}px "Press Start 2P", monospace`;
     this.ctx.textAlign = 'center';
     this.ctx.strokeStyle = '#000000';
     this.ctx.lineWidth = 4;
@@ -1244,7 +1247,8 @@ export class GameRenderer {
       const introAlpha = Math.min(1, (progress - 0.5) * 2);
       this.ctx.globalAlpha = introAlpha;
       this.ctx.fillStyle = '#FFFFFF';
-      this.ctx.font = '10px "Press Start 2P", monospace';
+      const introFontSize = Math.round(this.config.riderSize * 0.2);
+      this.ctx.font = `${introFontSize}px "Press Start 2P", monospace`;
 
       const lines = this.wrapText(intro, this.cssWidth * 0.8);
       const introY = this.cssHeight * 0.5;
@@ -1257,7 +1261,8 @@ export class GameRenderer {
     if (progress > 0.8) {
       this.ctx.globalAlpha = 1;
       this.ctx.fillStyle = '#888888';
-      this.ctx.font = '8px "Press Start 2P", monospace';
+      const hintFontSize = Math.round(this.config.riderSize * 0.16);
+      this.ctx.font = `${hintFontSize}px "Press Start 2P", monospace`;
       this.ctx.fillText('点击继续', this.cssWidth / 2, this.cssHeight * 0.85);
     }
 
