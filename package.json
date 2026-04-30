@@ -1,7 +1,7 @@
 {
-  "name": "i_game",
+  "name": "riderrush",
   "version": "0.8.0-alpha",
-  "description": "外卖冲冲冲 - 微信小游戏，箭头解谜类休闲游戏",
+  "description": "RiderRush 外卖冲冲冲 - 路径解谜休闲游戏",
   "main": "src/main.ts",
   "scripts": {
     "build:web": "esbuild src/web-entry.ts --bundle --outfile=web/dist/web.bundle.js --format=iife --platform=browser --target=es2015 --loader:.json=json",
@@ -21,7 +21,7 @@
   "license": "MIT",
   "repository": {
     "type": "git",
-    "url": "git@github.com:zhangtianle/i_game.git"
+    "url": "git@github.com:zhangtianle/RiderRush.git"
   },
   "devDependencies": {
     "esbuild": "^0.21.5",

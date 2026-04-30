@@ -1,4 +1,4 @@
-# 外卖冲冲冲 Delivery Rush
+# RiderRush 外卖冲冲冲
 
 > 一款外卖主题的路径解谜小游戏 — 规划骑手路线，避开障碍，准时送达！
 
@@ -49,8 +49,8 @@
 
 ```bash
 # 克隆仓库
-git clone https://github.com/zhangtianle/i_game.git
-cd i_game
+git clone https://github.com/zhangtianle/RiderRush.git
+cd RiderRush
 
 # 安装依赖
 npm install
