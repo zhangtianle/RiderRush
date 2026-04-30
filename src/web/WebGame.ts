@@ -14,6 +14,7 @@ import { LevelManager } from '../core/LevelManager';
 import { PathDrawer } from '../core/PathDrawer';
 import { LeaderboardManager } from '../core/LeaderboardManager';
 import { StoryManager } from '../utils/StoryManager';
+import { DialogueLine } from '../types/story';
 import levelsData from '../data/levels.json';
 import storyData from '../data/story.json';
 
@@ -76,6 +77,15 @@ export class WebGame {
   private storyLayer: HTMLElement;
   private storyCharacter: HTMLElement;
   private storyContent: HTMLElement;
+
+  // 对话状态
+  private dialogueLines: DialogueLine[] | null = null;
+  private dialogueIndex: number = 0;
+
+  // 待显示的 epilogue（通关/失败后）
+  private pendingEpilogue: string | DialogueLine[] | null = null;
+  // epilogue 结束后的动作
+  private afterEpilogueAction: 'next' | 'retry' | null = null;
   private chapterIntroLayer: HTMLElement;
   private chapterTitleEl: HTMLElement;
   private chapterIntroText: HTMLElement;
@@ -418,11 +428,17 @@ export class WebGame {
     const eventBus = EventBus.getInstance();
 
     eventBus.on(GameEventType.LEVEL_COMPLETE, (data: any) => {
-      this.showResult(data.stars, data.time, data.message);
+      // 存储 epilogue，稍后显示
+      const epilogue = this.storyManager.getDynamicStory(data.levelId, 1, data.stars);
+      this.pendingEpilogue = epilogue || null;
+      this.showResult(data.stars, data.time);
     });
 
     eventBus.on(GameEventType.LEVEL_FAILED, (data: any) => {
-      this.showFail(data.reason || '未知原因', data.message);
+      // 存储失败 epilogue
+      const epilogue = this.storyManager.getDynamicStory(data.levelId, 1, 0);
+      this.pendingEpilogue = epilogue || null;
+      this.showFail(data.reason || '未知原因');
     });
 
     eventBus.on('vip-warning', () => {
@@ -635,20 +651,131 @@ export class WebGame {
   /**
    * 显示关卡剧情对话
    */
-  private showStory(levelId: number, prelude: string, characters: string[]): void {
+  private showStory(levelId: number, prelude: string | DialogueLine[], characters: string[]): void {
     this.state = WebGameState.STORY;
 
-    // 解析对话内容，按角色分行显示
-    const lines = prelude.split('\n');
-    const firstCharacter = characters[0] || '骑手';
-    const characterColor = this.renderer.getCharacterColor(firstCharacter);
+    // 处理新格式 DialogueLine[]
+    if (Array.isArray(prelude)) {
+      this.showDialogueLines(prelude);
+    } else {
+      // 兼容旧格式字符串
+      const firstCharacter = characters[0] || '骑手';
+      const characterColor = this.renderer.getCharacterColor(firstCharacter);
 
-    this.storyCharacter.textContent = firstCharacter;
-    this.storyCharacter.style.background = characterColor;
-    this.storyContent.textContent = prelude;
+      this.storyCharacter.textContent = firstCharacter;
+      this.storyCharacter.style.background = characterColor;
+      this.storyContent.textContent = prelude;
+    }
     this.storyLayer.classList.add('visible');
 
     console.log(`[WebGame] 显示关卡剧情: 关卡${levelId}`);
+  }
+
+  /**
+   * 显示结构化对话（逐条显示）
+   */
+  private showDialogueLines(lines: DialogueLine[]): void {
+    this.dialogueLines = lines;
+    this.dialogueIndex = 0;
+    this.showCurrentDialogueLine();
+  }
+
+  /**
+   * 显示当前对话行
+   */
+  private showCurrentDialogueLine(): void {
+    if (!this.dialogueLines || this.dialogueIndex >= this.dialogueLines.length) {
+      return;
+    }
+
+    const line = this.dialogueLines[this.dialogueIndex];
+    const characterColor = this.renderer.getCharacterColor(line.speaker);
+
+    this.storyCharacter.textContent = line.speaker;
+    this.storyCharacter.style.background = characterColor;
+    this.storyContent.textContent = line.text;
+  }
+
+  /**
+   * 推进到下一句对话
+   */
+  private advanceDialogue(): boolean {
+    if (!this.dialogueLines) return false;
+
+    this.dialogueIndex++;
+    if (this.dialogueIndex < this.dialogueLines.length) {
+      this.showCurrentDialogueLine();
+      return true; // 还有更多对话
+    }
+    return false; // 对话结束
+  }
+
+  /**
+   * 格式化 epilogue 为显示文本
+   */
+  private formatEpilogue(epilogue: string | DialogueLine[] | null): string | null {
+    if (!epilogue) return null;
+    if (typeof epilogue === 'string') return epilogue;
+
+    // DialogueLine[] 格式，拼接为 "角色: 台词" 形式
+    return epilogue.map(line => `${line.speaker}: ${line.text}`).join('\n');
+  }
+
+  /**
+   * 显示待定的 epilogue（通关/失败后点击按钮触发）
+   * @param action epilogue 结束后的动作
+   * @returns 是否显示了 epilogue
+   */
+  showPendingEpilogue(action: 'next' | 'retry'): boolean {
+    if (!this.pendingEpilogue) return false;
+
+    const epilogue = this.pendingEpilogue;
+    this.pendingEpilogue = null;
+    this.afterEpilogueAction = action;
+
+    // 隐藏结算/失败面板
+    this.resultPanel.classList.remove('visible');
+    this.failPanel.classList.remove('visible');
+
+    // 在故事层显示 epilogue
+    if (Array.isArray(epilogue)) {
+      this.dialogueLines = epilogue;
+      this.dialogueIndex = 0;
+      this.showCurrentDialogueLine();
+    } else {
+      // 字符串格式，直接显示
+      const lines = epilogue.split('\n');
+      const firstLine = lines[0] || '';
+      const speakerMatch = firstLine.match(/^([^:：]+)[：:]/);
+      if (speakerMatch) {
+        this.storyCharacter.textContent = speakerMatch[1];
+        this.storyCharacter.style.background = this.renderer.getCharacterColor(speakerMatch[1]);
+      }
+      this.storyContent.textContent = epilogue;
+      this.dialogueLines = null;
+    }
+    this.storyLayer.classList.add('visible');
+    this.state = WebGameState.STORY;
+
+    return true;
+  }
+
+  /**
+   * epilogue 结束后执行对应动作
+   */
+  private finishEpilogue(): void {
+    this.storyLayer.classList.remove('visible');
+    this.dialogueLines = null;
+    this.dialogueIndex = 0;
+
+    const action = this.afterEpilogueAction;
+    this.afterEpilogueAction = null;
+
+    if (action === 'next') {
+      this.nextLevel();
+    } else if (action === 'retry') {
+      this.retryLevel();
+    }
   }
 
   /**
@@ -656,10 +783,24 @@ export class WebGame {
    */
   skipStory(): void {
     if (this.state === WebGameState.STORY) {
+      // 如果有结构化对话且未显示完，推进到下一句
+      if (this.dialogueLines && this.advanceDialogue()) {
+        return; // 还有更多对话，不关闭
+      }
+
+      // 对话已显示完或无结构化对话
+      // 如果是 epilogue 流程，执行后续动作
+      if (this.afterEpilogueAction) {
+        this.finishEpilogue();
+        return;
+      }
+
+      // 正常关卡前剧情，关闭故事层并开始关卡
       this.storyLayer.classList.remove('visible');
       this.storyManager.markLevelSeen(this.currentLevelId);
+      this.dialogueLines = null;
+      this.dialogueIndex = 0;
 
-      // 继续开始关卡 - 设置完整UI状态
       this.state = WebGameState.PLAYING;
       this.setupPlayingUI();
 
@@ -813,6 +954,7 @@ export class WebGame {
     (window as any).skipStory = () => this.skipStory();
     (window as any).toggleStorySetting = () => this.toggleStorySetting();
     (window as any).resetStoryProgress = () => this.resetStoryProgress();
+    (window as any).showPendingEpilogue = (action: string) => this.showPendingEpilogue(action as 'next' | 'retry');
     (window as any).gameInstance = this;
     console.log('[WebGame] 全局函数绑定完成');
   }

@@ -838,8 +838,8 @@
         <div id="result-stars">⭐⭐⭐</div>
         <div id="result-time">用时: 5.2秒</div>
         <div id="province-stats" style="display:none;"></div>
-        <button class="result-btn" onclick="nextLevel()">下一关</button>
-        <button class="result-btn" onclick="retryLevel()">重试</button>
+        <button class="result-btn" onclick="handleNextLevel()">下一关</button>
+        <button class="result-btn" onclick="handleRetryLevel()">重试</button>
         <button class="result-btn" onclick="toMenu()">返回菜单</button>
       </div>
 
@@ -848,7 +848,7 @@
         <div id="fail-title">关卡失败</div>
         <div id="fail-reason">原因: 时间耗尽</div>
         <button class="share-revive-btn" onclick="shareRevive()">📤 分享给好友复活</button>
-        <button class="result-btn" onclick="retryLevel()">重试</button>
+        <button class="result-btn" onclick="handleRetryLevel()">重试</button>
         <button class="result-btn" onclick="toMenu()">返回菜单</button>
       </div>
 
@@ -895,6 +895,22 @@
 
     function nextLevel() {
       if (window.nextLevel) window.nextLevel();
+    }
+
+    function handleNextLevel() {
+      // 先尝试显示 epilogue，没有则直接下一关
+      if (window.showPendingEpilogue && window.showPendingEpilogue('next')) {
+        return;
+      }
+      nextLevel();
+    }
+
+    function handleRetryLevel() {
+      // 先尝试显示 epilogue，没有则直接重试
+      if (window.showPendingEpilogue && window.showPendingEpilogue('retry')) {
+        return;
+      }
+      retryLevel();
     }
 
     function toMenu() {

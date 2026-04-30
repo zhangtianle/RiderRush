@@ -1,12 +1,13 @@
 /**
  * 故事管理器
  * @description 管理游戏背景故事、章节剧情、关卡对话
- * @version v0.1.0
+ * @version v0.2.0
  * @since 2026-04-30
  */
 
 import { StorageMgr } from './StorageMgr';
 import { STORAGE_KEYS } from '../constants/GameConstants';
+import { DialogueLine, EpilogueVariants, LevelStoryData } from '../types/story';
 
 /** 章节数据 */
 export interface Chapter {
@@ -26,12 +27,13 @@ export interface Character {
   color: string;
 }
 
-/** 关卡剧情数据 */
+/** 关卡剧情数据（兼容新旧格式） */
 export interface LevelStory {
   levelId: number;
-  prelude: string;
+  prelude: string | DialogueLine[];
   characters: string[];
-  epilogue: string;
+  epilogue?: string | DialogueLine[];
+  epilogueVariants?: EpilogueVariants;
 }
 
 /** 世界观数据 */
@@ -184,7 +186,12 @@ export class StoryManager {
 
     const levelStory = this.getLevelStory(levelId);
     if (levelStory?.epilogue) {
-      return levelStory.epilogue;
+      // 兼容新旧格式
+      if (typeof levelStory.epilogue === 'string') {
+        return levelStory.epilogue;
+      }
+      // DialogueLine[] 格式，拼接为文本
+      return levelStory.epilogue.map(line => `${line.speaker}: ${line.text}`).join('\n');
     }
 
     // 使用章节通用文案
@@ -211,6 +218,56 @@ export class StoryManager {
     // 默认失败文案
     const defaultMessages = this.data.failMessages['collision'] || ['关卡失败'];
     return defaultMessages[Math.floor(Math.random() * defaultMessages.length)];
+  }
+
+  /**
+   * 获取动态结局台词
+   * @param levelId 关卡ID
+   * @param attempts 当前尝试次数（含本次）
+   * @param stars 获得星级（0表示失败）
+   * @returns 对话台词数组或字符串
+   */
+  getDynamicStory(levelId: number, attempts: number, stars: number): string | DialogueLine[] | null {
+    const story = this.getLevelStory(levelId);
+    if (!story) return null;
+
+    // 有动态结局变体时，根据表现选择
+    if (story.epilogueVariants) {
+      const variants = story.epilogueVariants;
+
+      if (stars > 0) {
+        // 通关
+        if (attempts === 1 && stars === 3 && variants.perfect) {
+          return variants.perfect;
+        }
+        if (attempts <= 2 && variants.retry) {
+          return variants.retry;
+        }
+        if (attempts >= 3 && variants.struggled) {
+          return variants.struggled;
+        }
+      } else {
+        // 失败
+        if (attempts <= 1 && variants.fail_first) {
+          return variants.fail_first;
+        }
+        if (attempts >= 2 && variants.fail_many) {
+          return variants.fail_many;
+        }
+      }
+    }
+
+    // 回退到静态 epilogue
+    return story.epilogue || null;
+  }
+
+  /**
+   * 获取关卡的 prelude 对话（兼容新旧格式）
+   */
+  getPrelude(levelId: number): string | DialogueLine[] | null {
+    const story = this.getLevelStory(levelId);
+    if (!story) return null;
+    return story.prelude || null;
   }
 
   /**

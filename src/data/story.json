@@ -107,63 +107,312 @@
   "levelStories": [
     {
       "levelId": 1,
-      "prelude": "小王：队长，这是我第一次送外卖，有点紧张...\n队长：别怕，先规划好路线，让两个骑手都安全到达出口就行。",
+      "prelude": [
+        { "speaker": "小王", "text": "（深呼吸）队长，我准备好了！", "emotion": "nervous" },
+        { "speaker": "队长", "text": "你鞋带松了。", "emotion": "cool" },
+        { "speaker": "小王", "text": "啊？", "emotion": "confused" },
+        { "speaker": "队长", "text": "骗你的。看你紧张那样，画条路而已，又不是让你上战场。", "emotion": "tease" },
+        { "speaker": "小王", "text": "...", "emotion": "shy" },
+        { "speaker": "队长", "text": "点住骑手，拖到出口。去吧。", "emotion": "normal" }
+      ],
       "characters": ["小王", "队长"],
-      "epilogue": "队长：完美！新人第一天就能零碰撞完成，前途无量啊！"
+      "epilogueVariants": {
+        "perfect": [
+          { "speaker": "小王", "text": "队长！我做到了！第一次就成功！", "emotion": "happy" },
+          { "speaker": "队长", "text": "嗯。", "emotion": "cool" },
+          { "speaker": "小王", "text": "就「嗯」？？", "emotion": "confused" },
+          { "speaker": "队长", "text": "嗯，不错。", "emotion": "normal" }
+        ],
+        "fail_first": [
+          { "speaker": "小王", "text": "啊...没画好...", "emotion": "sad" },
+          { "speaker": "队长", "text": "第一次，正常。再来。", "emotion": "cool" }
+        ],
+        "fail_many": [
+          { "speaker": "小王", "text": "我是不是不适合干这行...", "emotion": "sad" },
+          { "speaker": "队长", "text": "谁第一次都会出错。别想太多，再试一次。", "emotion": "normal" }
+        ]
+      }
     },
     {
       "levelId": 2,
-      "prelude": "小王：今天的订单比昨天多了一个，路线也更复杂了...\n队长：别慌，慢慢规划，想好每个人怎么走。",
+      "prelude": [
+        { "speaker": "队长", "text": "今天三个单，三个骑手。", "emotion": "normal" },
+        { "speaker": "小王", "text": "三倍的快乐！", "emotion": "happy" },
+        { "speaker": "队长", "text": "三倍的翻车概率。想好谁先走谁后走。", "emotion": "tease" },
+        { "speaker": "小王", "text": "（小声）队长今天心情好像不太好...", "emotion": "worried" },
+        { "speaker": "队长", "text": "我听见了。", "emotion": "cool" }
+      ],
       "characters": ["小王", "队长"],
-      "epilogue": "小王：三个骑手全部安全送达！感觉比昨天顺手了。"
+      "epilogueVariants": {
+        "perfect": [
+          { "speaker": "小王", "text": "三个全部送达！我觉得我有天赋！", "emotion": "proud" },
+          { "speaker": "队长", "text": "你有天赋的话就不需要练了。——不过确实不错。", "emotion": "tease" }
+        ],
+        "fail_first": [
+          { "speaker": "小王", "text": "撞了...我没想到他们会撞上...", "emotion": "sad" },
+          { "speaker": "队长", "text": "三个骑手同时出发，当然会撞。想好顺序再来。", "emotion": "normal" }
+        ],
+        "fail_many": [
+          { "speaker": "队长", "text": "别急，先观察每个骑手的路线，找到交叉点。", "emotion": "normal" },
+          { "speaker": "小王", "text": "好...我再想想...", "emotion": "determined" }
+        ]
+      }
     },
     {
       "levelId": 3,
-      "prelude": "队长：今天加入墙壁障碍，骑手不能穿过墙壁，需要绕路。\n小王：明白了，绕路虽然远一点，但安全最重要！",
+      "prelude": [
+        { "speaker": "队长", "text": "今天有墙。", "emotion": "cool" },
+        { "speaker": "小王", "text": "墙？直接绕过去不就行了？", "emotion": "normal" },
+        { "speaker": "队长", "text": "你说呢？", "emotion": "tease" },
+        { "speaker": "小王", "text": "我说...应该挺简单的吧。", "emotion": "normal" },
+        { "speaker": "队长", "text": "每次新人说「简单」，我就知道要出事。", "emotion": "cool" }
+      ],
       "characters": ["小王", "队长"],
-      "epilogue": "队长：学会绕路是骑手的基本功，做得好！"
+      "epilogueVariants": {
+        "perfect": [
+          { "speaker": "小王", "text": "我没撞墙！", "emotion": "proud" },
+          { "speaker": "队长", "text": "嗯，你今天比昨天聪明了一点。", "emotion": "tease" },
+          { "speaker": "小王", "text": "只有一点吗？", "emotion": "confused" },
+          { "speaker": "队长", "text": "别得寸进尺。", "emotion": "cool" }
+        ],
+        "fail_first": [
+          { "speaker": "小王", "text": "...我发誓那个墙是突然出现的。", "emotion": "shy" },
+          { "speaker": "队长", "text": "墙不会动，你会。", "emotion": "tease" },
+          { "speaker": "小王", "text": "（捂脸）", "emotion": "sad" },
+          { "speaker": "队长", "text": "再来。这次想清楚再画。", "emotion": "normal" }
+        ],
+        "fail_many": [
+          { "speaker": "队长", "text": "路径要绕开墙，不是穿过墙。看清楚格子再画。", "emotion": "normal" },
+          { "speaker": "小王", "text": "好...我这次一定看清楚...", "emotion": "determined" }
+        ]
+      }
     },
     {
       "levelId": 4,
-      "prelude": "小王：队长，有骑手的路线会交叉，怎么办？\n队长：算好时间差，让骑手一个一个出发，避免碰撞。",
+      "prelude": [
+        { "speaker": "小王", "text": "队长，我昨天研究了一下，路线交叉的时候可以错开出发时间！", "emotion": "proud" },
+        { "speaker": "队长", "text": "哦？你昨天加班研究的？", "emotion": "normal" },
+        { "speaker": "小王", "text": "对啊！", "emotion": "happy" },
+        { "speaker": "队长", "text": "那你今天应该精神很好。——这关没有提示，自己想。", "emotion": "tease" },
+        { "speaker": "小王", "text": "等等，你不教我吗？？", "emotion": "surprised" },
+        { "speaker": "队长", "text": "你不是研究过了吗？", "emotion": "cool" }
+      ],
       "characters": ["小王", "队长"],
-      "epilogue": "小王：原来出发顺序也很重要，学到了！"
+      "epilogueVariants": {
+        "perfect": [
+          { "speaker": "小王", "text": "我自己想出来的！", "emotion": "proud" },
+          { "speaker": "队长", "text": "（嘴角微扬）不错。", "emotion": "normal" },
+          { "speaker": "小王", "text": "你刚才是不是笑了？？", "emotion": "surprised" },
+          { "speaker": "队长", "text": "没有。风大。", "emotion": "cool" }
+        ],
+        "fail_first": [
+          { "speaker": "小王", "text": "撞了...我以为时间差够的...", "emotion": "sad" },
+          { "speaker": "队长", "text": "你以为。做规划不能靠「以为」，要算。", "emotion": "normal" },
+          { "speaker": "小王", "text": "怎么算？", "emotion": "confused" },
+          { "speaker": "队长", "text": "再试一次，这次用眼睛看，别用感觉猜。", "emotion": "tease" }
+        ],
+        "fail_many": [
+          { "speaker": "队长", "text": "两个骑手路线交叉时，让一个先走一段，另一个再出发。", "emotion": "normal" },
+          { "speaker": "小王", "text": "原来是要拉开距离...", "emotion": "relieved" }
+        ]
+      }
     },
     {
       "levelId": 5,
-      "prelude": "队长：今天的挑战最大——四个骑手，还有墙壁。这关过了，你就是入门级骑手了。\n小王：我会全力以赴的！",
+      "prelude": [
+        { "speaker": "队长", "text": "今天是入门考核。", "emotion": "cool" },
+        { "speaker": "小王", "text": "考、考核？？", "emotion": "nervous" },
+        { "speaker": "队长", "text": "四个骑手，墙壁，路线交叉。全部送达才算过。", "emotion": "normal" },
+        { "speaker": "小王", "text": "队长，能不能给我点提示...", "emotion": "worried" },
+        { "speaker": "队长", "text": "提示就是——你已经会了。相信自己。", "emotion": "normal" },
+        { "speaker": "小王", "text": "（愣住）", "emotion": "surprised" },
+        { "speaker": "队长", "text": "别愣着，去干活。", "emotion": "cool" }
+      ],
       "characters": ["小王", "队长"],
-      "epilogue": "队长：恭喜！你已经掌握了基础技巧，明天去新区域挑战吧！"
+      "epilogueVariants": {
+        "perfect": [
+          { "speaker": "队长", "text": "恭喜，你正式成为骑手了。", "emotion": "normal" },
+          { "speaker": "小王", "text": "（激动）真的吗？！", "emotion": "happy" },
+          { "speaker": "队长", "text": "嗯。明天开始算正式工资。", "emotion": "cool" },
+          { "speaker": "小王", "text": "太好了！！", "emotion": "happy" },
+          { "speaker": "队长", "text": "不过你这个月工资要扣一半——因为你前三天撞了八次墙。", "emotion": "tease" },
+          { "speaker": "小王", "text": "......队长你认真的？", "emotion": "shy" },
+          { "speaker": "队长", "text": "（转身走）开玩笑的。", "emotion": "cool" },
+          { "speaker": "小王", "text": "（追上去）你到底哪句是真的啊！！", "emotion": "confused" }
+        ],
+        "fail_first": [
+          { "speaker": "队长", "text": "没过。", "emotion": "cool" },
+          { "speaker": "小王", "text": "（沮丧）...我知道。", "emotion": "sad" },
+          { "speaker": "队长", "text": "但是比你第一天进步了很多。休息一下，再来。", "emotion": "normal" },
+          { "speaker": "小王", "text": "队长...", "emotion": "relieved" },
+          { "speaker": "队长", "text": "别磨叽，喝口水继续。", "emotion": "cool" }
+        ],
+        "fail_many": [
+          { "speaker": "队长", "text": "小王，要不要休息一下？", "emotion": "worried" },
+          { "speaker": "小王", "text": "不，今天必须过这关！", "emotion": "determined" },
+          { "speaker": "队长", "text": "（递水）先喝口水，脑子清醒了再上。", "emotion": "normal" }
+        ]
+      }
     },
     {
       "levelId": 6,
-      "prelude": "队长：新区域，骑手更多了。记住，先想好整体路线再出发。\n小王：我会先观察全局，再逐一规划。",
+      "prelude": [
+        { "speaker": "小王", "text": "队长，新区域看起来也没什么不同嘛。", "emotion": "normal" },
+        { "speaker": "队长", "text": "是吗？", "emotion": "cool" },
+        { "speaker": "小王", "text": "不就是多了几个骑手...", "emotion": "normal" },
+        { "speaker": "队长", "text": "你上次说「简单」的时候，撞了墙。", "emotion": "tease" },
+        { "speaker": "小王", "text": "...那不一样。", "emotion": "shy" },
+        { "speaker": "队长", "text": "每次都不一样，每次都会撞。去吧。", "emotion": "cool" }
+      ],
       "characters": ["小王", "队长"],
-      "epilogue": "小王：五个骑手全部顺利送达！自信心又增加了。"
+      "epilogueVariants": {
+        "perfect": [
+          { "speaker": "小王", "text": "五个全送到了！", "emotion": "proud" },
+          { "speaker": "队长", "text": "嗯，你今天确实稳了一点。", "emotion": "normal" },
+          { "speaker": "小王", "text": "（得意）那当然！", "emotion": "happy" },
+          { "speaker": "队长", "text": "——但你的路径规划还是太绕了，至少浪费了3秒。", "emotion": "tease" },
+          { "speaker": "小王", "text": "......你就不能让我高兴一会儿吗？", "emotion": "sad" }
+        ],
+        "fail_first": [
+          { "speaker": "小王", "text": "啊...骑手太多了，顾不过来...", "emotion": "sad" },
+          { "speaker": "队长", "text": "五个骑手要一起规划，不能一个一个来。", "emotion": "normal" }
+        ],
+        "fail_many": [
+          { "speaker": "队长", "text": "先把所有骑手的路线在脑子里过一遍，再动手画。", "emotion": "normal" },
+          { "speaker": "小王", "text": "好...我先想好再画。", "emotion": "determined" }
+        ]
+      }
     },
     {
       "levelId": 7,
-      "prelude": "队长：今天的关卡考验你的路线设计能力——复杂交叉路线。\n小王：看起来好难...但我会慢慢尝试。",
+      "prelude": [
+        { "speaker": "小王", "text": "（看着地图）这...这也太绕了吧？", "emotion": "worried" },
+        { "speaker": "队长", "text": "怎么，怕了？", "emotion": "tease" },
+        { "speaker": "小王", "text": "谁怕了！我就是...在思考。", "emotion": "shy" },
+        { "speaker": "队长", "text": "思考的时候别抖腿。", "emotion": "cool" },
+        { "speaker": "小王", "text": "我没抖！...好吧我抖了。", "emotion": "shy" }
+      ],
       "characters": ["小王", "队长"],
-      "epilogue": "队长：你的路线设计越来越有想法了，继续保持！"
+      "epilogueVariants": {
+        "perfect": [
+          { "speaker": "小王", "text": "（擦汗）终于过了...感觉脑细胞死了好几个。", "emotion": "relieved" },
+          { "speaker": "队长", "text": "死几个没关系，你还年轻，能长回来。", "emotion": "tease" },
+          { "speaker": "小王", "text": "这是安慰吗？？", "emotion": "confused" },
+          { "speaker": "队长", "text": "这是事实。", "emotion": "cool" }
+        ],
+        "fail_first": [
+          { "speaker": "小王", "text": "路线太复杂了...我绕晕了...", "emotion": "sad" },
+          { "speaker": "队长", "text": "先找最短的路，再慢慢优化。别想一步到位。", "emotion": "normal" }
+        ],
+        "fail_many": [
+          { "speaker": "队长", "text": "这关确实难。深呼吸，一步一步来。", "emotion": "normal" },
+          { "speaker": "小王", "text": "（深呼吸）好...我重新规划。", "emotion": "determined" }
+        ]
+      }
     },
     {
       "levelId": 8,
-      "prelude": "小王：队长，今天有VIP骑手！橙色骑手必须最先到达出口。\n队长：VIP优先是铁律，把VIP路线先规划好。",
+      "prelude": [
+        { "speaker": "小王", "text": "队长，这个橙色的是什么？", "emotion": "confused" },
+        { "speaker": "队长", "text": "VIP客户。", "emotion": "cool" },
+        { "speaker": "小王", "text": "VIP？凭什么他要插队？我手上也有急单啊！", "emotion": "angry" },
+        { "speaker": "队长", "text": "VIP投诉一次，整个站点扣奖金。", "emotion": "cool" },
+        { "speaker": "小王", "text": "...", "emotion": "shy" },
+        { "speaker": "队长", "text": "你选。", "emotion": "tease" },
+        { "speaker": "小王", "text": "（咬牙）我选钱。", "emotion": "determined" },
+        { "speaker": "队长", "text": "这就对了。记住，不是他比你重要——是他投诉比你狠。", "emotion": "normal" }
+      ],
       "characters": ["小王", "队长"],
-      "epilogue": "队长：VIP配送成功！学会处理VIP订单是进阶的第一步。"
+      "epilogueVariants": {
+        "perfect": [
+          { "speaker": "小王", "text": "VIP送到了...说实话，还挺有成就感的。", "emotion": "relieved" },
+          { "speaker": "队长", "text": "VIP客户给了五星好评。", "emotion": "normal" },
+          { "speaker": "小王", "text": "真的？！", "emotion": "surprised" },
+          { "speaker": "队长", "text": "嗯。继续努力，五星好评有奖金。", "emotion": "cool" },
+          { "speaker": "小王", "text": "（眼睛亮了）那我要每个VIP都五星！", "emotion": "happy" }
+        ],
+        "fail_first": [
+          { "speaker": "小王", "text": "完了，VIP不是第一个到的...", "emotion": "sad" },
+          { "speaker": "队长", "text": "嗯，扣钱。", "emotion": "cool" },
+          { "speaker": "小王", "text": "不是吧！！", "emotion": "surprised" },
+          { "speaker": "队长", "text": "开玩笑的。但下次记住——VIP永远优先。", "emotion": "tease" }
+        ],
+        "fail_many": [
+          { "speaker": "队长", "text": "VIP的路线要最先规划，最短最安全。其他骑手给它让路。", "emotion": "normal" },
+          { "speaker": "小王", "text": "明白了...VIP优先。", "emotion": "determined" }
+        ]
+      }
     },
     {
       "levelId": 9,
-      "prelude": "队长：高级关卡——VIP骑手、多条路线交叉、墙壁障碍。\n小王：这是入门区域的终极考验了！",
+      "prelude": [
+        { "speaker": "队长", "text": "今天是第一章的最终考验。", "emotion": "cool" },
+        { "speaker": "小王", "text": "（严肃）我准备好了。", "emotion": "determined" },
+        { "speaker": "队长", "text": "VIP、墙壁、路线交叉，全都有。", "emotion": "normal" },
+        { "speaker": "小王", "text": "（深呼吸）...", "emotion": "nervous" },
+        { "speaker": "队长", "text": "怎么不说话了？你平时不是话挺多的吗？", "emotion": "tease" },
+        { "speaker": "小王", "text": "我在集中注意力。", "emotion": "determined" },
+        { "speaker": "队长", "text": "（点头）——这才像个骑手的样子。", "emotion": "normal" }
+      ],
       "characters": ["小王", "队长"],
-      "epilogue": "队长：完美通关第一章！明天我们去老城区。"
+      "epilogueVariants": {
+        "perfect": [
+          { "speaker": "队长", "text": "完美。", "emotion": "normal" },
+          { "speaker": "小王", "text": "（愣住）...你说什么？", "emotion": "surprised" },
+          { "speaker": "队长", "text": "我说完美。没听清就算了。", "emotion": "cool" },
+          { "speaker": "小王", "text": "（激动）我听清了！队长你说的！完美！我要记下来！", "emotion": "happy" },
+          { "speaker": "队长", "text": "（叹气）...我收回刚才的话。", "emotion": "tease" }
+        ],
+        "fail_first": [
+          { "speaker": "小王", "text": "（沉默）", "emotion": "sad" },
+          { "speaker": "队长", "text": "怎么，被一关打倒了？", "emotion": "tease" },
+          { "speaker": "小王", "text": "...没有。我只是在想哪里出了问题。", "emotion": "determined" },
+          { "speaker": "队长", "text": "那就对了。想清楚了再来，别急。", "emotion": "normal" }
+        ],
+        "fail_many": [
+          { "speaker": "队长", "text": "这关是综合考验，不急。把每个骑手的路线单独想清楚，再合在一起。", "emotion": "normal" },
+          { "speaker": "小王", "text": "嗯...我拆开来想。", "emotion": "determined" }
+        ]
+      }
     },
     {
       "levelId": 10,
-      "prelude": "队长：最后一关综合考验，准备好迎接新区域了吗？\n小王：我已经准备好了！",
+      "prelude": [
+        { "speaker": "队长", "text": "最后一关了。", "emotion": "cool" },
+        { "speaker": "小王", "text": "队长，我...有点舍不得这里。", "emotion": "shy" },
+        { "speaker": "队长", "text": "舍不得？", "emotion": "confused" },
+        { "speaker": "小王", "text": "嗯，这十天学到很多。", "emotion": "normal" },
+        { "speaker": "队长", "text": "（沉默片刻）...别煽情，赶紧干活。", "emotion": "cool" },
+        { "speaker": "小王", "text": "（笑）好嘞！", "emotion": "happy" }
+      ],
       "characters": ["小王", "队长"],
-      "epilogue": "队长：「初入江湖」章完结！小王从新人成长为入门骑手，明天开启老城区之旅！"
+      "epilogueVariants": {
+        "perfect": [
+          { "speaker": "队长", "text": "第一章结束了。", "emotion": "cool" },
+          { "speaker": "小王", "text": "队长，谢谢你这十天的照顾！", "emotion": "happy" },
+          { "speaker": "队长", "text": "谢什么，这是我的工作。", "emotion": "cool" },
+          { "speaker": "小王", "text": "那...明天见？", "emotion": "normal" },
+          { "speaker": "队长", "text": "明天你去老城区，不是我带你了。", "emotion": "normal" },
+          { "speaker": "小王", "text": "啊？", "emotion": "surprised" },
+          { "speaker": "队长", "text": "老张会接你。那个人话少，但本事大。好好学。", "emotion": "normal" },
+          { "speaker": "小王", "text": "队长...", "emotion": "sad" },
+          { "speaker": "队长", "text": "别磨叽。——路上小心。", "emotion": "cool" },
+          { "speaker": "小王", "text": "（用力点头）嗯！", "emotion": "determined" }
+        ],
+        "fail_first": [
+          { "speaker": "小王", "text": "最后一关没过...好丢脸...", "emotion": "sad" },
+          { "speaker": "队长", "text": "丢什么脸，明天再来。", "emotion": "cool" },
+          { "speaker": "小王", "text": "可是...", "emotion": "worried" },
+          { "speaker": "队长", "text": "你十天前连路都不会画，现在能同时指挥五个骑手。这不丢脸。", "emotion": "normal" },
+          { "speaker": "小王", "text": "（眼眶红了）", "emotion": "relieved" },
+          { "speaker": "队长", "text": "行了行了，别在这哭，去干活。", "emotion": "tease" }
+        ],
+        "fail_many": [
+          { "speaker": "队长", "text": "小王，今天先到这里吧。", "emotion": "normal" },
+          { "speaker": "小王", "text": "不！我一定要过了这关再走！", "emotion": "determined" },
+          { "speaker": "队长", "text": "（看着他）...好。那我等你。", "emotion": "normal" }
+        ]
+      }
     }
   ],
   "failMessages": {
