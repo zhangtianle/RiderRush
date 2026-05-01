@@ -52,19 +52,19 @@ const COLORS = {
   gridBackground: '#16213e'
 };
 
-/** 像素精灵数据 - 骑手 (12x14, 1=主色 2=暗色 3=亮色 4=白色 5=肤色 6=黑色) */
+/** 像素精灵数据 - 骑手 (12x14, 1=主色 2=暗色 3=亮色 4=白色 5=肤色 6=黑色 8=高光 9=外卖箱) */
 const RIDER_SPRITE: number[][] = [
   [0,0,0,0,1,1,1,1,0,0,0,0],
   [0,0,0,1,1,1,1,1,1,0,0,0],
   [0,0,1,1,2,1,1,2,1,1,0,0],
-  [0,0,1,5,6,5,5,6,5,1,0,0],
+  [0,0,1,5,8,5,5,8,5,1,0,0],
   [0,0,1,5,5,5,5,5,5,1,0,0],
   [0,0,0,5,5,4,4,5,5,0,0,0],
   [0,0,0,0,5,5,5,5,0,0,0,0],
   [0,0,3,3,3,3,3,3,3,3,0,0],
   [0,3,3,1,3,3,3,3,1,3,3,0],
   [0,3,3,1,3,3,3,3,1,3,3,0],
-  [0,0,0,3,3,3,3,3,3,0,0,0],
+  [0,0,0,3,9,9,9,9,3,0,0,0],
   [0,0,0,3,0,3,3,0,3,0,0,0],
   [0,0,0,4,0,4,4,0,4,0,0,0],
   [0,0,4,4,0,4,4,0,4,4,0,0],
@@ -98,42 +98,51 @@ const VIP_CROWN_SPRITE: number[][] = [
   [0,0,4,4,4,4,4,4,4,4,0,0],
 ];
 
-/** 出口精灵 (12x12, 1=主色 2=亮色 3=白色) */
+/** 出口精灵 (12x12, 位置标记, 1=描边 2=填充 3=高光 4=白色) */
 const EXIT_SPRITE: number[][] = [
-  [0,0,0,3,3,3,3,3,3,0,0,0],
-  [0,0,3,2,2,2,2,2,2,3,0,0],
-  [0,3,2,1,1,1,1,1,1,2,3,0],
-  [0,3,2,1,0,0,0,0,1,2,3,0],
-  [0,3,2,1,0,3,3,0,1,2,3,0],
-  [0,3,2,1,0,3,3,0,1,2,3,0],
-  [0,3,2,1,0,0,0,0,1,2,3,0],
-  [0,3,2,1,1,1,1,1,1,2,3,0],
-  [0,3,2,2,2,2,2,2,2,2,3,0],
-  [0,0,3,3,3,3,3,3,3,3,0,0],
-  [0,0,0,0,3,3,3,3,0,0,0,0],
-  [0,0,0,0,0,3,3,0,0,0,0],
+  [0,0,0,0,1,1,1,1,0,0,0,0],
+  [0,0,0,1,2,2,2,2,1,0,0,0],
+  [0,0,1,2,2,3,3,2,2,1,0,0],
+  [0,0,1,2,3,4,4,3,2,1,0,0],
+  [0,0,1,2,3,4,4,3,2,1,0,0],
+  [0,0,1,2,2,3,3,2,2,1,0,0],
+  [0,0,0,1,2,2,2,2,1,0,0,0],
+  [0,0,0,0,1,1,1,1,0,0,0,0],
+  [0,0,0,0,0,1,1,0,0,0,0,0],
+  [0,0,0,0,0,1,1,0,0,0,0,0],
+  [0,0,0,0,1,1,1,1,0,0,0,0],
+  [0,0,0,0,0,0,0,0,0,0,0,0],
 ];
 
-/** 骑手颜色调色板 */
+/** 骑手颜色调色板 (8=高光 9=外卖箱) */
 const RIDER_PALETTES: Record<string, Record<number, string>> = {
   NORMAL: {
-    1: '#FFD700', 2: '#CC9900', 3: '#FF8C00', 4: '#FFFFFF', 5: '#FFCC99', 6: '#333333', 7: '#FF4444'
+    1: '#FFD700', 2: '#CC9900', 3: '#FF8C00', 4: '#FFFFFF', 5: '#FFCC99', 6: '#333333', 7: '#FF4444',
+    8: '#FFEE88', 9: '#FF8C00'
   },
   VIP: {
-    1: '#FFA500', 2: '#CC7700', 3: '#FF6600', 4: '#FFFFFF', 5: '#FFCC99', 6: '#333333', 7: '#FFD700'
+    1: '#FFA500', 2: '#CC7700', 3: '#FF6600', 4: '#FFFFFF', 5: '#FFCC99', 6: '#333333', 7: '#FFD700',
+    8: '#FFCC44', 9: '#FF6600'
   },
   URGENT: {
-    1: '#FF4500', 2: '#CC3300', 3: '#FF2200', 4: '#FFFFFF', 5: '#FFCC99', 6: '#333333', 7: '#FF0000'
+    1: '#FF4500', 2: '#CC3300', 3: '#FF2200', 4: '#FFFFFF', 5: '#FFCC99', 6: '#333333', 7: '#FF0000',
+    8: '#FF8866', 9: '#CC2200'
   },
   CRASHED: {
-    1: '#888888', 2: '#666666', 3: '#AAAAAA', 4: '#FFFFFF', 5: '#FFCC99', 6: '#333333', 7: '#FF4444'
+    1: '#888888', 2: '#666666', 3: '#AAAAAA', 4: '#FFFFFF', 5: '#FFCC99', 6: '#333333', 7: '#FF4444',
+    8: '#BBBBBB', 9: '#777777'
   }
 };
 
-/** 出口颜色调色板 */
-const EXIT_PALETTE: Record<number, string> = {
-  1: '#3BA89E', 2: ACCENT_COLORS.TEAL, 3: '#FFFFFF'
+/** 出口颜色调色板 - 按骑手类型联动 */
+const EXIT_PALETTES: Record<string, Record<number, string>> = {
+  NORMAL: { 1: '#8B6914', 2: '#DAA520', 3: '#FFD700', 4: '#FFF8DC' },
+  VIP:    { 1: '#8B4500', 2: '#CC7700', 3: '#FFA500', 4: '#FFE4B5' },
+  URGENT: { 1: '#8B0000', 2: '#CC3300', 3: '#FF4500', 4: '#FFCCCB' },
 };
+
+/** 出口默认调色板 (无骑手指向时) */
+const EXIT_PALETTE_DEFAULT = EXIT_PALETTES.NORMAL;
 
 /** 方向箭头像素数据 (5x5) */
 const ARROW_PIXELS: Record<Direction, number[][]> = {
@@ -616,10 +625,15 @@ export class GameRenderer {
       const x = exit.position.x * cellSize + (cellSize - exitSize) / 2;
       const y = exit.position.y * cellSize + (cellSize - exitSize) / 2;
 
-      // 出口底色闪烁
+      // 查找指向该出口的骑手，确定调色板
+      const assigned = level.riders.find(r => r.targetExit === exit.id);
+      const riderType = assigned?.type || RiderType.NORMAL;
+      const palette = EXIT_PALETTES[riderType] || EXIT_PALETTE_DEFAULT;
+
+      // 出口底色闪烁（跟随调色板主色）
       const pulse = 0.7 + 0.3 * Math.sin(this.animTime * 3);
       this.ctx.globalAlpha = 0.15 * pulse;
-      this.ctx.fillStyle = COLORS.exit;
+      this.ctx.fillStyle = palette[3];
       this.ctx.fillRect(
         exit.position.x * cellSize,
         exit.position.y * cellSize,
@@ -628,11 +642,11 @@ export class GameRenderer {
       );
       this.ctx.globalAlpha = 1;
 
-      // 出口像素精灵
-      this.drawPixelSprite(EXIT_SPRITE, EXIT_PALETTE, x, y, exitSize);
+      // 出口像素精灵（位置标记 + 颜色联动）
+      this.drawPixelSprite(EXIT_SPRITE, palette, x, y, exitSize);
 
       // 出口闪烁边框
-      this.drawPixelBorder(x - 1, y - 1, exitSize + 2, COLORS.exitHighlight, 2);
+      this.drawPixelBorder(x - 1, y - 1, exitSize + 2, palette[3], 2);
     });
   }
 
