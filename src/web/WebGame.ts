@@ -15,7 +15,7 @@ import { PathDrawer } from '../core/PathDrawer';
 import { LeaderboardManager } from '../core/LeaderboardManager';
 import { StoryManager } from '../utils/StoryManager';
 import { DialogueLine } from '../types/story';
-import levelsData from '../data/levels.json';
+import levelsData from '../data/levels-1.json';
 import storyData from '../data/story.json';
 
 /** 游戏状态 */

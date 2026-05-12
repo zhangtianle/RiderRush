@@ -1,7 +1,7 @@
 /**
  * 关卡管理器
- * @description 加载和管理关卡数据
- * @version v0.1.0
+ * @description 加载和管理关卡数据，支持延迟加载
+ * @version v0.2.0
  * @since 2026-04-25
  */
 
@@ -65,6 +65,9 @@ export class LevelManager {
   /** 单例 */
   private static instance: LevelManager;
 
+  /** 已加载的数据块 */
+  private loadedChunks: Set<number> = new Set();
+
   // ========== 构造函数 ==========
 
   constructor() {
@@ -107,13 +110,63 @@ export class LevelManager {
    * @returns 关卡配置
    */
   getLevelConfig(levelId: number): LevelConfig | null {
-    const data = this.levelDataMap.get(levelId);
+    let data = this.levelDataMap.get(levelId);
+
+    // 如果未加载，尝试动态加载
+    if (!data) {
+      const chunkId = this.getChunkForLevel(levelId);
+      if (!this.loadedChunks.has(chunkId)) {
+        this.loadChunkSync(chunkId);
+        data = this.levelDataMap.get(levelId);
+      }
+    }
+
     if (!data) {
       console.warn(`关卡 ${levelId} 不存在`);
       return null;
     }
 
     return this.parseLevelData(data);
+  }
+
+  /**
+   * 获取关卡所在的数据块
+   */
+  private getChunkForLevel(levelId: number): number {
+    return Math.floor((levelId - 1) / 20) + 1;
+  }
+
+  /**
+   * 同步加载指定数据块 (Web场景用)
+   */
+  private loadChunkSync(chunkId: number): void {
+    if (this.loadedChunks.has(chunkId)) return;
+
+    try {
+      if (chunkId === 1) {
+        const data = require('../data/levels-1.json');
+        this.addLevelData(data);
+      } else if (chunkId === 2) {
+        const data = require('../data/levels-2.json');
+        this.addLevelData(data);
+      }
+      this.loadedChunks.add(chunkId);
+      console.log(`[LevelManager] 已加载数据块 ${chunkId}`);
+    } catch (e) {
+      console.error(`[LevelManager] 加载数据块 ${chunkId} 失败:`, e);
+    }
+  }
+
+  /**
+   * 添加关卡数据
+   */
+  private addLevelData(data: { levels: LevelDataJSON[] }): void {
+    data.levels.forEach(level => {
+      this.levelDataMap.set(level.id, level);
+      if (level.id > this.maxLevelId) {
+        this.maxLevelId = level.id;
+      }
+    });
   }
 
   /**
