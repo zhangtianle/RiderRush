@@ -256,9 +256,9 @@ export class GameRenderer {
     this.canvas.style.height = maxHeight + 'px';
     this.ctx.setTransform(this.dpr, 0, 0, this.dpr, 0, 0);
 
-    // 浮动UI只留少量安全边距（按钮高度+间距）
-    const safeTop = 12;
-    const safeBottom = 12;
+    // 浮动UI安全边距（header约45px + hud约50px + hint）
+    const safeTop = 50;
+    const safeBottom = 55;
     const availableHeight = maxHeight - safeTop - safeBottom;
 
     const cellByWidth = Math.floor(maxWidth / gridWidth);

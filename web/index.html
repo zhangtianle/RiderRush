@@ -21,8 +21,6 @@
       overflow: hidden;
       image-rendering: pixelated;
       -webkit-font-smoothing: none;
-      /* 安全区域适配（刘海屏/底部横条） */
-      padding: env(safe-area-inset-top) env(safe-area-inset-right) env(safe-area-inset-bottom) env(safe-area-inset-left);
       -webkit-tap-highlight-color: transparent;
     }
 
@@ -265,7 +263,7 @@
 
     #hint {
       position: absolute;
-      bottom: 55px;
+      bottom: max(60px, calc(env(safe-area-inset-bottom, 0px) + 55px));
       left: 50%;
       transform: translateX(-50%);
       background: rgba(0,0,0,0.7);
